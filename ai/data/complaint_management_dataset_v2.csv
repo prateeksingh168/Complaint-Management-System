@@ -1,0 +1,513 @@
+complaint_id,complaint_text,category,priority,complexity,recommended_team,cleaned_complaint_text
+CMP-0001,I have a question that is not covered in the FAQ.,Other,Medium,Low,General Support,i have a question that is not covered in the faq
+CMP-0002,The website is not loading for me. I have been facing this issue recently.,Technical,Medium,Medium,Technical Support,the website is not loading for me i have been facing this issue recently
+CMP-0003,My order was marked delivered but I did not receive it.,Delivery,Urgent,Low,Delivery Support,my order was marked delivered but i did not receive it
+CMP-0004,My package has been delayed unexpectedly.,Delivery,Medium,Medium,Delivery Support,my package has been delayed unexpectedly
+CMP-0005,I have a general support question. This needs to be checked.,Other,Low,Medium,General Support,i have a general support question this needs to be checked
+CMP-0006,The invoice amount is different from the amount I paid. I have been facing this issue recently.,Billing,Medium,Low,Billing Support,the invoice amount is different from the amount i paid i have been facing this issue recently
+CMP-0007,A technical error appears when I submit the form.,Technical,High,Low,Technical Support,a technical error appears when i submit the form
+CMP-0008,I received a service different from what I requested. I would like an update.,Service,Low,Medium,Service Support,i received a service different from what i requested i would like an update
+CMP-0009,The delivery is delayed beyond the expected date. This needs to be checked.,Delivery,Urgent,Low,Delivery Support,the delivery is delayed beyond the expected date this needs to be checked
+CMP-0010,I need assistance with something else. I would like an update.,Other,Low,Medium,General Support,i need assistance with something else i would like an update
+CMP-0011,My refund has not been credited yet. I would like an update.,Billing,Low,High,Billing Support,my refund has not been credited yet i would like an update
+CMP-0012,My billing statement contains an incorrect charge. I would like an update.,Billing,Medium,High,Billing Support,my billing statement contains an incorrect charge i would like an update
+CMP-0013,A technical error appears when I submit the form. I would like an update.,Technical,High,Low,Technical Support,a technical error appears when i submit the form i would like an update
+CMP-0014,I have a question that is not covered in the FAQ. Can you assist me with this?,Other,Low,Medium,General Support,i have a question that is not covered in the faq can you assist me with this
+CMP-0015,I cannot access the dashboard after logging in. This needs to be checked.,Technical,Medium,High,Technical Support,i cannot access the dashboard after logging in this needs to be checked
+CMP-0016,I have a general support question. Please help me resolve this.,Other,Low,High,General Support,i have a general support question please help me resolve this
+CMP-0017,My refund has not been credited yet.,Billing,Low,Medium,Billing Support,my refund has not been credited yet
+CMP-0018,My refund has not been credited yet. Can you assist me with this?,Billing,Low,Low,Billing Support,my refund has not been credited yet can you assist me with this
+CMP-0019,Please help me understand the complaint process. This needs to be checked.,Other,Medium,Medium,General Support,please help me understand the complaint process this needs to be checked
+CMP-0020,The service is unavailable and I cannot use the application. Please help me resolve this.,Technical,High,Medium,Technical Support,the service is unavailable and i cannot use the application please help me resolve this
+CMP-0021,I received a service different from what I requested. This needs to be checked.,Service,Low,Medium,Service Support,i received a service different from what i requested this needs to be checked
+CMP-0022,I cannot access the dashboard after logging in. Can you assist me with this?,Technical,Medium,Medium,Technical Support,i cannot access the dashboard after logging in can you assist me with this
+CMP-0023,The invoice amount is different from the amount I paid. I have been facing this issue recently.,Billing,High,Medium,Billing Support,the invoice amount is different from the amount i paid i have been facing this issue recently
+CMP-0024,The delivery is delayed beyond the expected date. This needs to be checked.,Delivery,Medium,High,Delivery Support,the delivery is delayed beyond the expected date this needs to be checked
+CMP-0025,The delivery status has not changed for several days. Can you assist me with this?,Delivery,Low,Low,Delivery Support,the delivery status has not changed for several days can you assist me with this
+CMP-0026,I have a question that is not covered in the FAQ. I have been facing this issue recently.,Other,Medium,Medium,General Support,i have a question that is not covered in the faq i have been facing this issue recently
+CMP-0027,I am not sure which department can help with my issue.,Other,Low,Low,General Support,i am not sure which department can help with my issue
+CMP-0028,I was charged an unexpected service fee. Can you assist me with this?,Billing,Medium,Medium,Billing Support,i was charged an unexpected service fee can you assist me with this
+CMP-0029,I was charged an unexpected service fee. I have been facing this issue recently.,Billing,Medium,Low,Billing Support,i was charged an unexpected service fee i have been facing this issue recently
+CMP-0030,My scheduled service has been delayed. Can you assist me with this?,Service,Low,High,Service Support,my scheduled service has been delayed can you assist me with this
+CMP-0031,My subscription payment was processed incorrectly. I would like an update.,Billing,Medium,Low,Billing Support,my subscription payment was processed incorrectly i would like an update
+CMP-0032,The assigned service was incomplete. Please help me resolve this.,Service,Urgent,High,Service Support,the assigned service was incomplete please help me resolve this
+CMP-0033,I was charged twice for the same transaction. I have been facing this issue recently.,Billing,Medium,Low,Billing Support,i was charged twice for the same transaction i have been facing this issue recently
+CMP-0034,I received the wrong item in my delivery. Please help me resolve this.,Delivery,Medium,High,Delivery Support,i received the wrong item in my delivery please help me resolve this
+CMP-0035,The service is unavailable and I cannot use the application. Can you assist me with this?,Technical,Low,Medium,Technical Support,the service is unavailable and i cannot use the application can you assist me with this
+CMP-0036,The system is responding very slowly. I have been facing this issue recently.,Technical,Medium,Medium,Technical Support,the system is responding very slowly i have been facing this issue recently
+CMP-0037,My profile information is incorrect. This needs to be checked.,Account,Low,Medium,Account Support,my profile information is incorrect this needs to be checked
+CMP-0038,The mobile application keeps showing an error.,Technical,Medium,Medium,Technical Support,the mobile application keeps showing an error
+CMP-0039,The application stopped working after the latest update. Please help me resolve this.,Technical,Urgent,Medium,Technical Support,the application stopped working after the latest update please help me resolve this
+CMP-0040,My refund has not been credited yet.,Billing,Low,High,Billing Support,my refund has not been credited yet
+CMP-0041,The refund amount I received is incorrect. Please help me resolve this.,Billing,High,Medium,Billing Support,the refund amount i received is incorrect please help me resolve this
+CMP-0042,I received the wrong item in my delivery. I have been facing this issue recently.,Delivery,Low,Medium,Delivery Support,i received the wrong item in my delivery i have been facing this issue recently
+CMP-0043,My account appears to be locked. This needs to be checked.,Account,Low,Low,Account Support,my account appears to be locked this needs to be checked
+CMP-0044,My billing statement contains an incorrect charge. I would like an update.,Billing,Medium,Medium,Billing Support,my billing statement contains an incorrect charge i would like an update
+CMP-0045,I need general information about the service. I have been facing this issue recently.,Other,Low,Medium,General Support,i need general information about the service i have been facing this issue recently
+CMP-0046,My billing statement contains an incorrect charge. I have been facing this issue recently.,Billing,Medium,High,Billing Support,my billing statement contains an incorrect charge i have been facing this issue recently
+CMP-0047,The mobile application keeps showing an error. Please help me resolve this.,Technical,Medium,Low,Technical Support,the mobile application keeps showing an error please help me resolve this
+CMP-0048,The service is unavailable and I cannot use the application. This needs to be checked.,Technical,High,High,Technical Support,the service is unavailable and i cannot use the application this needs to be checked
+CMP-0049,I cannot complete account verification.,Account,Urgent,High,Account Support,i cannot complete account verification
+CMP-0050,I was charged twice for the same transaction. Please help me resolve this.,Billing,High,Medium,Billing Support,i was charged twice for the same transaction please help me resolve this
+CMP-0051,The page keeps loading and never opens.,Technical,High,Low,Technical Support,the page keeps loading and never opens
+CMP-0052,I am unable to update my email address. This needs to be checked.,Account,High,Medium,Account Support,i am unable to update my email address this needs to be checked
+CMP-0053,I have a general support question. I have been facing this issue recently.,Other,Medium,Low,General Support,i have a general support question i have been facing this issue recently
+CMP-0054,I need an update about my service request.,Service,Medium,Medium,Service Support,i need an update about my service request
+CMP-0055,I am not sure which department can help with my issue.,Other,Low,Medium,General Support,i am not sure which department can help with my issue
+CMP-0056,I received the wrong item in my delivery.,Delivery,Low,Low,Delivery Support,i received the wrong item in my delivery
+CMP-0057,The website is not loading for me. Can you assist me with this?,Technical,Urgent,High,Technical Support,the website is not loading for me can you assist me with this
+CMP-0058,My account details need to be updated. Can you assist me with this?,Account,High,Medium,Account Support,my account details need to be updated can you assist me with this
+CMP-0059,The delivery is delayed beyond the expected date. This needs to be checked.,Delivery,Medium,Medium,Delivery Support,the delivery is delayed beyond the expected date this needs to be checked
+CMP-0060,The assigned service was incomplete. Please help me resolve this.,Service,Medium,Low,Service Support,the assigned service was incomplete please help me resolve this
+CMP-0061,I am unhappy with the support service I received. Please help me resolve this.,Service,Medium,Low,Service Support,i am unhappy with the support service i received please help me resolve this
+CMP-0062,The service quality was not as expected.,Service,Medium,High,Service Support,the service quality was not as expected
+CMP-0063,I was charged twice for the same transaction. Can you assist me with this?,Billing,High,Low,Billing Support,i was charged twice for the same transaction can you assist me with this
+CMP-0064,The service quality was not as expected. Please help me resolve this.,Service,Medium,Low,Service Support,the service quality was not as expected please help me resolve this
+CMP-0065,The delivery status has not changed for several days. Can you assist me with this?,Delivery,Low,High,Delivery Support,the delivery status has not changed for several days can you assist me with this
+CMP-0066,My order has not been delivered yet. I have been facing this issue recently.,Delivery,Low,Low,Delivery Support,my order has not been delivered yet i have been facing this issue recently
+CMP-0067,I have a question that is not covered in the FAQ. Please help me resolve this.,Other,Low,High,General Support,i have a question that is not covered in the faq please help me resolve this
+CMP-0068,I have a general support question. Please help me resolve this.,Other,Low,Medium,General Support,i have a general support question please help me resolve this
+CMP-0069,I am not sure which department can help with my issue. Please help me resolve this.,Other,Low,High,General Support,i am not sure which department can help with my issue please help me resolve this
+CMP-0070,I need an update on my delivery. I would like an update.,Delivery,Low,High,Delivery Support,i need an update on my delivery i would like an update
+CMP-0071,My billing statement contains an incorrect charge. I would like an update.,Billing,Urgent,Low,Billing Support,my billing statement contains an incorrect charge i would like an update
+CMP-0072,The service is unavailable and I cannot use the application. Please help me resolve this.,Technical,Medium,Medium,Technical Support,the service is unavailable and i cannot use the application please help me resolve this
+CMP-0073,I cannot complete account verification.,Account,High,High,Account Support,i cannot complete account verification
+CMP-0074,I need help with an issue not listed in the available categories. Can you assist me with this?,Other,Low,Medium,General Support,i need help with an issue not listed in the available categories can you assist me with this
+CMP-0075,I received the wrong item in my delivery. This needs to be checked.,Delivery,High,Low,Delivery Support,i received the wrong item in my delivery this needs to be checked
+CMP-0076,The payment failed but money was deducted from my account. Please help me resolve this.,Billing,Medium,Medium,Billing Support,the payment failed but money was deducted from my account please help me resolve this
+CMP-0077,The promised service has not started. This needs to be checked.,Service,Low,Medium,Service Support,the promised service has not started this needs to be checked
+CMP-0078,I cannot access the dashboard after logging in. Please help me resolve this.,Technical,Low,Low,Technical Support,i cannot access the dashboard after logging in please help me resolve this
+CMP-0079,I am not sure which department can help with my issue. This needs to be checked.,Other,Medium,High,General Support,i am not sure which department can help with my issue this needs to be checked
+CMP-0080,The service is unavailable and I cannot use the application. Please help me resolve this.,Technical,Medium,Low,Technical Support,the service is unavailable and i cannot use the application please help me resolve this
+CMP-0081,I need help understanding a charge on my account. Please help me resolve this.,Billing,High,High,Billing Support,i need help understanding a charge on my account please help me resolve this
+CMP-0082,The assigned service was incomplete. Please help me resolve this.,Service,High,Medium,Service Support,the assigned service was incomplete please help me resolve this
+CMP-0083,My profile information is incorrect. I would like an update.,Account,Low,High,Account Support,my profile information is incorrect i would like an update
+CMP-0084,The service representative did not resolve my issue. I have been facing this issue recently.,Service,Medium,Medium,Service Support,the service representative did not resolve my issue i have been facing this issue recently
+CMP-0085,The delivered item is missing from my order.,Delivery,High,High,Delivery Support,the delivered item is missing from my order
+CMP-0086,The application stopped working after the latest update. I would like an update.,Technical,Urgent,Medium,Technical Support,the application stopped working after the latest update i would like an update
+CMP-0087,The service representative did not resolve my issue. This needs to be checked.,Service,Medium,Medium,Service Support,the service representative did not resolve my issue this needs to be checked
+CMP-0088,My account settings are not saving. Please help me resolve this.,Account,High,Medium,Account Support,my account settings are not saving please help me resolve this
+CMP-0089,The refund amount I received is incorrect. Can you assist me with this?,Billing,Medium,High,Billing Support,the refund amount i received is incorrect can you assist me with this
+CMP-0090,Please guide me regarding my request. I would like an update.,Other,Low,High,General Support,please guide me regarding my request i would like an update
+CMP-0091,I received a service different from what I requested. I would like an update.,Service,Medium,Low,Service Support,i received a service different from what i requested i would like an update
+CMP-0092,The promised service has not started. I would like an update.,Service,Medium,Low,Service Support,the promised service has not started i would like an update
+CMP-0093,I would like more information about the available services. Can you assist me with this?,Other,Low,Medium,General Support,i would like more information about the available services can you assist me with this
+CMP-0094,I cannot access my registered account. Can you assist me with this?,Account,Medium,Medium,Account Support,i cannot access my registered account can you assist me with this
+CMP-0095,I was charged an unexpected service fee. I would like an update.,Billing,High,Medium,Billing Support,i was charged an unexpected service fee i would like an update
+CMP-0096,The delivered item is missing from my order. This needs to be checked.,Delivery,Medium,Medium,Delivery Support,the delivered item is missing from my order this needs to be checked
+CMP-0097,I need an update on my delivery. I have been facing this issue recently.,Delivery,High,Low,Delivery Support,i need an update on my delivery i have been facing this issue recently
+CMP-0098,My package has been delayed unexpectedly. I would like an update.,Delivery,High,High,Delivery Support,my package has been delayed unexpectedly i would like an update
+CMP-0099,The service is unavailable and I cannot use the application. Please help me resolve this.,Technical,Low,Low,Technical Support,the service is unavailable and i cannot use the application please help me resolve this
+CMP-0100,My refund has not been credited yet. This needs to be checked.,Billing,Medium,Medium,Billing Support,my refund has not been credited yet this needs to be checked
+CMP-0101,I need help changing my account details. I have been facing this issue recently.,Account,Medium,Medium,Account Support,i need help changing my account details i have been facing this issue recently
+CMP-0102,The login credentials are not being accepted. This needs to be checked.,Account,High,Medium,Account Support,the login credentials are not being accepted this needs to be checked
+CMP-0103,I was charged twice for the same transaction. This needs to be checked.,Billing,High,High,Billing Support,i was charged twice for the same transaction this needs to be checked
+CMP-0104,I have a general support question. This needs to be checked.,Other,Low,Low,General Support,i have a general support question this needs to be checked
+CMP-0105,I need help understanding a charge on my account. Please help me resolve this.,Billing,Low,Medium,Billing Support,i need help understanding a charge on my account please help me resolve this
+CMP-0106,My package has been delayed unexpectedly. I would like an update.,Delivery,Low,High,Delivery Support,my package has been delayed unexpectedly i would like an update
+CMP-0107,The delivery address was not handled correctly. This needs to be checked.,Delivery,Low,Medium,Delivery Support,the delivery address was not handled correctly this needs to be checked
+CMP-0108,I am unable to upload a required document. This needs to be checked.,Technical,High,Low,Technical Support,i am unable to upload a required document this needs to be checked
+CMP-0109,I would like more information about the available services. Can you assist me with this?,Other,Low,Low,General Support,i would like more information about the available services can you assist me with this
+CMP-0110,My account details need to be updated. I have been facing this issue recently.,Account,High,Low,Account Support,my account details need to be updated i have been facing this issue recently
+CMP-0111,The promised service has not started.,Service,High,Low,Service Support,the promised service has not started
+CMP-0112,I need help with an issue not listed in the available categories. I have been facing this issue recently.,Other,Low,Medium,General Support,i need help with an issue not listed in the available categories i have been facing this issue recently
+CMP-0113,The promised service has not started. This needs to be checked.,Service,Medium,Low,Service Support,the promised service has not started this needs to be checked
+CMP-0114,I need help changing my account details. Can you assist me with this?,Account,Low,Low,Account Support,i need help changing my account details can you assist me with this
+CMP-0115,My order was marked delivered but I did not receive it. This needs to be checked.,Delivery,Urgent,Medium,Delivery Support,my order was marked delivered but i did not receive it this needs to be checked
+CMP-0116,I need help changing my account details. Can you assist me with this?,Account,Medium,Medium,Account Support,i need help changing my account details can you assist me with this
+CMP-0117,My package arrived damaged. This needs to be checked.,Delivery,High,Medium,Delivery Support,my package arrived damaged this needs to be checked
+CMP-0118,My billing statement contains an incorrect charge. I would like an update.,Billing,Medium,Medium,Billing Support,my billing statement contains an incorrect charge i would like an update
+CMP-0119,I need help with an issue not listed in the available categories. This needs to be checked.,Other,Medium,High,General Support,i need help with an issue not listed in the available categories this needs to be checked
+CMP-0120,My order has not been delivered yet. This needs to be checked.,Delivery,Medium,Medium,Delivery Support,my order has not been delivered yet this needs to be checked
+CMP-0121,My billing statement contains an incorrect charge. Please help me resolve this.,Billing,Low,Low,Billing Support,my billing statement contains an incorrect charge please help me resolve this
+CMP-0122,I am unhappy with the support service I received. I would like an update.,Service,High,Low,Service Support,i am unhappy with the support service i received i would like an update
+CMP-0123,I am unable to update my email address. This needs to be checked.,Account,High,Low,Account Support,i am unable to update my email address this needs to be checked
+CMP-0124,The refund amount I received is incorrect.,Billing,Low,Low,Billing Support,the refund amount i received is incorrect
+CMP-0125,I have a question that is not covered in the FAQ. I have been facing this issue recently.,Other,Low,Low,General Support,i have a question that is not covered in the faq i have been facing this issue recently
+CMP-0126,The mobile application keeps showing an error.,Technical,Medium,Low,Technical Support,the mobile application keeps showing an error
+CMP-0127,My account details need to be updated. Can you assist me with this?,Account,Low,Medium,Account Support,my account details need to be updated can you assist me with this
+CMP-0128,The service representative did not resolve my issue. Please help me resolve this.,Service,Medium,High,Service Support,the service representative did not resolve my issue please help me resolve this
+CMP-0129,I have a question that is not covered in the FAQ. Please help me resolve this.,Other,Medium,Low,General Support,i have a question that is not covered in the faq please help me resolve this
+CMP-0130,I was charged an unexpected service fee. Can you assist me with this?,Billing,Medium,High,Billing Support,i was charged an unexpected service fee can you assist me with this
+CMP-0131,My account appears to be locked.,Account,Medium,High,Account Support,my account appears to be locked
+CMP-0132,The website is not loading for me. I have been facing this issue recently.,Technical,Medium,High,Technical Support,the website is not loading for me i have been facing this issue recently
+CMP-0133,The delivery is delayed beyond the expected date. Can you assist me with this?,Delivery,Medium,Low,Delivery Support,the delivery is delayed beyond the expected date can you assist me with this
+CMP-0134,My profile information is incorrect.,Account,Medium,Low,Account Support,my profile information is incorrect
+CMP-0135,The login credentials are not being accepted.,Account,Medium,Medium,Account Support,the login credentials are not being accepted
+CMP-0136,I cannot access my registered account. This needs to be checked.,Account,High,Medium,Account Support,i cannot access my registered account this needs to be checked
+CMP-0137,I would like more information about the available services. Can you assist me with this?,Other,Medium,Medium,General Support,i would like more information about the available services can you assist me with this
+CMP-0138,The login credentials are not being accepted. This needs to be checked.,Account,Low,Medium,Account Support,the login credentials are not being accepted this needs to be checked
+CMP-0139,I need an update about my service request.,Service,High,Medium,Service Support,i need an update about my service request
+CMP-0140,My account settings are not saving. Can you assist me with this?,Account,Medium,Low,Account Support,my account settings are not saving can you assist me with this
+CMP-0141,My profile information is incorrect. Please help me resolve this.,Account,Medium,Medium,Account Support,my profile information is incorrect please help me resolve this
+CMP-0142,The service representative did not resolve my issue. I would like an update.,Service,Low,Medium,Service Support,the service representative did not resolve my issue i would like an update
+CMP-0143,The promised service has not started.,Service,Medium,Low,Service Support,the promised service has not started
+CMP-0144,The page keeps loading and never opens. This needs to be checked.,Technical,Medium,Low,Technical Support,the page keeps loading and never opens this needs to be checked
+CMP-0145,The login credentials are not being accepted. This needs to be checked.,Account,Medium,Low,Account Support,the login credentials are not being accepted this needs to be checked
+CMP-0146,The page keeps loading and never opens. I have been facing this issue recently.,Technical,High,Medium,Technical Support,the page keeps loading and never opens i have been facing this issue recently
+CMP-0147,My service request is still pending. Can you assist me with this?,Service,Medium,Medium,Service Support,my service request is still pending can you assist me with this
+CMP-0148,I have a general support question. I would like an update.,Other,Low,Medium,General Support,i have a general support question i would like an update
+CMP-0149,The assigned service was incomplete. Please help me resolve this.,Service,High,Low,Service Support,the assigned service was incomplete please help me resolve this
+CMP-0150,The refund amount I received is incorrect. I have been facing this issue recently.,Billing,High,Low,Billing Support,the refund amount i received is incorrect i have been facing this issue recently
+CMP-0151,I am unable to update my email address. I have been facing this issue recently.,Account,Medium,Medium,Account Support,i am unable to update my email address i have been facing this issue recently
+CMP-0152,The delivery status has not changed for several days.,Delivery,Low,Low,Delivery Support,the delivery status has not changed for several days
+CMP-0153,My scheduled service has been delayed. I would like an update.,Service,Urgent,Medium,Service Support,my scheduled service has been delayed i would like an update
+CMP-0154,The service I requested has not been provided yet.,Service,Medium,Medium,Service Support,the service i requested has not been provided yet
+CMP-0155,I am unable to upload a required document.,Technical,Low,Medium,Technical Support,i am unable to upload a required document
+CMP-0156,The login credentials are not being accepted. This needs to be checked.,Account,Medium,High,Account Support,the login credentials are not being accepted this needs to be checked
+CMP-0157,My service request is still pending.,Service,Low,Medium,Service Support,my service request is still pending
+CMP-0158,My subscription payment was processed incorrectly. I have been facing this issue recently.,Billing,Medium,Low,Billing Support,my subscription payment was processed incorrectly i have been facing this issue recently
+CMP-0159,The delivery status has not changed for several days.,Delivery,Low,Low,Delivery Support,the delivery status has not changed for several days
+CMP-0160,My account settings are not saving. Can you assist me with this?,Account,Medium,Low,Account Support,my account settings are not saving can you assist me with this
+CMP-0161,My order was marked delivered but I did not receive it. This needs to be checked.,Delivery,Low,Low,Delivery Support,my order was marked delivered but i did not receive it this needs to be checked
+CMP-0162,My order was marked delivered but I did not receive it. I would like an update.,Delivery,Medium,Low,Delivery Support,my order was marked delivered but i did not receive it i would like an update
+CMP-0163,I have a question that is not covered in the FAQ. Please help me resolve this.,Other,Low,Low,General Support,i have a question that is not covered in the faq please help me resolve this
+CMP-0164,The invoice amount is different from the amount I paid. Please help me resolve this.,Billing,High,Low,Billing Support,the invoice amount is different from the amount i paid please help me resolve this
+CMP-0165,My billing statement contains an incorrect charge. This needs to be checked.,Billing,Medium,Medium,Billing Support,my billing statement contains an incorrect charge this needs to be checked
+CMP-0166,My refund has not been credited yet. I would like an update.,Billing,Medium,Medium,Billing Support,my refund has not been credited yet i would like an update
+CMP-0167,My account details need to be updated. I have been facing this issue recently.,Account,High,Low,Account Support,my account details need to be updated i have been facing this issue recently
+CMP-0168,I need assistance with something else. I have been facing this issue recently.,Other,Medium,Low,General Support,i need assistance with something else i have been facing this issue recently
+CMP-0169,The refund amount I received is incorrect. Please help me resolve this.,Billing,Medium,High,Billing Support,the refund amount i received is incorrect please help me resolve this
+CMP-0170,The website is not loading for me.,Technical,High,Low,Technical Support,the website is not loading for me
+CMP-0171,I need assistance with something else. I would like an update.,Other,Low,Medium,General Support,i need assistance with something else i would like an update
+CMP-0172,I am unhappy with the support service I received. I would like an update.,Service,Medium,Medium,Service Support,i am unhappy with the support service i received i would like an update
+CMP-0173,My subscription payment was processed incorrectly.,Billing,Low,Medium,Billing Support,my subscription payment was processed incorrectly
+CMP-0174,The delivery status has not changed for several days.,Delivery,High,High,Delivery Support,the delivery status has not changed for several days
+CMP-0175,My package has been delayed unexpectedly.,Delivery,Low,Medium,Delivery Support,my package has been delayed unexpectedly
+CMP-0176,I received a service different from what I requested.,Service,Medium,Low,Service Support,i received a service different from what i requested
+CMP-0177,I need an update on my delivery. I would like an update.,Delivery,High,Medium,Delivery Support,i need an update on my delivery i would like an update
+CMP-0178,Please help me understand the complaint process.,Other,Low,Medium,General Support,please help me understand the complaint process
+CMP-0179,The service quality was not as expected. Please help me resolve this.,Service,Medium,Medium,Service Support,the service quality was not as expected please help me resolve this
+CMP-0180,I am unhappy with the support service I received. Can you assist me with this?,Service,Urgent,Low,Service Support,i am unhappy with the support service i received can you assist me with this
+CMP-0181,The service representative did not resolve my issue.,Service,Low,Medium,Service Support,the service representative did not resolve my issue
+CMP-0182,My order has not been delivered yet. I have been facing this issue recently.,Delivery,Low,Medium,Delivery Support,my order has not been delivered yet i have been facing this issue recently
+CMP-0183,My refund has not been credited yet. Can you assist me with this?,Billing,Medium,Medium,Billing Support,my refund has not been credited yet can you assist me with this
+CMP-0184,Please help me understand the complaint process.,Other,Low,Medium,General Support,please help me understand the complaint process
+CMP-0185,My service request is still pending. I have been facing this issue recently.,Service,Medium,Low,Service Support,my service request is still pending i have been facing this issue recently
+CMP-0186,I need assistance with something else. Please help me resolve this.,Other,Medium,Low,General Support,i need assistance with something else please help me resolve this
+CMP-0187,The refund amount I received is incorrect. This needs to be checked.,Billing,High,High,Billing Support,the refund amount i received is incorrect this needs to be checked
+CMP-0188,I need help understanding a charge on my account.,Billing,Medium,Low,Billing Support,i need help understanding a charge on my account
+CMP-0189,I would like more information about the available services. Can you assist me with this?,Other,Medium,Medium,General Support,i would like more information about the available services can you assist me with this
+CMP-0190,The login credentials are not being accepted. Please help me resolve this.,Account,Medium,Low,Account Support,the login credentials are not being accepted please help me resolve this
+CMP-0191,The application stopped working after the latest update. Can you assist me with this?,Technical,Medium,Low,Technical Support,the application stopped working after the latest update can you assist me with this
+CMP-0192,I was charged an unexpected service fee. This needs to be checked.,Billing,Medium,Medium,Billing Support,i was charged an unexpected service fee this needs to be checked
+CMP-0193,The service I requested has not been provided yet. I would like an update.,Service,Medium,High,Service Support,the service i requested has not been provided yet i would like an update
+CMP-0194,I need an update on my delivery. Please help me resolve this.,Delivery,Medium,Medium,Delivery Support,i need an update on my delivery please help me resolve this
+CMP-0195,The promised service has not started. Can you assist me with this?,Service,Medium,High,Service Support,the promised service has not started can you assist me with this
+CMP-0196,The mobile application keeps showing an error. Can you assist me with this?,Technical,Medium,High,Technical Support,the mobile application keeps showing an error can you assist me with this
+CMP-0197,I cannot reset my account password. I would like an update.,Account,Medium,Medium,Account Support,i cannot reset my account password i would like an update
+CMP-0198,I need help changing my account details. I have been facing this issue recently.,Account,Medium,Medium,Account Support,i need help changing my account details i have been facing this issue recently
+CMP-0199,I am unable to upload a required document.,Technical,High,High,Technical Support,i am unable to upload a required document
+CMP-0200,The service quality was not as expected. This needs to be checked.,Service,High,High,Service Support,the service quality was not as expected this needs to be checked
+CMP-0201,The invoice amount is different from the amount I paid. This needs to be checked.,Billing,Low,High,Billing Support,the invoice amount is different from the amount i paid this needs to be checked
+CMP-0202,I need help understanding a charge on my account. I would like an update.,Billing,Medium,Medium,Billing Support,i need help understanding a charge on my account i would like an update
+CMP-0203,I have a question that is not covered in the FAQ. I would like an update.,Other,Medium,High,General Support,i have a question that is not covered in the faq i would like an update
+CMP-0204,My profile information is incorrect. I have been facing this issue recently.,Account,Medium,Medium,Account Support,my profile information is incorrect i have been facing this issue recently
+CMP-0205,My order has not been delivered yet. Can you assist me with this?,Delivery,Urgent,Medium,Delivery Support,my order has not been delivered yet can you assist me with this
+CMP-0206,I need an update about my service request. I have been facing this issue recently.,Service,High,High,Service Support,i need an update about my service request i have been facing this issue recently
+CMP-0207,I have a question that is not covered in the FAQ. This needs to be checked.,Other,Low,Low,General Support,i have a question that is not covered in the faq this needs to be checked
+CMP-0208,My payment was deducted but the order was not confirmed. I would like an update.,Billing,Medium,Low,Billing Support,my payment was deducted but the order was not confirmed i would like an update
+CMP-0209,I am unhappy with the support service I received. Please help me resolve this.,Service,High,Medium,Service Support,i am unhappy with the support service i received please help me resolve this
+CMP-0210,I need help with an issue not listed in the available categories. Please help me resolve this.,Other,Low,Medium,General Support,i need help with an issue not listed in the available categories please help me resolve this
+CMP-0211,My account settings are not saving. I have been facing this issue recently.,Account,High,High,Account Support,my account settings are not saving i have been facing this issue recently
+CMP-0212,The mobile application keeps showing an error. This needs to be checked.,Technical,Medium,Medium,Technical Support,the mobile application keeps showing an error this needs to be checked
+CMP-0213,I need general information about the service. This needs to be checked.,Other,Medium,Medium,General Support,i need general information about the service this needs to be checked
+CMP-0214,The website is not loading for me. This needs to be checked.,Technical,Low,High,Technical Support,the website is not loading for me this needs to be checked
+CMP-0215,I am unhappy with the support service I received. I have been facing this issue recently.,Service,High,High,Service Support,i am unhappy with the support service i received i have been facing this issue recently
+CMP-0216,The page keeps loading and never opens. This needs to be checked.,Technical,High,Medium,Technical Support,the page keeps loading and never opens this needs to be checked
+CMP-0217,I received a service different from what I requested. I would like an update.,Service,Low,Low,Service Support,i received a service different from what i requested i would like an update
+CMP-0218,I need assistance with a general request. I would like an update.,Other,Low,High,General Support,i need assistance with a general request i would like an update
+CMP-0219,I need general information about the service. Can you assist me with this?,Other,Medium,High,General Support,i need general information about the service can you assist me with this
+CMP-0220,I need an update about my service request. Can you assist me with this?,Service,Low,Low,Service Support,i need an update about my service request can you assist me with this
+CMP-0221,The application stopped working after the latest update. I would like an update.,Technical,Medium,Medium,Technical Support,the application stopped working after the latest update i would like an update
+CMP-0222,I need help with an issue not listed in the available categories. I have been facing this issue recently.,Other,Low,Medium,General Support,i need help with an issue not listed in the available categories i have been facing this issue recently
+CMP-0223,I was charged an unexpected service fee. This needs to be checked.,Billing,Urgent,Medium,Billing Support,i was charged an unexpected service fee this needs to be checked
+CMP-0224,The website is not loading for me. I would like an update.,Technical,Medium,Medium,Technical Support,the website is not loading for me i would like an update
+CMP-0225,I cannot access the dashboard after logging in. Can you assist me with this?,Technical,Low,Medium,Technical Support,i cannot access the dashboard after logging in can you assist me with this
+CMP-0226,The delivery status has not changed for several days. Please help me resolve this.,Delivery,High,High,Delivery Support,the delivery status has not changed for several days please help me resolve this
+CMP-0227,I am unable to update my email address. I have been facing this issue recently.,Account,Low,High,Account Support,i am unable to update my email address i have been facing this issue recently
+CMP-0228,My account details need to be updated. Please help me resolve this.,Account,Medium,Low,Account Support,my account details need to be updated please help me resolve this
+CMP-0229,I need assistance with a general request. Can you assist me with this?,Other,Low,Medium,General Support,i need assistance with a general request can you assist me with this
+CMP-0230,I was charged an unexpected service fee. Can you assist me with this?,Billing,High,Medium,Billing Support,i was charged an unexpected service fee can you assist me with this
+CMP-0231,I would like more information about the available services. Can you assist me with this?,Other,Low,Medium,General Support,i would like more information about the available services can you assist me with this
+CMP-0232,The service quality was not as expected. I have been facing this issue recently.,Service,High,Low,Service Support,the service quality was not as expected i have been facing this issue recently
+CMP-0233,The delivered item is missing from my order. Can you assist me with this?,Delivery,High,Low,Delivery Support,the delivered item is missing from my order can you assist me with this
+CMP-0234,I am unable to update my email address. I have been facing this issue recently.,Account,Medium,Low,Account Support,i am unable to update my email address i have been facing this issue recently
+CMP-0235,I was charged an unexpected service fee. This needs to be checked.,Billing,High,Low,Billing Support,i was charged an unexpected service fee this needs to be checked
+CMP-0236,I received the wrong item in my delivery. This needs to be checked.,Delivery,Medium,Medium,Delivery Support,i received the wrong item in my delivery this needs to be checked
+CMP-0237,I have a general support question. This needs to be checked.,Other,Low,Medium,General Support,i have a general support question this needs to be checked
+CMP-0238,My account details need to be updated. This needs to be checked.,Account,Medium,High,Account Support,my account details need to be updated this needs to be checked
+CMP-0239,The service I requested has not been provided yet. I have been facing this issue recently.,Service,Medium,Medium,Service Support,the service i requested has not been provided yet i have been facing this issue recently
+CMP-0240,A technical error appears when I submit the form.,Technical,Low,Medium,Technical Support,a technical error appears when i submit the form
+CMP-0241,I am not sure which department can help with my issue.,Other,Low,Low,General Support,i am not sure which department can help with my issue
+CMP-0242,I need help understanding a charge on my account.,Billing,Medium,Medium,Billing Support,i need help understanding a charge on my account
+CMP-0243,My order has not been delivered yet.,Delivery,Medium,Low,Delivery Support,my order has not been delivered yet
+CMP-0244,The application stopped working after the latest update. Please help me resolve this.,Technical,Urgent,Medium,Technical Support,the application stopped working after the latest update please help me resolve this
+CMP-0245,The application stopped working after the latest update. Please help me resolve this.,Technical,Low,Low,Technical Support,the application stopped working after the latest update please help me resolve this
+CMP-0246,The application stopped working after the latest update.,Technical,High,High,Technical Support,the application stopped working after the latest update
+CMP-0247,The system is responding very slowly. I would like an update.,Technical,Medium,Low,Technical Support,the system is responding very slowly i would like an update
+CMP-0248,The invoice amount is different from the amount I paid.,Billing,Medium,Medium,Billing Support,the invoice amount is different from the amount i paid
+CMP-0249,The delivered item is missing from my order.,Delivery,High,Low,Delivery Support,the delivered item is missing from my order
+CMP-0250,I need assistance with a general request. Can you assist me with this?,Other,Low,Low,General Support,i need assistance with a general request can you assist me with this
+CMP-0251,My profile information is incorrect. Can you assist me with this?,Account,Medium,Medium,Account Support,my profile information is incorrect can you assist me with this
+CMP-0252,The application stopped working after the latest update.,Technical,Medium,High,Technical Support,the application stopped working after the latest update
+CMP-0253,I have a general support question. I would like an update.,Other,Low,High,General Support,i have a general support question i would like an update
+CMP-0254,I need help understanding a charge on my account. This needs to be checked.,Billing,Medium,Low,Billing Support,i need help understanding a charge on my account this needs to be checked
+CMP-0255,Please help me understand the complaint process.,Other,Medium,Low,General Support,please help me understand the complaint process
+CMP-0256,The website is not loading for me. Please help me resolve this.,Technical,High,Medium,Technical Support,the website is not loading for me please help me resolve this
+CMP-0257,The delivered item is missing from my order. This needs to be checked.,Delivery,Low,Medium,Delivery Support,the delivered item is missing from my order this needs to be checked
+CMP-0258,I cannot complete account verification. Can you assist me with this?,Account,Medium,Medium,Account Support,i cannot complete account verification can you assist me with this
+CMP-0259,The refund amount I received is incorrect. I have been facing this issue recently.,Billing,Low,Medium,Billing Support,the refund amount i received is incorrect i have been facing this issue recently
+CMP-0260,The page keeps loading and never opens. I would like an update.,Technical,Low,Medium,Technical Support,the page keeps loading and never opens i would like an update
+CMP-0261,I have a question that is not covered in the FAQ. I would like an update.,Other,Low,Medium,General Support,i have a question that is not covered in the faq i would like an update
+CMP-0262,My scheduled service has been delayed. I have been facing this issue recently.,Service,Low,Low,Service Support,my scheduled service has been delayed i have been facing this issue recently
+CMP-0263,I was charged twice for the same transaction. This needs to be checked.,Billing,High,Medium,Billing Support,i was charged twice for the same transaction this needs to be checked
+CMP-0264,The system is responding very slowly.,Technical,Medium,Medium,Technical Support,the system is responding very slowly
+CMP-0265,The service quality was not as expected. This needs to be checked.,Service,Medium,Medium,Service Support,the service quality was not as expected this needs to be checked
+CMP-0266,I cannot reset my account password. I would like an update.,Account,Medium,Medium,Account Support,i cannot reset my account password i would like an update
+CMP-0267,The delivery address was not handled correctly. Please help me resolve this.,Delivery,High,Medium,Delivery Support,the delivery address was not handled correctly please help me resolve this
+CMP-0268,The payment failed but money was deducted from my account. Can you assist me with this?,Billing,Medium,Medium,Billing Support,the payment failed but money was deducted from my account can you assist me with this
+CMP-0269,My package arrived damaged. This needs to be checked.,Delivery,Low,High,Delivery Support,my package arrived damaged this needs to be checked
+CMP-0270,My package has been delayed unexpectedly. I have been facing this issue recently.,Delivery,Medium,Low,Delivery Support,my package has been delayed unexpectedly i have been facing this issue recently
+CMP-0271,I would like more information about the available services.,Other,Low,Medium,General Support,i would like more information about the available services
+CMP-0272,The service representative did not resolve my issue. I would like an update.,Service,Urgent,High,Service Support,the service representative did not resolve my issue i would like an update
+CMP-0273,My order was marked delivered but I did not receive it.,Delivery,High,Medium,Delivery Support,my order was marked delivered but i did not receive it
+CMP-0274,I was charged twice for the same transaction. I have been facing this issue recently.,Billing,Medium,Medium,Billing Support,i was charged twice for the same transaction i have been facing this issue recently
+CMP-0275,My profile information is incorrect. Please help me resolve this.,Account,Medium,Medium,Account Support,my profile information is incorrect please help me resolve this
+CMP-0276,My package has been delayed unexpectedly.,Delivery,Low,Low,Delivery Support,my package has been delayed unexpectedly
+CMP-0277,My order has not been delivered yet. I have been facing this issue recently.,Delivery,High,Medium,Delivery Support,my order has not been delivered yet i have been facing this issue recently
+CMP-0278,The login credentials are not being accepted. Can you assist me with this?,Account,Medium,Low,Account Support,the login credentials are not being accepted can you assist me with this
+CMP-0279,The delivery is delayed beyond the expected date. I would like an update.,Delivery,Medium,Low,Delivery Support,the delivery is delayed beyond the expected date i would like an update
+CMP-0280,I need assistance with something else. This needs to be checked.,Other,Low,Low,General Support,i need assistance with something else this needs to be checked
+CMP-0281,The page keeps loading and never opens. Can you assist me with this?,Technical,Urgent,Low,Technical Support,the page keeps loading and never opens can you assist me with this
+CMP-0282,I cannot access the dashboard after logging in. I would like an update.,Technical,High,Low,Technical Support,i cannot access the dashboard after logging in i would like an update
+CMP-0283,I need help changing my account details. Please help me resolve this.,Account,High,Medium,Account Support,i need help changing my account details please help me resolve this
+CMP-0284,The system is responding very slowly. Can you assist me with this?,Technical,Low,High,Technical Support,the system is responding very slowly can you assist me with this
+CMP-0285,My billing statement contains an incorrect charge. I have been facing this issue recently.,Billing,Urgent,Low,Billing Support,my billing statement contains an incorrect charge i have been facing this issue recently
+CMP-0286,The payment failed but money was deducted from my account. Can you assist me with this?,Billing,Medium,Medium,Billing Support,the payment failed but money was deducted from my account can you assist me with this
+CMP-0287,I need assistance with a general request. I would like an update.,Other,Low,Low,General Support,i need assistance with a general request i would like an update
+CMP-0288,My scheduled service has been delayed. Can you assist me with this?,Service,Medium,Medium,Service Support,my scheduled service has been delayed can you assist me with this
+CMP-0289,The service quality was not as expected. This needs to be checked.,Service,Low,Low,Service Support,the service quality was not as expected this needs to be checked
+CMP-0290,My order was marked delivered but I did not receive it. Can you assist me with this?,Delivery,Urgent,High,Delivery Support,my order was marked delivered but i did not receive it can you assist me with this
+CMP-0291,I am not sure which department can help with my issue. Please help me resolve this.,Other,Low,Low,General Support,i am not sure which department can help with my issue please help me resolve this
+CMP-0292,The delivery is delayed beyond the expected date. Can you assist me with this?,Delivery,Medium,High,Delivery Support,the delivery is delayed beyond the expected date can you assist me with this
+CMP-0293,The service representative did not resolve my issue. I have been facing this issue recently.,Service,Low,Medium,Service Support,the service representative did not resolve my issue i have been facing this issue recently
+CMP-0294,The mobile application keeps showing an error.,Technical,High,Low,Technical Support,the mobile application keeps showing an error
+CMP-0295,I received the wrong item in my delivery. I have been facing this issue recently.,Delivery,Urgent,High,Delivery Support,i received the wrong item in my delivery i have been facing this issue recently
+CMP-0296,Please help me understand the complaint process. This needs to be checked.,Other,Medium,Medium,General Support,please help me understand the complaint process this needs to be checked
+CMP-0297,My account settings are not saving. I have been facing this issue recently.,Account,Medium,Medium,Account Support,my account settings are not saving i have been facing this issue recently
+CMP-0298,I am not sure which department can help with my issue. Please help me resolve this.,Other,Low,Medium,General Support,i am not sure which department can help with my issue please help me resolve this
+CMP-0299,I would like more information about the available services. I would like an update.,Other,Low,Medium,General Support,i would like more information about the available services i would like an update
+CMP-0300,I was charged an unexpected service fee. This needs to be checked.,Billing,Medium,Low,Billing Support,i was charged an unexpected service fee this needs to be checked
+CMP-0301,The service quality was not as expected. I have been facing this issue recently.,Service,Low,High,Service Support,the service quality was not as expected i have been facing this issue recently
+CMP-0302,My package has been delayed unexpectedly. Can you assist me with this?,Delivery,Medium,Medium,Delivery Support,my package has been delayed unexpectedly can you assist me with this
+CMP-0303,I need general information about the service. This needs to be checked.,Other,Medium,Medium,General Support,i need general information about the service this needs to be checked
+CMP-0304,A technical error appears when I submit the form. Can you assist me with this?,Technical,Medium,Low,Technical Support,a technical error appears when i submit the form can you assist me with this
+CMP-0305,I need help understanding a charge on my account.,Billing,Low,High,Billing Support,i need help understanding a charge on my account
+CMP-0306,I have a question that is not covered in the FAQ. Can you assist me with this?,Other,Low,Low,General Support,i have a question that is not covered in the faq can you assist me with this
+CMP-0307,Please help me understand the complaint process. This needs to be checked.,Other,Low,Medium,General Support,please help me understand the complaint process this needs to be checked
+CMP-0308,The service representative did not resolve my issue. I would like an update.,Service,Medium,Medium,Service Support,the service representative did not resolve my issue i would like an update
+CMP-0309,I need assistance with something else.,Other,Medium,Medium,General Support,i need assistance with something else
+CMP-0310,The payment failed but money was deducted from my account.,Billing,Medium,Medium,Billing Support,the payment failed but money was deducted from my account
+CMP-0311,I received a service different from what I requested. Please help me resolve this.,Service,Medium,Medium,Service Support,i received a service different from what i requested please help me resolve this
+CMP-0312,A technical error appears when I submit the form. I would like an update.,Technical,Low,Medium,Technical Support,a technical error appears when i submit the form i would like an update
+CMP-0313,I cannot access my registered account. Can you assist me with this?,Account,Medium,Low,Account Support,i cannot access my registered account can you assist me with this
+CMP-0314,My order was marked delivered but I did not receive it. I have been facing this issue recently.,Delivery,Medium,High,Delivery Support,my order was marked delivered but i did not receive it i have been facing this issue recently
+CMP-0315,I have a general support question.,Other,Low,Medium,General Support,i have a general support question
+CMP-0316,The service I requested has not been provided yet. I would like an update.,Service,Medium,High,Service Support,the service i requested has not been provided yet i would like an update
+CMP-0317,My service request is still pending. Please help me resolve this.,Service,High,Low,Service Support,my service request is still pending please help me resolve this
+CMP-0318,I was charged an unexpected service fee.,Billing,Medium,Medium,Billing Support,i was charged an unexpected service fee
+CMP-0319,I have a general support question.,Other,Low,High,General Support,i have a general support question
+CMP-0320,I received the wrong item in my delivery. Can you assist me with this?,Delivery,Medium,Low,Delivery Support,i received the wrong item in my delivery can you assist me with this
+CMP-0321,I need assistance with something else. Please help me resolve this.,Other,Medium,Low,General Support,i need assistance with something else please help me resolve this
+CMP-0322,I need an update about my service request. This needs to be checked.,Service,Medium,Medium,Service Support,i need an update about my service request this needs to be checked
+CMP-0323,My account appears to be locked. Can you assist me with this?,Account,High,High,Account Support,my account appears to be locked can you assist me with this
+CMP-0324,My account appears to be locked. I would like an update.,Account,Medium,Medium,Account Support,my account appears to be locked i would like an update
+CMP-0325,The login credentials are not being accepted. I would like an update.,Account,Medium,Medium,Account Support,the login credentials are not being accepted i would like an update
+CMP-0326,I cannot access my registered account. Please help me resolve this.,Account,Low,Low,Account Support,i cannot access my registered account please help me resolve this
+CMP-0327,The service I requested has not been provided yet. I have been facing this issue recently.,Service,Medium,Medium,Service Support,the service i requested has not been provided yet i have been facing this issue recently
+CMP-0328,The refund amount I received is incorrect.,Billing,High,Medium,Billing Support,the refund amount i received is incorrect
+CMP-0329,My service request is still pending. Can you assist me with this?,Service,High,Medium,Service Support,my service request is still pending can you assist me with this
+CMP-0330,I am unable to upload a required document. I would like an update.,Technical,Low,Medium,Technical Support,i am unable to upload a required document i would like an update
+CMP-0331,I cannot complete account verification. I would like an update.,Account,High,High,Account Support,i cannot complete account verification i would like an update
+CMP-0332,I need an update about my service request.,Service,Medium,Low,Service Support,i need an update about my service request
+CMP-0333,I am not sure which department can help with my issue. Please help me resolve this.,Other,Low,Low,General Support,i am not sure which department can help with my issue please help me resolve this
+CMP-0334,I cannot access my registered account. I have been facing this issue recently.,Account,Medium,Medium,Account Support,i cannot access my registered account i have been facing this issue recently
+CMP-0335,My payment was deducted but the order was not confirmed. I would like an update.,Billing,High,Low,Billing Support,my payment was deducted but the order was not confirmed i would like an update
+CMP-0336,I need assistance with something else. Can you assist me with this?,Other,Low,Medium,General Support,i need assistance with something else can you assist me with this
+CMP-0337,The service is unavailable and I cannot use the application.,Technical,Urgent,Medium,Technical Support,the service is unavailable and i cannot use the application
+CMP-0338,I need an update on my delivery.,Delivery,High,High,Delivery Support,i need an update on my delivery
+CMP-0339,The delivery address was not handled correctly.,Delivery,Medium,Medium,Delivery Support,the delivery address was not handled correctly
+CMP-0340,I need help with an issue not listed in the available categories. I would like an update.,Other,Low,Medium,General Support,i need help with an issue not listed in the available categories i would like an update
+CMP-0341,The application stopped working after the latest update. This needs to be checked.,Technical,High,Medium,Technical Support,the application stopped working after the latest update this needs to be checked
+CMP-0342,The delivered item is missing from my order.,Delivery,Low,Medium,Delivery Support,the delivered item is missing from my order
+CMP-0343,The delivery address was not handled correctly.,Delivery,Medium,Medium,Delivery Support,the delivery address was not handled correctly
+CMP-0344,I need assistance with a general request. I would like an update.,Other,Low,Low,General Support,i need assistance with a general request i would like an update
+CMP-0345,The payment failed but money was deducted from my account. Please help me resolve this.,Billing,Medium,Medium,Billing Support,the payment failed but money was deducted from my account please help me resolve this
+CMP-0346,The delivered item is missing from my order. Please help me resolve this.,Delivery,Urgent,Medium,Delivery Support,the delivered item is missing from my order please help me resolve this
+CMP-0347,I need help with an issue not listed in the available categories. I have been facing this issue recently.,Other,Low,Medium,General Support,i need help with an issue not listed in the available categories i have been facing this issue recently
+CMP-0348,I need help with an issue not listed in the available categories. Please help me resolve this.,Other,Low,Medium,General Support,i need help with an issue not listed in the available categories please help me resolve this
+CMP-0349,I cannot reset my account password. I would like an update.,Account,High,Medium,Account Support,i cannot reset my account password i would like an update
+CMP-0350,The payment failed but money was deducted from my account. I would like an update.,Billing,Medium,High,Billing Support,the payment failed but money was deducted from my account i would like an update
+CMP-0351,I need an update on my delivery. I would like an update.,Delivery,Urgent,Medium,Delivery Support,i need an update on my delivery i would like an update
+CMP-0352,The service representative did not resolve my issue.,Service,Low,Low,Service Support,the service representative did not resolve my issue
+CMP-0353,The payment failed but money was deducted from my account. This needs to be checked.,Billing,Low,Medium,Billing Support,the payment failed but money was deducted from my account this needs to be checked
+CMP-0354,My profile information is incorrect. Please help me resolve this.,Account,Medium,Medium,Account Support,my profile information is incorrect please help me resolve this
+CMP-0355,The delivery status has not changed for several days.,Delivery,Medium,Low,Delivery Support,the delivery status has not changed for several days
+CMP-0356,I received the wrong item in my delivery. Can you assist me with this?,Delivery,High,Low,Delivery Support,i received the wrong item in my delivery can you assist me with this
+CMP-0357,The assigned service was incomplete. I would like an update.,Service,Medium,Medium,Service Support,the assigned service was incomplete i would like an update
+CMP-0358,I am unable to upload a required document. I would like an update.,Technical,Medium,Medium,Technical Support,i am unable to upload a required document i would like an update
+CMP-0359,I received a service different from what I requested. This needs to be checked.,Service,High,High,Service Support,i received a service different from what i requested this needs to be checked
+CMP-0360,I was charged twice for the same transaction. I have been facing this issue recently.,Billing,Medium,Medium,Billing Support,i was charged twice for the same transaction i have been facing this issue recently
+CMP-0361,I need help with an issue not listed in the available categories.,Other,Low,Medium,General Support,i need help with an issue not listed in the available categories
+CMP-0362,I cannot reset my account password. Please help me resolve this.,Account,Urgent,Medium,Account Support,i cannot reset my account password please help me resolve this
+CMP-0363,The service representative did not resolve my issue. This needs to be checked.,Service,Low,Low,Service Support,the service representative did not resolve my issue this needs to be checked
+CMP-0364,I am unable to upload a required document. I would like an update.,Technical,Medium,Medium,Technical Support,i am unable to upload a required document i would like an update
+CMP-0365,I received the wrong item in my delivery. Can you assist me with this?,Delivery,Medium,Low,Delivery Support,i received the wrong item in my delivery can you assist me with this
+CMP-0366,I need an update about my service request.,Service,Urgent,Low,Service Support,i need an update about my service request
+CMP-0367,My order was marked delivered but I did not receive it. Can you assist me with this?,Delivery,High,Medium,Delivery Support,my order was marked delivered but i did not receive it can you assist me with this
+CMP-0368,Please help me understand the complaint process. Please help me resolve this.,Other,Medium,Low,General Support,please help me understand the complaint process please help me resolve this
+CMP-0369,My account appears to be locked.,Account,High,Low,Account Support,my account appears to be locked
+CMP-0370,I am unable to upload a required document.,Technical,Low,High,Technical Support,i am unable to upload a required document
+CMP-0371,The service representative did not resolve my issue. I have been facing this issue recently.,Service,Urgent,Medium,Service Support,the service representative did not resolve my issue i have been facing this issue recently
+CMP-0372,My scheduled service has been delayed. I have been facing this issue recently.,Service,Medium,Medium,Service Support,my scheduled service has been delayed i have been facing this issue recently
+CMP-0373,A technical error appears when I submit the form. Can you assist me with this?,Technical,High,High,Technical Support,a technical error appears when i submit the form can you assist me with this
+CMP-0374,The mobile application keeps showing an error. This needs to be checked.,Technical,Urgent,Medium,Technical Support,the mobile application keeps showing an error this needs to be checked
+CMP-0375,My service request is still pending. Can you assist me with this?,Service,High,High,Service Support,my service request is still pending can you assist me with this
+CMP-0376,I was charged an unexpected service fee. This needs to be checked.,Billing,Low,Medium,Billing Support,i was charged an unexpected service fee this needs to be checked
+CMP-0377,My order was marked delivered but I did not receive it. This needs to be checked.,Delivery,Low,Low,Delivery Support,my order was marked delivered but i did not receive it this needs to be checked
+CMP-0378,The service quality was not as expected. This needs to be checked.,Service,Medium,Medium,Service Support,the service quality was not as expected this needs to be checked
+CMP-0379,The system is responding very slowly. I have been facing this issue recently.,Technical,Medium,Medium,Technical Support,the system is responding very slowly i have been facing this issue recently
+CMP-0380,The page keeps loading and never opens. Can you assist me with this?,Technical,Low,Low,Technical Support,the page keeps loading and never opens can you assist me with this
+CMP-0381,The refund amount I received is incorrect. Please help me resolve this.,Billing,Medium,Low,Billing Support,the refund amount i received is incorrect please help me resolve this
+CMP-0382,Please guide me regarding my request. I would like an update.,Other,Medium,Medium,General Support,please guide me regarding my request i would like an update
+CMP-0383,The service quality was not as expected. I would like an update.,Service,High,High,Service Support,the service quality was not as expected i would like an update
+CMP-0384,My scheduled service has been delayed. I have been facing this issue recently.,Service,Medium,Medium,Service Support,my scheduled service has been delayed i have been facing this issue recently
+CMP-0385,I received the wrong item in my delivery. Can you assist me with this?,Delivery,Low,Low,Delivery Support,i received the wrong item in my delivery can you assist me with this
+CMP-0386,I need assistance with something else. I have been facing this issue recently.,Other,Medium,Low,General Support,i need assistance with something else i have been facing this issue recently
+CMP-0387,My order has not been delivered yet.,Delivery,High,High,Delivery Support,my order has not been delivered yet
+CMP-0388,The delivery status has not changed for several days. I have been facing this issue recently.,Delivery,High,Medium,Delivery Support,the delivery status has not changed for several days i have been facing this issue recently
+CMP-0389,My order has not been delivered yet. This needs to be checked.,Delivery,Low,Medium,Delivery Support,my order has not been delivered yet this needs to be checked
+CMP-0390,I would like more information about the available services. This needs to be checked.,Other,Low,High,General Support,i would like more information about the available services this needs to be checked
+CMP-0391,I am unable to update my email address. This needs to be checked.,Account,Urgent,Low,Account Support,i am unable to update my email address this needs to be checked
+CMP-0392,I need help changing my account details. This needs to be checked.,Account,Medium,Low,Account Support,i need help changing my account details this needs to be checked
+CMP-0393,A technical error appears when I submit the form. I have been facing this issue recently.,Technical,Medium,High,Technical Support,a technical error appears when i submit the form i have been facing this issue recently
+CMP-0394,I am unhappy with the support service I received. Please help me resolve this.,Service,Medium,Medium,Service Support,i am unhappy with the support service i received please help me resolve this
+CMP-0395,The payment failed but money was deducted from my account. Please help me resolve this.,Billing,Medium,Low,Billing Support,the payment failed but money was deducted from my account please help me resolve this
+CMP-0396,I cannot access the dashboard after logging in.,Technical,Urgent,High,Technical Support,i cannot access the dashboard after logging in
+CMP-0397,My order was marked delivered but I did not receive it. Please help me resolve this.,Delivery,Low,High,Delivery Support,my order was marked delivered but i did not receive it please help me resolve this
+CMP-0398,I received a service different from what I requested. I have been facing this issue recently.,Service,Medium,Medium,Service Support,i received a service different from what i requested i have been facing this issue recently
+CMP-0399,I cannot complete account verification. This needs to be checked.,Account,Medium,Low,Account Support,i cannot complete account verification this needs to be checked
+CMP-0400,I was charged twice for the same transaction. This needs to be checked.,Billing,Medium,High,Billing Support,i was charged twice for the same transaction this needs to be checked
+CMP-0401,The application stopped working after the latest update. I would like an update.,Technical,Urgent,Low,Technical Support,the application stopped working after the latest update i would like an update
+CMP-0402,I need an update on my delivery. I would like an update.,Delivery,Medium,High,Delivery Support,i need an update on my delivery i would like an update
+CMP-0403,I cannot access my registered account. I would like an update.,Account,Medium,Medium,Account Support,i cannot access my registered account i would like an update
+CMP-0404,The service I requested has not been provided yet. This needs to be checked.,Service,Urgent,Medium,Service Support,the service i requested has not been provided yet this needs to be checked
+CMP-0405,The promised service has not started. I would like an update.,Service,Urgent,Medium,Service Support,the promised service has not started i would like an update
+CMP-0406,The delivery status has not changed for several days. Can you assist me with this?,Delivery,Medium,Low,Delivery Support,the delivery status has not changed for several days can you assist me with this
+CMP-0407,My billing statement contains an incorrect charge. I would like an update.,Billing,Medium,Low,Billing Support,my billing statement contains an incorrect charge i would like an update
+CMP-0408,My scheduled service has been delayed. Please help me resolve this.,Service,Medium,Medium,Service Support,my scheduled service has been delayed please help me resolve this
+CMP-0409,My payment was deducted but the order was not confirmed.,Billing,High,Low,Billing Support,my payment was deducted but the order was not confirmed
+CMP-0410,I cannot complete account verification. This needs to be checked.,Account,High,High,Account Support,i cannot complete account verification this needs to be checked
+CMP-0411,A technical error appears when I submit the form. Can you assist me with this?,Technical,Medium,Medium,Technical Support,a technical error appears when i submit the form can you assist me with this
+CMP-0412,The delivery status has not changed for several days. Can you assist me with this?,Delivery,Medium,High,Delivery Support,the delivery status has not changed for several days can you assist me with this
+CMP-0413,I need an update on my delivery. I have been facing this issue recently.,Delivery,Medium,Medium,Delivery Support,i need an update on my delivery i have been facing this issue recently
+CMP-0414,The payment failed but money was deducted from my account. I would like an update.,Billing,Medium,High,Billing Support,the payment failed but money was deducted from my account i would like an update
+CMP-0415,The delivery status has not changed for several days. I have been facing this issue recently.,Delivery,Low,Medium,Delivery Support,the delivery status has not changed for several days i have been facing this issue recently
+CMP-0416,I need an update on my delivery. I would like an update.,Delivery,Low,Medium,Delivery Support,i need an update on my delivery i would like an update
+CMP-0417,My package has been delayed unexpectedly. Please help me resolve this.,Delivery,Medium,Medium,Delivery Support,my package has been delayed unexpectedly please help me resolve this
+CMP-0418,The system is responding very slowly. I have been facing this issue recently.,Technical,Medium,Medium,Technical Support,the system is responding very slowly i have been facing this issue recently
+CMP-0419,I cannot access my registered account. I have been facing this issue recently.,Account,High,Medium,Account Support,i cannot access my registered account i have been facing this issue recently
+CMP-0420,I have a question that is not covered in the FAQ. Please help me resolve this.,Other,Low,Low,General Support,i have a question that is not covered in the faq please help me resolve this
+CMP-0421,The page keeps loading and never opens. I have been facing this issue recently.,Technical,High,Medium,Technical Support,the page keeps loading and never opens i have been facing this issue recently
+CMP-0422,I need an update on my delivery. I have been facing this issue recently.,Delivery,Medium,Medium,Delivery Support,i need an update on my delivery i have been facing this issue recently
+CMP-0423,My package arrived damaged. Can you assist me with this?,Delivery,Medium,Medium,Delivery Support,my package arrived damaged can you assist me with this
+CMP-0424,My order was marked delivered but I did not receive it. I would like an update.,Delivery,Low,Medium,Delivery Support,my order was marked delivered but i did not receive it i would like an update
+CMP-0425,The delivered item is missing from my order. Can you assist me with this?,Delivery,Medium,Medium,Delivery Support,the delivered item is missing from my order can you assist me with this
+CMP-0426,I would like more information about the available services. Can you assist me with this?,Other,Low,High,General Support,i would like more information about the available services can you assist me with this
+CMP-0427,The promised service has not started. I would like an update.,Service,High,High,Service Support,the promised service has not started i would like an update
+CMP-0428,The assigned service was incomplete. I have been facing this issue recently.,Service,High,Medium,Service Support,the assigned service was incomplete i have been facing this issue recently
+CMP-0429,My service request is still pending. I would like an update.,Service,Medium,High,Service Support,my service request is still pending i would like an update
+CMP-0430,I would like more information about the available services. I would like an update.,Other,Low,Medium,General Support,i would like more information about the available services i would like an update
+CMP-0431,I need help changing my account details. I would like an update.,Account,Low,High,Account Support,i need help changing my account details i would like an update
+CMP-0432,The service I requested has not been provided yet. I would like an update.,Service,Low,Low,Service Support,the service i requested has not been provided yet i would like an update
+CMP-0433,I am unable to update my email address. I have been facing this issue recently.,Account,Medium,Low,Account Support,i am unable to update my email address i have been facing this issue recently
+CMP-0434,The delivery status has not changed for several days. Can you assist me with this?,Delivery,Medium,Low,Delivery Support,the delivery status has not changed for several days can you assist me with this
+CMP-0435,My package has been delayed unexpectedly. Please help me resolve this.,Delivery,High,Medium,Delivery Support,my package has been delayed unexpectedly please help me resolve this
+CMP-0436,My package arrived damaged. I have been facing this issue recently.,Delivery,High,Low,Delivery Support,my package arrived damaged i have been facing this issue recently
+CMP-0437,My service request is still pending.,Service,Medium,Low,Service Support,my service request is still pending
+CMP-0438,I received the wrong item in my delivery. This needs to be checked.,Delivery,Medium,High,Delivery Support,i received the wrong item in my delivery this needs to be checked
+CMP-0439,The login credentials are not being accepted. I have been facing this issue recently.,Account,High,High,Account Support,the login credentials are not being accepted i have been facing this issue recently
+CMP-0440,The assigned service was incomplete. I have been facing this issue recently.,Service,Urgent,Medium,Service Support,the assigned service was incomplete i have been facing this issue recently
+CMP-0441,I need assistance with something else. Please help me resolve this.,Other,Low,Medium,General Support,i need assistance with something else please help me resolve this
+CMP-0442,The invoice amount is different from the amount I paid. This needs to be checked.,Billing,Low,Low,Billing Support,the invoice amount is different from the amount i paid this needs to be checked
+CMP-0443,My billing statement contains an incorrect charge. This needs to be checked.,Billing,High,Medium,Billing Support,my billing statement contains an incorrect charge this needs to be checked
+CMP-0444,The service I requested has not been provided yet.,Service,High,Medium,Service Support,the service i requested has not been provided yet
+CMP-0445,The assigned service was incomplete. This needs to be checked.,Service,Low,Medium,Service Support,the assigned service was incomplete this needs to be checked
+CMP-0446,I cannot access my registered account. Can you assist me with this?,Account,Medium,Low,Account Support,i cannot access my registered account can you assist me with this
+CMP-0447,The payment failed but money was deducted from my account. Please help me resolve this.,Billing,Medium,Medium,Billing Support,the payment failed but money was deducted from my account please help me resolve this
+CMP-0448,I need help with an issue not listed in the available categories.,Other,Medium,Medium,General Support,i need help with an issue not listed in the available categories
+CMP-0449,My package arrived damaged. Please help me resolve this.,Delivery,Medium,Medium,Delivery Support,my package arrived damaged please help me resolve this
+CMP-0450,I need help changing my account details. Can you assist me with this?,Account,Medium,Medium,Account Support,i need help changing my account details can you assist me with this
+CMP-0451,The invoice amount is different from the amount I paid. Please help me resolve this.,Billing,Medium,High,Billing Support,the invoice amount is different from the amount i paid please help me resolve this
+CMP-0452,I was charged an unexpected service fee. This needs to be checked.,Billing,High,Medium,Billing Support,i was charged an unexpected service fee this needs to be checked
+CMP-0453,The assigned service was incomplete. Can you assist me with this?,Service,Medium,Low,Service Support,the assigned service was incomplete can you assist me with this
+CMP-0454,I am not sure which department can help with my issue. I have been facing this issue recently.,Other,Low,Medium,General Support,i am not sure which department can help with my issue i have been facing this issue recently
+CMP-0455,I am unable to update my email address. Please help me resolve this.,Account,Medium,Medium,Account Support,i am unable to update my email address please help me resolve this
+CMP-0456,I would like more information about the available services. I have been facing this issue recently.,Other,Low,High,General Support,i would like more information about the available services i have been facing this issue recently
+CMP-0457,The service representative did not resolve my issue. Can you assist me with this?,Service,High,High,Service Support,the service representative did not resolve my issue can you assist me with this
+CMP-0458,I cannot access my registered account. This needs to be checked.,Account,Medium,Medium,Account Support,i cannot access my registered account this needs to be checked
+CMP-0459,I cannot complete account verification. This needs to be checked.,Account,Medium,High,Account Support,i cannot complete account verification this needs to be checked
+CMP-0460,The mobile application keeps showing an error. I have been facing this issue recently.,Technical,Medium,High,Technical Support,the mobile application keeps showing an error i have been facing this issue recently
+CMP-0461,The refund amount I received is incorrect. This needs to be checked.,Billing,Medium,Medium,Billing Support,the refund amount i received is incorrect this needs to be checked
+CMP-0462,The delivery is delayed beyond the expected date.,Delivery,Low,High,Delivery Support,the delivery is delayed beyond the expected date
+CMP-0463,The application stopped working after the latest update. Can you assist me with this?,Technical,High,Low,Technical Support,the application stopped working after the latest update can you assist me with this
+CMP-0464,I need an update on my delivery.,Delivery,Medium,Medium,Delivery Support,i need an update on my delivery
+CMP-0465,My account details need to be updated. Can you assist me with this?,Account,Medium,Low,Account Support,my account details need to be updated can you assist me with this
+CMP-0466,The system is responding very slowly. This needs to be checked.,Technical,Medium,Low,Technical Support,the system is responding very slowly this needs to be checked
+CMP-0467,I am unable to update my email address. I have been facing this issue recently.,Account,Urgent,Low,Account Support,i am unable to update my email address i have been facing this issue recently
+CMP-0468,My refund has not been credited yet. Can you assist me with this?,Billing,Urgent,Medium,Billing Support,my refund has not been credited yet can you assist me with this
+CMP-0469,I have a question that is not covered in the FAQ. Can you assist me with this?,Other,Medium,High,General Support,i have a question that is not covered in the faq can you assist me with this
+CMP-0470,I need help understanding a charge on my account.,Billing,High,Low,Billing Support,i need help understanding a charge on my account
+CMP-0471,The page keeps loading and never opens. I would like an update.,Technical,Low,Medium,Technical Support,the page keeps loading and never opens i would like an update
+CMP-0472,I need help changing my account details.,Account,Medium,Medium,Account Support,i need help changing my account details
+CMP-0473,I received the wrong item in my delivery. I have been facing this issue recently.,Delivery,Low,Low,Delivery Support,i received the wrong item in my delivery i have been facing this issue recently
+CMP-0474,My order was marked delivered but I did not receive it. Can you assist me with this?,Delivery,High,High,Delivery Support,my order was marked delivered but i did not receive it can you assist me with this
+CMP-0475,My payment was deducted but the order was not confirmed. I would like an update.,Billing,Medium,Medium,Billing Support,my payment was deducted but the order was not confirmed i would like an update
+CMP-0476,I cannot complete account verification. This needs to be checked.,Account,Low,Low,Account Support,i cannot complete account verification this needs to be checked
+CMP-0477,My scheduled service has been delayed. I would like an update.,Service,High,High,Service Support,my scheduled service has been delayed i would like an update
+CMP-0478,My payment was deducted but the order was not confirmed. I have been facing this issue recently.,Billing,Medium,Medium,Billing Support,my payment was deducted but the order was not confirmed i have been facing this issue recently
+CMP-0479,My refund has not been credited yet. Please help me resolve this.,Billing,Urgent,Medium,Billing Support,my refund has not been credited yet please help me resolve this
+CMP-0480,My account settings are not saving. I have been facing this issue recently.,Account,Medium,Low,Account Support,my account settings are not saving i have been facing this issue recently
+CMP-0481,I need general information about the service. This needs to be checked.,Other,Low,Medium,General Support,i need general information about the service this needs to be checked
+CMP-0482,The invoice amount is different from the amount I paid. Can you assist me with this?,Billing,Low,Low,Billing Support,the invoice amount is different from the amount i paid can you assist me with this
+CMP-0483,I need assistance with something else. I would like an update.,Other,Low,Medium,General Support,i need assistance with something else i would like an update
+CMP-0484,I need an update about my service request. I would like an update.,Service,Low,High,Service Support,i need an update about my service request i would like an update
+CMP-0485,My package arrived damaged. This needs to be checked.,Delivery,Medium,Low,Delivery Support,my package arrived damaged this needs to be checked
+CMP-0486,I received the wrong item in my delivery. I have been facing this issue recently.,Delivery,Medium,Medium,Delivery Support,i received the wrong item in my delivery i have been facing this issue recently
+CMP-0487,The payment failed but money was deducted from my account. I have been facing this issue recently.,Billing,Medium,Medium,Billing Support,the payment failed but money was deducted from my account i have been facing this issue recently
+CMP-0488,I am unhappy with the support service I received. This needs to be checked.,Service,High,Medium,Service Support,i am unhappy with the support service i received this needs to be checked
+CMP-0489,I need an update on my delivery. Please help me resolve this.,Delivery,Low,Low,Delivery Support,i need an update on my delivery please help me resolve this
+CMP-0490,I need help with an issue not listed in the available categories. This needs to be checked.,Other,Medium,Medium,General Support,i need help with an issue not listed in the available categories this needs to be checked
+CMP-0491,I cannot complete account verification. Can you assist me with this?,Account,High,Low,Account Support,i cannot complete account verification can you assist me with this
+CMP-0492,A technical error appears when I submit the form. I have been facing this issue recently.,Technical,Urgent,Medium,Technical Support,a technical error appears when i submit the form i have been facing this issue recently
+CMP-0493,The service quality was not as expected. Can you assist me with this?,Service,Medium,Low,Service Support,the service quality was not as expected can you assist me with this
+CMP-0494,I am unhappy with the support service I received. I have been facing this issue recently.,Service,Medium,Low,Service Support,i am unhappy with the support service i received i have been facing this issue recently
+CMP-0495,My refund has not been credited yet. Can you assist me with this?,Billing,Medium,Medium,Billing Support,my refund has not been credited yet can you assist me with this
+CMP-0496,My account appears to be locked. I would like an update.,Account,Medium,High,Account Support,my account appears to be locked i would like an update
+CMP-0497,The mobile application keeps showing an error. I have been facing this issue recently.,Technical,High,High,Technical Support,the mobile application keeps showing an error i have been facing this issue recently
+CMP-0498,My account appears to be locked. I have been facing this issue recently.,Account,Medium,Low,Account Support,my account appears to be locked i have been facing this issue recently
+CMP-0499,The system is responding very slowly. I would like an update.,Technical,Medium,Medium,Technical Support,the system is responding very slowly i would like an update
+CMP-0500,The delivered item is missing from my order. I would like an update.,Delivery,High,Medium,Delivery Support,the delivered item is missing from my order i would like an update
+AUG-001,I forgot my password and cannot log into my account.,Account,Medium,Low,Account Support,i forgot my password and cannot log into my account.
+AUG-002,I am unable to sign in because my password is not working.,Account,Medium,Low,Account Support,i am unable to sign in because my password is not working.
+AUG-003,I need to reset my account password.,Account,Medium,Low,Account Support,i need to reset my account password.
+AUG-004,My account login is not accepting my password.,Account,Medium,Low,Account Support,my account login is not accepting my password.
+AUG-005,I cannot log into my account with my credentials.,Account,Medium,Low,Account Support,i cannot log into my account with my credentials.
+AUG-006,I forgot my account password.,Account,Medium,Low,Account Support,i forgot my account password.
+AUG-007,My account sign in is not working.,Account,Medium,Low,Account Support,my account sign in is not working.
+AUG-008,I cannot access my account because I forgot my password.,Account,Medium,Low,Account Support,i cannot access my account because i forgot my password.
+AUG-009,The login page crashes when I try to sign in.,Technical,Medium,Low,Technical Support,the login page crashes when i try to sign in.
+AUG-010,The application shows an error after I enter my credentials.,Technical,Medium,Low,Technical Support,the application shows an error after i enter my credentials.
+AUG-011,The website freezes during login.,Technical,Medium,Low,Technical Support,the website freezes during login.
+AUG-012,The login screen is not loading.,Technical,Medium,Low,Technical Support,the login screen is not loading.
