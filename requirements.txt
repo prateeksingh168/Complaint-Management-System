@@ -1,0 +1,16 @@
+fastapi
+uvicorn
+flask
+pydantic
+python-dotenv
+sqlalchemy
+psycopg2-binary
+pandas
+numpy
+scikit-learn
+nltk
+spacy
+requests
+python-multipart
+pytest
+httpx
