@@ -1,8 +1,5 @@
 -- Complaint Management System
 -- Load the team's sample complaint dataset.
---
--- Run this file from the repository root using psql:
--- psql -d complaint_management_db -f database/seed.sql
 
 CREATE TEMP TABLE complaint_seed (
     complaint_id VARCHAR(20),
@@ -13,15 +10,7 @@ CREATE TEMP TABLE complaint_seed (
     recommended_team VARCHAR(100)
 );
 
-\copy complaint_seed (
-    complaint_id,
-    complaint_text,
-    category,
-    priority,
-    complexity,
-    recommended_team
-) FROM 'database/complaint_management_dataset.csv'
-WITH (FORMAT csv, HEADER true, ENCODING 'UTF8');
+\copy complaint_seed FROM 'database/complaint_management_dataset.csv' WITH (FORMAT csv, HEADER true, ENCODING 'UTF8');
 
 INSERT INTO complaints (
     complaint_id,
