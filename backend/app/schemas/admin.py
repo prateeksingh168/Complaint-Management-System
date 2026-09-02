@@ -4,22 +4,21 @@ from app.schemas.user import UserResponse
 
 
 class TicketAssignRequest(BaseModel):
-    agent_id: Optional[str] = Field(default=None, description="UUID of target agent")
+    agent_id: Optional[int] = Field(default=None, description="ID of target agent")
     team_id: Optional[int] = Field(default=None, description="ID of target team")
 
 
 class AgentWorkloadResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
-    id: str
-    user_id: str
-    user_name: str
-    user_email: str
-    team_id: int
-    team_name: str
-    skills: List[str]
+    id: int
+    name: str
+    email: str
+    team_id: Optional[int] = None
+    team_name: Optional[str] = None
+    skills: Optional[str] = None
+    availability: str
     current_workload: int
-    is_available: bool
 
 
 class AdminAnalyticsResponse(BaseModel):

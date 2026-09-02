@@ -14,7 +14,7 @@ if backend_path not in sys.path:
 from app.db.base import Base
 from app.db.session import get_db
 from app.main import app
-from app.models.category import Category
+from app.models.team import Team
 
 
 @pytest_asyncio.fixture
@@ -27,12 +27,8 @@ async def async_test_client():
     TestSession = async_sessionmaker(bind=test_engine, class_=AsyncSession, expire_on_commit=False)
 
     async with TestSession() as seed_session:
-        cats = [
-            Category(name="Other", is_active=True),
-            Category(name="Billing", is_active=True),
-            Category(name="Delivery", is_active=True),
-        ]
-        seed_session.add_all(cats)
+        teams = [Team(name="General Support"), Team(name="Delivery Support")]
+        seed_session.add_all(teams)
         await seed_session.commit()
 
     async def override_get_db():
@@ -90,4 +86,5 @@ async def test_chat_relay_extracted_complaint_creates_ticket(async_test_client):
         data = response.json()
         assert data["intent"] == "complaint"
         assert data["ticket"] is not None
-        assert data["ticket"]["ticket_id"].startswith("CMP-")
+        assert data["ticket"]["complaint_id"].startswith("CMP-")
+        assert data["ticket"]["ticket_number"].startswith("TKT-")

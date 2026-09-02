@@ -13,7 +13,7 @@ if backend_path not in sys.path:
 from app.db.base import Base
 from app.db.session import get_db
 from app.main import app
-from app.models.category import Category
+from app.models.team import Team
 
 
 @pytest_asyncio.fixture
@@ -26,8 +26,8 @@ async def async_test_client():
     TestSession = async_sessionmaker(bind=test_engine, class_=AsyncSession, expire_on_commit=False)
 
     async with TestSession() as seed_session:
-        cats = [Category(name="Other", is_active=True), Category(name="Billing", is_active=True)]
-        seed_session.add_all(cats)
+        teams = [Team(name="General Support"), Team(name="Billing Support")]
+        seed_session.add_all(teams)
         await seed_session.commit()
 
     async def override_get_db():
@@ -52,10 +52,10 @@ async def get_auth_token(client: AsyncClient, email: str, role: str = "user"):
 @pytest.mark.asyncio
 async def test_notification_flow_on_ticket_status_change(async_test_client):
     user_token = await get_auth_token(async_test_client, "notif_user@example.com", role="user")
-    agent_token = await get_auth_token(async_test_client, "notif_agent@example.com", role="agent")
+    admin_token = await get_auth_token(async_test_client, "notif_admin@example.com", role="admin")
 
     user_h = {"Authorization": f"Bearer {user_token}"}
-    agent_h = {"Authorization": f"Bearer {agent_token}"}
+    admin_h = {"Authorization": f"Bearer {admin_token}"}
 
     # 1. User creates complaint
     cmp_res = await async_test_client.post(
@@ -65,11 +65,11 @@ async def test_notification_flow_on_ticket_status_change(async_test_client):
     )
     ticket_id = cmp_res.json()["ticket_id"]
 
-    # 2. Agent updates ticket status to 'In Progress'
+    # 2. Admin updates ticket status to 'In Progress'
     await async_test_client.put(
         f"/api/v1/tickets/{ticket_id}/status",
-        json={"status": "In Progress", "note": "Agent investigating"},
-        headers=agent_h,
+        json={"status": "In Progress", "note": "Admin investigating"},
+        headers=admin_h,
     )
 
     # 3. User checks notifications

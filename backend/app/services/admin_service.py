@@ -5,7 +5,6 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
 from app.models.agent import Agent
-from app.models.category import Category
 from app.models.complaint import Complaint
 from app.models.team import Team
 from app.models.ticket import Ticket
@@ -17,32 +16,21 @@ from app.services import ticket_service
 
 
 async def get_analytics(db: AsyncSession) -> AdminAnalyticsResponse:
-    """Computes real-time system metrics and aggregated analytics."""
-    # 1. Totals
-    complaint_count = (await db.execute(select(func.count(Complaint.id)))).scalar() or 0
+    complaint_count = (await db.execute(select(func.count(Complaint.complaint_id)))).scalar() or 0
     ticket_count = (await db.execute(select(func.count(Ticket.id)))).scalar() or 0
-    escalated_count = (await db.execute(select(func.count(Ticket.id)).where(Ticket.escalated == True))).scalar() or 0
 
-    # 2. Status Breakdown
     status_stmt = select(Ticket.status, func.count(Ticket.id)).group_by(Ticket.status)
     status_res = await db.execute(status_stmt)
     status_counts: Dict[str, int] = {r[0]: r[1] for r in status_res.all()}
 
-    # 3. Category Breakdown
-    cat_stmt = (
-        select(Category.name, func.count(Complaint.id))
-        .join(Complaint, Category.id == Complaint.category_id)
-        .group_by(Category.name)
-    )
+    cat_stmt = select(Complaint.category, func.count(Complaint.complaint_id)).group_by(Complaint.category)
     cat_res = await db.execute(cat_stmt)
     category_counts: Dict[str, int] = {r[0]: r[1] for r in cat_res.all()}
 
-    # 4. Priority Breakdown
     prio_stmt = select(Ticket.priority, func.count(Ticket.id)).group_by(Ticket.priority)
     prio_res = await db.execute(prio_stmt)
     priority_counts: Dict[str, int] = {r[0]: r[1] for r in prio_res.all()}
 
-    # 5. Average Resolution Time in Hours
     resolved_tickets_stmt = select(Ticket).where(Ticket.status == "Resolved", Ticket.resolved_at.is_not(None))
     resolved_res = await db.execute(resolved_tickets_stmt)
     resolved_tickets = resolved_res.scalars().all()
@@ -64,7 +52,7 @@ async def get_analytics(db: AsyncSession) -> AdminAnalyticsResponse:
         category_counts=category_counts,
         priority_counts=priority_counts,
         avg_resolution_time_hours=avg_resolution_time,
-        escalated_tickets_count=escalated_count,
+        escalated_tickets_count=0,
     )
 
 
@@ -74,7 +62,6 @@ async def get_users(
     page_size: int = 10,
     role_filter: Optional[str] = None,
 ) -> PaginatedUserList:
-    """Lists system users with optional role filtering and pagination."""
     page = max(1, page)
     page_size = min(max(1, page_size), 100)
     offset = (page - 1) * page_size
@@ -98,8 +85,7 @@ async def get_users(
 
 
 async def get_agents_with_workload(db: AsyncSession) -> List[AgentWorkloadResponse]:
-    """Retrieves list of support agents with team name, current workload, and availability."""
-    stmt = select(Agent).options(selectinload(Agent.user), selectinload(Agent.team))
+    stmt = select(Agent).options(selectinload(Agent.team))
     res = await db.execute(stmt)
     agents = res.scalars().all()
 
@@ -108,14 +94,13 @@ async def get_agents_with_workload(db: AsyncSession) -> List[AgentWorkloadRespon
         items.append(
             AgentWorkloadResponse(
                 id=a.id,
-                user_id=a.user_id,
-                user_name=a.user.name if a.user else "Unknown",
-                user_email=a.user.email if a.user else "unknown@example.com",
+                name=a.name,
+                email=a.email,
                 team_id=a.team_id,
                 team_name=a.team.name if a.team else "Unassigned",
-                skills=a.skills if isinstance(a.skills, list) else [],
+                skills=a.skills,
+                availability=a.availability,
                 current_workload=a.current_workload,
-                is_available=a.is_available,
             )
         )
     return items
@@ -127,7 +112,6 @@ async def assign_ticket(
     assign_in: TicketAssignRequest,
     current_user: User,
 ) -> Ticket:
-    """Manually assigns a ticket to a specified agent or team."""
     ticket = await ticket_service.get_ticket_by_id(db, ticket_id, current_user, check_permission=False)
 
     if assign_in.agent_id is not None:
@@ -137,7 +121,8 @@ async def assign_ticket(
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Agent not found")
         
         ticket.assigned_agent_id = agent.id
-        ticket.assigned_team_id = agent.team_id
+        if agent.team_id:
+            ticket.assigned_team_id = agent.team_id
         agent.current_workload += 1
 
     if assign_in.team_id is not None:
@@ -152,7 +137,6 @@ async def assign_ticket(
         old_status=ticket.status,
         new_status=ticket.status,
         changed_by=current_user.id,
-        note="Ticket assignment manually modified by Admin",
     )
     db.add(history)
     ticket.history.insert(0, history)

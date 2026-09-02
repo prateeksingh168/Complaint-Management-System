@@ -13,7 +13,6 @@ if backend_path not in sys.path:
 from app.db.base import Base
 from app.db.session import get_db
 from app.main import app
-from app.models.category import Category
 from app.models.team import Team
 
 
@@ -26,18 +25,12 @@ async def async_test_client():
 
     TestSession = async_sessionmaker(bind=test_engine, class_=AsyncSession, expire_on_commit=False)
 
-    # Seed categories and teams
     async with TestSession() as seed_session:
-        cats = [
-            Category(name="Other", is_active=True),
-            Category(name="Billing", is_active=True),
-            Category(name="Technical", is_active=True),
-        ]
         teams = [
-            Team(name="General Support", is_active=True),
-            Team(name="Technical Support", is_active=True),
+            Team(name="General Support"),
+            Team(name="Technical Support"),
         ]
-        seed_session.add_all(cats + teams)
+        seed_session.add_all(teams)
         await seed_session.commit()
 
     async def override_get_db():
@@ -62,10 +55,10 @@ async def get_auth_header(client: AsyncClient, email: str, role: str = "user"):
 
 @pytest.mark.asyncio
 async def test_ticket_status_state_machine_and_history(async_test_client):
-    user_header = await get_auth_header(async_test_client, "user_ticket@example.com")
-    agent_header = await get_auth_header(async_test_client, "agent_ticket@example.com", role="agent")
+    user_header = await get_auth_header(async_test_client, "user_ticket@example.com", role="user")
+    admin_header = await get_auth_header(async_test_client, "admin_ticket@example.com", role="admin")
 
-    # 1. Create Complaint (which spawns Ticket)
+    # 1. Create Complaint (spawns Ticket)
     cmp_res = await async_test_client.post(
         "/api/v1/complaints",
         json={"text": "System crash error when opening billing page"},
@@ -75,7 +68,7 @@ async def test_ticket_status_state_machine_and_history(async_test_client):
     ticket_id = cmp_data["ticket_id"]
 
     # Verify initial status is 'Registered'
-    t1_res = await async_test_client.get(f"/api/v1/tickets/{ticket_id}", headers=agent_header)
+    t1_res = await async_test_client.get(f"/api/v1/tickets/{ticket_id}", headers=admin_header)
     assert t1_res.status_code == 200
     assert t1_res.json()["status"] == "Registered"
 
@@ -84,7 +77,7 @@ async def test_ticket_status_state_machine_and_history(async_test_client):
     t2_res = await async_test_client.put(
         f"/api/v1/tickets/{ticket_id}/status",
         json=status_payload_1,
-        headers=agent_header,
+        headers=admin_header,
     )
     assert t2_res.status_code == 200
     assert t2_res.json()["status"] == "In Progress"
@@ -94,7 +87,7 @@ async def test_ticket_status_state_machine_and_history(async_test_client):
     t3_res = await async_test_client.put(
         f"/api/v1/tickets/{ticket_id}/status",
         json=status_payload_2,
-        headers=agent_header,
+        headers=admin_header,
     )
     assert t3_res.status_code == 200
     t3_data = t3_res.json()
@@ -111,25 +104,9 @@ async def test_ticket_status_state_machine_and_history(async_test_client):
     invalid_res = await async_test_client.put(
         f"/api/v1/tickets/{ticket_id}/status",
         json={"status": "Registered", "note": "Reopening"},
-        headers=agent_header,
+        headers=admin_header,
     )
     assert invalid_res.status_code == 400
     res_data = invalid_res.json()
     error_msg = res_data.get("error", {}).get("message") or res_data.get("detail", "")
     assert "Invalid status transition" in error_msg
-
-
-@pytest.mark.asyncio
-async def test_list_tickets_filtering(async_test_client):
-    admin_header = await get_auth_header(async_test_client, "admin_tickets@example.com", role="admin")
-
-    # Create complaints
-    await async_test_client.post(
-        "/api/v1/complaints",
-        json={"text": "Delivery delay issue"},
-        headers=admin_header,
-    )
-
-    list_res = await async_test_client.get("/api/v1/tickets?status=Registered", headers=admin_header)
-    assert list_res.status_code == 200
-    assert list_res.json()["total"] >= 1

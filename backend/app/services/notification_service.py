@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Union
 from fastapi import HTTPException, status
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -10,15 +10,16 @@ from app.schemas.notification import NotificationResponse, PaginatedNotification
 
 async def create_notification(
     db: AsyncSession,
-    user_id: str,
+    user_id: int,
     message: str,
-    ticket_id: Optional[str] = None,
+    ticket_id: Optional[int] = None,
+    notif_type: str = "info",
 ) -> Notification:
-    """Creates a notification record for a user."""
     notif = Notification(
         user_id=user_id,
         ticket_id=ticket_id,
         message=message,
+        type=notif_type,
         is_read=False,
     )
     db.add(notif)
@@ -34,7 +35,6 @@ async def get_user_notifications(
     page_size: int = 10,
     unread_only: bool = False,
 ) -> PaginatedNotificationList:
-    """Fetches paginated notifications for the authenticated user."""
     page = max(1, page)
     page_size = min(max(1, page_size), 100)
     offset = (page - 1) * page_size
@@ -60,11 +60,15 @@ async def get_user_notifications(
 
 async def mark_notification_as_read(
     db: AsyncSession,
-    notification_id: str,
+    notification_id: Union[int, str],
     current_user: User,
 ) -> Notification:
-    """Marks a notification as read after validating user ownership."""
-    stmt = select(Notification).where(Notification.id == notification_id)
+    try:
+        notif_id = int(notification_id)
+    except ValueError:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Invalid notification ID format")
+
+    stmt = select(Notification).where(Notification.id == notif_id)
     res = await db.execute(stmt)
     notif = res.scalar_one_or_none()
 

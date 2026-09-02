@@ -11,7 +11,6 @@ from app.models.ticket_history import TicketHistory
 
 
 def get_escalation_threshold_hours(priority: str) -> int:
-    """Returns SLA escalation threshold in hours based on priority level."""
     mapping = {
         "Urgent": settings.ESCALATION_HOURS_URGENT,
         "High": settings.ESCALATION_HOURS_HIGH,
@@ -22,14 +21,10 @@ def get_escalation_threshold_hours(priority: str) -> int:
 
 
 async def check_and_escalate_tickets(db: AsyncSession) -> List[Ticket]:
-    """
-    Scans unresolved tickets for SLA threshold breaches.
-    Updates breached tickets with escalated=True, escalated_at=now(), records history entries, and creates user notifications.
-    """
     stmt = (
         select(Ticket)
         .options(selectinload(Ticket.complaint), selectinload(Ticket.history))
-        .where(Ticket.status != "Resolved", Ticket.escalated == False)
+        .where(Ticket.status != "Resolved")
     )
     res = await db.execute(stmt)
     unresolved_tickets: List[Ticket] = res.scalars().all()
@@ -47,26 +42,23 @@ async def check_and_escalate_tickets(db: AsyncSession) -> List[Ticket]:
         age_hours = (now - created_at).total_seconds() / 3600.0
 
         if age_hours >= threshold_hours:
-            ticket.escalated = True
-            ticket.escalated_at = now
-
-            system_actor_id = ticket.complaint.user_id if ticket.complaint else ticket.id
+            system_user_id = ticket.complaint.user_id if ticket.complaint else None
 
             history = TicketHistory(
                 ticket_id=ticket.id,
                 old_status=ticket.status,
                 new_status=ticket.status,
-                changed_by=system_actor_id,
-                note=f"Ticket escalated due to SLA breach ({ticket.priority} threshold of {threshold_hours}h exceeded).",
+                changed_by=system_user_id,
             )
             db.add(history)
             ticket.history.insert(0, history)
 
-            if ticket.complaint:
+            if ticket.complaint and ticket.complaint.user_id:
                 notif = Notification(
                     user_id=ticket.complaint.user_id,
                     ticket_id=ticket.id,
-                    message=f"Ticket {ticket.ticket_id} has been escalated due to SLA resolution threshold breach.",
+                    message=f"Ticket {ticket.ticket_number} has been escalated due to SLA resolution threshold breach.",
+                    type="escalation",
                 )
                 db.add(notif)
 

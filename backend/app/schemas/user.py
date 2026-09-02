@@ -1,48 +1,46 @@
 from datetime import datetime
-from enum import Enum
 from typing import Optional
 from pydantic import BaseModel, ConfigDict, EmailStr, Field
 
 
-class UserRole(str, Enum):
-    USER = "user"
-    AGENT = "agent"
-    ADMIN = "admin"
-
-
 class UserRegister(BaseModel):
-    name: str = Field(..., min_length=2, max_length=100, json_schema_extra={"example": "John Doe"})
-    email: EmailStr = Field(..., json_schema_extra={"example": "john.doe@example.com"})
-    password: str = Field(..., min_length=6, max_length=128, json_schema_extra={"example": "Secret123!"})
-    role: Optional[UserRole] = Field(default=UserRole.USER)
+    name: str = Field(..., min_length=2, max_length=100, json_schema_extra={"example": "Jane Doe"})
+    email: EmailStr = Field(..., json_schema_extra={"example": "jane.doe@example.com"})
+    password: str = Field(..., min_length=8, json_schema_extra={"example": "SecurePassword123!"})
+    role: str = Field(default="user", json_schema_extra={"example": "user"})
+
+
+UserCreate = UserRegister
 
 
 class UserLogin(BaseModel):
-    email: EmailStr = Field(..., json_schema_extra={"example": "john.doe@example.com"})
-    password: str = Field(..., json_schema_extra={"example": "Secret123!"})
+    email: EmailStr = Field(..., json_schema_extra={"example": "jane.doe@example.com"})
+    password: str = Field(..., min_length=8, json_schema_extra={"example": "SecurePassword123!"})
 
 
-class UserResponse(BaseModel):
-    model_config = ConfigDict(from_attributes=True)
-
-    id: str
-    name: str
-    email: str
-    role: str
-    created_at: datetime
-    updated_at: datetime
+class RefreshRequest(BaseModel):
+    refresh_token: str = Field(..., json_schema_extra={"example": "refresh_token_string"})
 
 
-class Token(BaseModel):
+class TokenResponse(BaseModel):
     access_token: str
     refresh_token: str
     token_type: str = "bearer"
 
 
+Token = TokenResponse
+
+
+class UserResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    name: str
+    email: EmailStr
+    role: str
+    created_at: datetime
+
+
 class AuthResponse(BaseModel):
     user: UserResponse
-    tokens: Token
-
-
-class RefreshRequest(BaseModel):
-    refresh_token: str
+    tokens: TokenResponse

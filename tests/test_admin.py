@@ -14,9 +14,7 @@ from app.db.base import Base
 from app.db.session import get_db
 from app.main import app
 from app.models.agent import Agent
-from app.models.category import Category
 from app.models.team import Team
-from app.models.user import User
 
 
 @pytest_asyncio.fixture
@@ -29,21 +27,11 @@ async def async_test_client():
     TestSession = async_sessionmaker(bind=test_engine, class_=AsyncSession, expire_on_commit=False)
 
     async with TestSession() as seed_session:
-        cats = [
-            Category(name="Other", is_active=True),
-            Category(name="Billing", is_active=True),
-            Category(name="Technical", is_active=True),
-        ]
-        team = Team(name="Technical Support", is_active=True)
-        seed_session.add_all(cats + [team])
+        team = Team(name="Technical Support")
+        seed_session.add(team)
         await seed_session.commit()
 
-        # Seed an agent
-        agent_user = User(name="Agent 1", email="ag1@example.com", password_hash="hash", role="agent")
-        seed_session.add(agent_user)
-        await seed_session.commit()
-
-        ag = Agent(user_id=agent_user.id, team_id=team.id, skills=["Technical"], current_workload=0, is_available=True)
+        ag = Agent(name="Agent 1", email="ag1@example.com", team_id=team.id, skills="Technical", current_workload=0, availability="Available")
         seed_session.add(ag)
         await seed_session.commit()
 
@@ -101,7 +89,7 @@ async def test_admin_agent_list_and_user_list(async_test_client):
     assert agents_res.status_code == 200
     agents_data = agents_res.json()
     assert len(agents_data) >= 1
-    assert agents_data[0]["user_name"] == "Agent 1"
+    assert agents_data[0]["name"] == "Agent 1"
 
 
 @pytest.mark.asyncio

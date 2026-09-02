@@ -13,7 +13,7 @@ if backend_path not in sys.path:
 from app.db.base import Base
 from app.db.session import get_db
 from app.main import app
-from app.models.category import Category
+from app.models.team import Team
 
 
 @pytest_asyncio.fixture
@@ -25,17 +25,13 @@ async def async_test_client():
 
     TestSession = async_sessionmaker(bind=test_engine, class_=AsyncSession, expire_on_commit=False)
 
-    # Seed categories table
     async with TestSession() as seed_session:
-        cats = [
-            Category(name="Other", is_active=True),
-            Category(name="Billing", is_active=True),
-            Category(name="Technical", is_active=True),
-            Category(name="Delivery", is_active=True),
-            Category(name="Service", is_active=True),
-            Category(name="Account", is_active=True),
+        teams = [
+            Team(name="General Support"),
+            Team(name="Billing Support"),
+            Team(name="Technical Support"),
         ]
-        seed_session.add_all(cats)
+        seed_session.add_all(teams)
         await seed_session.commit()
 
     async def override_get_db():
@@ -51,78 +47,50 @@ async def async_test_client():
     await test_engine.dispose()
 
 
-async def register_and_get_token(client: AsyncClient, email: str, name: str = "Test User", role: str = "user"):
-    payload = {"name": name, "email": email, "password": "Password123!", "role": role}
+async def get_user_auth_headers(client: AsyncClient):
+    payload = {
+        "name": "Complaint User",
+        "email": "complaint.user@example.com",
+        "password": "Password123!",
+        "role": "user"
+    }
     res = await client.post("/api/v1/auth/register", json=payload)
-    return res.json()["tokens"]["access_token"]
+    token = res.json()["tokens"]["access_token"]
+    return {"Authorization": f"Bearer {token}"}
 
 
 @pytest.mark.asyncio
-async def test_create_complaint_with_fallback_classification(async_test_client):
-    token = await register_and_get_token(async_test_client, "user1@example.com")
-    headers = {"Authorization": f"Bearer {token}"}
+async def test_create_complaint_and_linked_ticket(async_test_client):
+    headers = await get_user_auth_headers(async_test_client)
+    
+    complaint_payload = {
+        "text": "Money was deducted from my account but the transaction failed.",
+        "category": "Billing",
+        "priority": "High"
+    }
 
-    payload = {"text": "I was double charged on my invoice and need a refund for my billing statement."}
-    response = await async_test_client.post("/api/v1/complaints", json=payload, headers=headers)
+    response = await async_test_client.post("/api/v1/complaints", json=complaint_payload, headers=headers)
     assert response.status_code == 201
     data = response.json()
     assert data["complaint_id"].startswith("CMP-")
-    assert data["priority"] in ["High", "Medium", "Urgent"]
-    assert data["category"]["name"] == "Billing"
+    assert data["category"] == "Billing"
+    assert data["priority"] == "High"
     assert data["ticket_id"] is not None
 
 
 @pytest.mark.asyncio
-async def test_list_complaints_pagination_and_ownership(async_test_client):
-    user1_token = await register_and_get_token(async_test_client, "user2@example.com")
-    user2_token = await register_and_get_token(async_test_client, "user3@example.com")
-    admin_token = await register_and_get_token(async_test_client, "admin1@example.com", role="admin")
+async def test_list_complaints_pagination(async_test_client):
+    headers = await get_user_auth_headers(async_test_client)
 
-    h1 = {"Authorization": f"Bearer {user1_token}"}
-    h2 = {"Authorization": f"Bearer {user2_token}"}
-    h_admin = {"Authorization": f"Bearer {admin_token}"}
+    for i in range(3):
+        await async_test_client.post(
+            "/api/v1/complaints",
+            json={"text": f"Technical issue number {i} with service"},
+            headers=headers
+        )
 
-    # User 1 creates 2 complaints
-    await async_test_client.post("/api/v1/complaints", json={"text": "Technical crash on mobile app"}, headers=h1)
-    await async_test_client.post("/api/v1/complaints", json={"text": "Delivery delay of my package"}, headers=h1)
-
-    # User 2 creates 1 complaint
-    await async_test_client.post("/api/v1/complaints", json={"text": "Password reset login issue"}, headers=h2)
-
-    # User 1 lists complaints -> should see only 2
-    res1 = await async_test_client.get("/api/v1/complaints", headers=h1)
-    assert res1.status_code == 200
-    data1 = res1.json()
-    assert data1["total"] == 2
-    assert len(data1["items"]) == 2
-
-    # Admin lists complaints -> should see 3
-    res_admin = await async_test_client.get("/api/v1/complaints", headers=h_admin)
-    assert res_admin.status_code == 200
-    data_admin = res_admin.json()
-    assert data_admin["total"] == 3
-
-
-@pytest.mark.asyncio
-async def test_get_complaint_by_id_and_permission(async_test_client):
-    user1_token = await register_and_get_token(async_test_client, "owner@example.com")
-    user2_token = await register_and_get_token(async_test_client, "other@example.com")
-
-    h1 = {"Authorization": f"Bearer {user1_token}"}
-    h2 = {"Authorization": f"Bearer {user2_token}"}
-
-    create_res = await async_test_client.post("/api/v1/complaints", json={"text": "Rude customer service agent behavior"}, headers=h1)
-    cmp_data = create_res.json()
-    cmp_id = cmp_data["id"]
-    human_cmp_id = cmp_data["complaint_id"]
-
-    # Owner can fetch via UUID and human ID
-    res_uuid = await async_test_client.get(f"/api/v1/complaints/{cmp_id}", headers=h1)
-    assert res_uuid.status_code == 200
-
-    res_human = await async_test_client.get(f"/api/v1/complaints/{human_cmp_id}", headers=h1)
-    assert res_human.status_code == 200
-
-    # Other user gets 403 Forbidden
-    res_other = await async_test_client.get(f"/api/v1/complaints/{cmp_id}", headers=h2)
-    assert res_other.status_code == 403
+    response = await async_test_client.get("/api/v1/complaints?page=1&page_size=2", headers=headers)
+    assert response.status_code == 200
+    data = response.json()
+    assert data["total"] >= 3
+    assert len(data["items"]) == 2

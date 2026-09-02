@@ -6,10 +6,11 @@ from pydantic import BaseModel, ConfigDict
 class NotificationResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
-    id: str
-    user_id: str
-    ticket_id: Optional[str] = None
+    id: int
+    user_id: int
+    ticket_id: Optional[int] = None
     message: str
+    type: str
     is_read: bool
     created_at: datetime
 

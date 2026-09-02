@@ -1,45 +1,36 @@
 from datetime import datetime
-from typing import List, Optional
+from typing import List, Optional, Union
 from pydantic import BaseModel, ConfigDict, Field
 
 
-class CategoryInComplaint(BaseModel):
-    model_config = ConfigDict(from_attributes=True)
-
-    id: int
-    name: str
-
-
 class ComplaintCreate(BaseModel):
-    text: str = Field(..., min_length=5, max_length=5000, json_schema_extra={"example": "I was charged twice for order #12345."})
-    category_id: Optional[int] = Field(default=None, description="Optional manual category override")
-    priority: Optional[str] = Field(default=None, description="Optional manual priority override")
-    complexity: Optional[str] = Field(default=None, description="Optional manual complexity override")
+    text: str = Field(..., min_length=5, json_schema_extra={"example": "Money was deducted from my account but transaction failed."})
+    category: Optional[str] = Field(default=None, json_schema_extra={"example": "Billing"})
+    priority: Optional[str] = Field(default=None, json_schema_extra={"example": "High"})
+    complexity: Optional[str] = Field(default=None, json_schema_extra={"example": "Medium"})
+    recommended_team: Optional[str] = Field(default=None, json_schema_extra={"example": "Billing Support"})
 
 
 class ComplaintUpdate(BaseModel):
-    text: Optional[str] = Field(default=None, min_length=5, max_length=5000)
-    category_id: Optional[int] = None
+    category: Optional[str] = None
     priority: Optional[str] = None
     complexity: Optional[str] = None
-    status: Optional[str] = None
+    recommended_team: Optional[str] = None
 
 
 class ComplaintResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
-    id: str
     complaint_id: str
-    user_id: str
-    text: str
-    category_id: int
-    category: Optional[CategoryInComplaint] = None
+    complaint_text: str
+    category: str
     priority: str
     complexity: str
-    status: str
+    recommended_team: str
+    user_id: Optional[int] = None
+    ticket_id: Optional[Union[str, int]] = None
     created_at: datetime
     updated_at: datetime
-    ticket_id: Optional[str] = None
 
 
 class PaginatedComplaintList(BaseModel):
