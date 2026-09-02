@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Notifications | ComplaintCare</title>
+  <link rel="stylesheet" href="../assets/css/main.css" />
+  <link rel="stylesheet" href="../assets/css/dashboard.css" />
+  <style>
+    .notif-item {
+      background: #fff; border-radius: 12px; box-shadow: var(--shadow);
+      padding: 16px 18px; margin-bottom: 12px; display: flex; justify-content: space-between; gap: 12px;
+      border-left: 4px solid var(--primary);
+    }
+    .notif-item.read { opacity: 0.65; border-left-color: #94a3b8; }
+    .notif-item h4 { font-size: 0.95rem; margin-bottom: 4px; }
+    .notif-item p { font-size: 0.85rem; color: var(--gray); }
+    .empty { text-align: center; color: var(--gray); padding: 40px; background: #fff; border-radius: 12px; }
+  </style>
+</head>
+<body>
+
+<div class="dashboard-wrapper">
+  <aside class="sidebar">
+    <div class="sidebar-logo">🎫 Complaint<span>Care</span></div>
+    <ul class="sidebar-menu">
+      <li><a href="user-dashboard.html"><span class="icon">📊</span> Dashboard</a></li>
+      <li><a href="complaint.html"><span class="icon">📝</span> Log Complaint</a></li>
+      <li><a href="ticket-tracking.html"><span class="icon">📍</span> Track Ticket</a></li>
+      <li><a href="notifications.html" class="active"><span class="icon">🔔</span> Notifications</a></li>
+      <li><a href="profile.html"><span class="icon">👤</span> My Profile</a></li>
+    </ul>
+    <div class="sidebar-logout"><button onclick="logout()">🚪 Logout</button></div>
+  </aside>
+
+  <div class="main-content">
+    <div class="topbar">
+      <div class="topbar-left">
+        <h2>🔔 Notifications</h2>
+        <p>Ticket create / update alerts</p>
+      </div>
+      <div class="topbar-right">
+        <button class="btn btn-outline" onclick="markAllRead()">Mark all read</button>
+      </div>
+    </div>
+
+    <div class="dashboard-body" id="notifWrap"></div>
+  </div>
+</div>
+
+<script src="../assets/js/app.js"></script>
+<script src="../assets/js/chatbot.js"></script>
+<script src="../assets/js/tickets.js"></script>
+<script>
+  const user = checkAuth();
+
+  function renderNotifs() {
+    let list = getNotifications();
+    if (user) {
+      list = list.filter((n) => !n.userId || n.userId === user.id);
+    }
+    const wrap = document.getElementById("notifWrap");
+    if (!list.length) {
+      wrap.innerHTML = '<div class="empty">Abhi koi notification nahi hai.</div>';
+      return;
+    }
+    wrap.innerHTML = list.map((n) => `
+      <div class="notif-item ${n.read ? "read" : ""}">
+        <div>
+          <h4>${n.title}</h4>
+          <p>${n.message}</p>
+          <p style="margin-top:6px;font-size:0.75rem;">${formatDate(n.createdAt)}</p>
+        </div>
+        ${n.read ? "" : `<button class="btn btn-outline" onclick="markRead(${n.id})">Read</button>`}
+      </div>
+    `).join("");
+  }
+
+  function markRead(id) {
+    const list = getNotifications().map((n) => n.id === id ? { ...n, read: true } : n);
+    saveNotifications(list);
+    renderNotifs();
+    if (typeof updateNotificationCount === "function") updateNotificationCount();
+  }
+
+  function markAllRead() {
+    const list = getNotifications().map((n) => ({ ...n, read: true }));
+    saveNotifications(list);
+    renderNotifs();
+  }
+
+  renderNotifs();
+</script>
+</body>
+</html>
