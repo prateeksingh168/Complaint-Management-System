@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard | ComplaintCare</title>
+  <link rel="stylesheet" href="../assets/css/main.css" />
+  <link rel="stylesheet" href="../assets/css/dashboard.css" />
+  <style>
+    .admin-filters {
+      display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 14px;
+      background: #fff; padding: 18px; border-radius: 14px; box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+      margin-bottom: 24px; border: 1px solid #e2e8f0;
+    }
+    .admin-filters input, .admin-filters select {
+      padding: 10px 14px; border: 1px solid #e2e8f0; border-radius: 10px;
+      font-family: inherit; font-size: 0.9rem; outline: none; transition: 0.2s;
+    }
+    .admin-filters input:focus, .admin-filters select:focus { border-color: #10b981; box-shadow: 0 0 0 3px rgba(16,185,129,0.15); }
+    .admin-table-wrapper { overflow-x: auto; }
+    .admin-table { width: 100%; min-width: 1100px; border-collapse: collapse; background: #fff; border-radius: 14px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
+    .admin-table th { padding: 14px 16px; text-align: left; font-size: 0.75rem; font-weight: 700; color: #475569; background: #f8fafc; text-transform: uppercase; letter-spacing: 0.5px; }
+    .admin-table td { padding: 14px 16px; border-top: 1px solid #f1f5f9; font-size: 0.85rem; vertical-align: middle; color: #1e293b; }
+    .admin-table tbody tr:hover { background: #f8fafc; }
+    .ticket-id { font-weight: 800; color: #0f172a; font-family: 'Outfit',sans-serif; }
+    .ticket-subject { max-width: 240px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 500; color: #0f172a; }
+    .badge { display: inline-block; padding: 5px 12px; border-radius: 50px; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.2px; }
+    .badge-urgent { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
+    .badge-high { background: #fff7ed; color: #c2410c; border: 1px solid #fed7aa; }
+    .badge-medium { background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; }
+    .badge-low { background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe; }
+    .badge-registered { background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe; }
+    .badge-progress { background: #fff7ed; color: #c2410c; border: 1px solid #fed7aa; }
+    .badge-review { background: #faf5ff; color: #6b21a8; border: 1px solid #e9d5ff; }
+    .badge-resolved { background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; }
+    .admin-table select { padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 8px; background: #fff; font-size: 0.82rem; cursor: pointer; min-width: 130px; }
+    .save-btn { background: linear-gradient(135deg, #10b981, #059669); color: #fff; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 700; font-size: 0.82rem; cursor: pointer; box-shadow: 0 2px 8px rgba(16,185,129,0.25); transition: 0.2s; }
+    .save-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(16,185,129,0.35); }
+    .admin-message { display: none; padding: 14px; margin-bottom: 16px; border-radius: 10px; background: #ecfdf5; color: #047857; font-weight: 600; border: 1px solid #a7f3d0; }
+    .admin-message.show { display: block; animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+
+<div class="dashboard-wrapper">
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <img src="../assets/images/logo.png" alt="Logo" style="width:36px;height:36px;border-radius:8px;" onerror="this.style.display='none';this.nextElementSibling.innerText='🎫';" />
+      <span style="font-family:'Outfit',sans-serif;font-weight:800;font-size:1.1rem;color:#fff;">Complaint<span style="color:#34d399;">Care</span></span>
+    </div>
+    <ul class="sidebar-menu">
+      <li><a href="admin-dashboard.html" class="active"><span>📊</span> Dashboard</a></li>
+      <li><a href="analytics.html"><span>📈</span> Analytics</a></li>
+      <li><a href="../index.html"><span>🌐</span> Visit Website</a></li>
+    </ul>
+    <div class="sidebar-logout"><button onclick="logout()">🚪 Logout</button></div>
+  </aside>
+
+  <div class="main-content">
+    <div class="topbar">
+      <div class="topbar-left">
+        <h2 style="font-family:'Outfit',sans-serif;color:#0f172a;">🛠️ Admin Dashboard</h2>
+        <p style="color:#64748b;font-size:0.85rem;">Manage complaints, tickets and assignments</p>
+      </div>
+      <div class="topbar-right">
+        <div style="display:flex;align-items:center;gap:10px;padding:6px 14px;background:#f1f5f9;border-radius:12px;">
+          <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#0f172a,#34d399);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:0.85rem;">A</div>
+          <div style="line-height:1.2;"><div style="font-weight:700;color:#0f172a;font-size:0.85rem;">Administrator</div><div style="font-size:0.75rem;color:#64748b;">Admin</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dashboard-body" style="padding:24px;">
+      <div id="adminMessage" class="admin-message"></div>
+
+      <div class="stats-row" style="display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:24px;">
+        <div style="background:#fff;padding:20px;border-radius:14px;border:1px solid #f1f5f9;box-shadow:0 2px 8px rgba(0,0,0,0.03);">
+          <div style="font-size:0.8rem;color:#64748b;font-weight:600;">Total Tickets</div>
+          <div style="font-size:1.6rem;font-weight:800;color:#0f172a;font-family:'Outfit',sans-serif;" id="totalTickets">0</div>
+        </div>
+        <div style="background:#fff;padding:20px;border-radius:14px;border:1px solid #f1f5f9;box-shadow:0 2px 8px rgba(0,0,0,0.03);">
+          <div style="font-size:0.8rem;color:#f59e0b;font-weight:600;">Open Tickets</div>
+          <div style="font-size:1.6rem;font-weight:800;color:#0f172a;font-family:'Outfit',sans-serif;" id="openTickets">0</div>
+        </div>
+        <div style="background:#fff;padding:20px;border-radius:14px;border:1px solid #f1f5f9;box-shadow:0 2px 8px rgba(0,0,0,0.03);">
+          <div style="font-size:0.8rem;color:#10b981;font-weight:600;">Resolved</div>
+          <div style="font-size:1.6rem;font-weight:800;color:#0f172a;font-family:'Outfit',sans-serif;" id="resolvedTickets">0</div>
+        </div>
+        <div style="background:#fff;padding:20px;border-radius:14px;border:1px solid #f1f5f9;box-shadow:0 2px 8px rgba(0,0,0,0.03);">
+          <div style="font-size:0.8rem;color:#ef4444;font-weight:600;">Urgent / High</div>
+          <div style="font-size:1.6rem;font-weight:800;color:#0f172a;font-family:'Outfit',sans-serif;" id="urgentTickets">0</div>
+        </div>
+      </div>
+
+      <div class="admin-filters">
+        <input type="text" id="searchTicket" placeholder="Search ID, subject or email..." oninput="renderAdminDashboard()" />
+        <select id="filterCategory" onchange="renderAdminDashboard()">
+          <option value="">All Categories</option>
+          <option value="Technical">Technical</option>
+          <option value="Billing">Billing</option>
+          <option value="Service">Service</option>
+          <option value="General">General</option>
+        </select>
+        <select id="filterPriority" onchange="renderAdminDashboard()">
+          <option value="">All Priorities</option>
+          <option value="Urgent">Urgent</option>
+          <option value="High">High</option>
+          <option value="Medium">Medium</option>
+          <option value="Low">Low</option>
+        </select>
+        <select id="filterStatus" onchange="renderAdminDashboard()">
+          <option value="">All Status</option>
+          <option value="Registered">Registered</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Under Review">Under Review</option>
+          <option value="Resolved">Resolved</option>
+        </select>
+      </div>
+
+      <h3 style="font-family:'Outfit',sans-serif;color:#0f172a;margin-bottom:14px;">🎫 All Complaint Tickets</h3>
+
+      <div class="admin-table-wrapper">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>ID</th><th>Subject</th><th>User Email</th><th>Category</th>
+              <th>Priority</th><th>Status</th><th>Assigned Team</th><th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="adminTicketsBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../assets/js/app.js"></script>
+<script src="../assets/js/chatbot.js"></script>
+<script src="../assets/js/tickets.js"></script>
+<script src="../assets/js/admin.js"></script>
+
+<script>
+  const user = adminGuard();
+  if (!user) { document.body.innerHTML = "<h2 style='padding:40px;text-align:center;color:#0f172a;'>Access Denied — Admin Only</h2>"; }
+
+  const teamOptions = ["Network & Technical Team","Billing & Payments Team","Customer Service Team","Customer Support","Senior Management"];
+
+  function renderAdminDashboard() {
+    const tickets = getAllTickets();
+    const open = tickets.filter(t => t.status !== "Resolved");
+    const resolved = tickets.filter(t => t.status === "Resolved");
+    const urgent = tickets.filter(t => t.priority === "Urgent" || t.priority === "High");
+
+    document.getElementById("totalTickets").textContent = tickets.length;
+    document.getElementById("openTickets").textContent = open.length;
+    document.getElementById("resolvedTickets").textContent = resolved.length;
+    document.getElementById("urgentTickets").textContent = urgent.length;
+
+    const s = document.getElementById("searchTicket").value.toLowerCase();
+    const cat = document.getElementById("filterCategory").value;
+    const pri = document.getElementById("filterPriority").value;
+    const stat = document.getElementById("filterStatus").value;
+
+    const filtered = tickets.filter(t => {
+      const matchSearch = String(t.id).includes(s) || (t.subject||"").toLowerCase().includes(s) || (t.userEmail||"").toLowerCase().includes(s);
+      return matchSearch && (!cat || t.category === cat) && (!pri || t.priority === pri) && (!stat || t.status === stat);
+    });
+
+    const tbody = document.getElementById("adminTicketsBody");
+    if (!filtered.length) {
+      tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:30px;color:#94a3b8;">No tickets found.</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = filtered.map(t => `
+      <tr>
+        <td><strong>#${t.id}</strong></td>
+        <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${t.subject||""}">${t.subject||"—"}</td>
+        <td>${t.userEmail||"Unknown"}</td>
+        <td>${categoryIcon(t.category||"General")} ${(t.category||"General")}</td>
+        <td><span class="badge ${priorityClass(t.priority||"Medium")}">${t.priority||"Medium"}</span></td>
+        <td><span class="badge ${statusClass(t.status||"Registered")}">${t.status||"Registered"}</span></td>
+        <td>
+          <select id="team-${t.id}" style="padding:6px 8px;border:1px solid #cbd5e1;border-radius:6px;font-size:0.8rem;">
+            ${teamOptions.map(tm => `<option value="${tm}" ${t.assignedTo===tm ? "selected":""}>${tm}</option>`).join("")}
+          </select>
+        </td>
+        <td>
+          <select id="status-${t.id}" style="padding:6px 8px;border:1px solid #cbd5e1;border-radius:6px;font-size:0.8rem;margin-right:6px;">
+            ${["Registered","In Progress","Under Review","Resolved"].map(st => `<option value="${st}" ${t.status===st ? "selected":""}>${st}</option>`).join("")}
+          </select>
+          <button class="save-btn" onclick="saveTicketUpdate(${t.id})">Save</button>
+        </td>
+      </tr>
+    `).join("");
+  }
+
+  function saveTicketUpdate(id) {
+    const newStatus = document.getElementById("status-"+id).value;
+    const newTeam = document.getElementById("team-"+id).value;
+    const updated = updateTicket(id, newStatus, newTeam);
+    if (updated) {
+      const msg = document.getElementById("adminMessage");
+      msg.textContent = `Ticket #${id} updated → Status: ${newStatus}, Team: ${newTeam}`;
+      msg.classList.add("show");
+      renderAdminDashboard();
+      setTimeout(() => msg.classList.remove("show"), 3000);
+    }
+  }
+
+  document.getElementById("searchTicket").addEventListener("input", renderAdminDashboard);
+  document.getElementById("filterCategory").addEventListener("change", renderAdminDashboard);
+  document.getElementById("filterPriority").addEventListener("change", renderAdminDashboard);
+  document.getElementById("filterStatus").addEventListener("change", renderAdminDashboard);
+
+  renderAdminDashboard();
+</script>
+
+</body>
+</html>
