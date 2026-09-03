@@ -90,30 +90,56 @@ if (registerForm) {
 // ---------- LOGIN ----------
 const loginForm = document.getElementById("loginForm");
 if (loginForm) {
-  loginForm.addEventListener("submit", function (e) {
+  loginForm.addEventListener("submit", async function (e) {
     e.preventDefault();
 
     const email = document.getElementById("loginEmail").value.trim().toLowerCase();
     const password = document.getElementById("loginPassword").value;
 
-    const user = getUsers().find(
-      (u) => u.email === email && u.password === password
-    );
+    if (password.length < 8) {
+      return showMessage(
+        "login-message",
+        "Password must be at least 8 characters.",
+        "error"
+      );
+    }
 
-    if (!user)
-      return showMessage("login-message", "Email ya password galat hai ❌", "error");
+    try {
+      const data = await apiRequest("/auth/login", {
+        method: "POST",
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        }),
+      });
 
-    localStorage.setItem(SESSION_KEY, JSON.stringify(user));
-    showMessage("login-message", "Login successful! Redirect... ✅", "success");
+      saveAuthTokens(data);
 
-    setTimeout(() => {
-      // Admin → admin dashboard, User → user dashboard
-      window.location.href =
-        user.role === "admin" ? "admin-dashboard.html" : "user-dashboard.html";
-    }, 1200);
+      const profile = await apiRequest("/auth/profile");
+
+      localStorage.setItem(SESSION_KEY, JSON.stringify(profile));
+
+      showMessage(
+        "login-message",
+        "Login successful! Redirecting...",
+        "success"
+      );
+
+      setTimeout(() => {
+        window.location.href =
+          profile.role === "admin"
+            ? "admin-dashboard.html"
+            : "user-dashboard.html";
+      }, 1200);
+    } catch (error) {
+      showMessage(
+        "login-message",
+        error.message || "Login failed. Please try again.",
+        "error"
+      );
+    }
   });
 }
-
 // ---------- LOGOUT (dashboard pages me use hoga) ----------
 function logout() {
   localStorage.removeItem(SESSION_KEY);
