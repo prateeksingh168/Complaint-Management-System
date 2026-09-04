@@ -1,4 +1,4 @@
-﻿/* ============================================================
+/* ============================================================
    COMPLAINTCARE AI — MASTER HACKATHON DESIGN SYSTEM
    Theme: Silicon Valley AI SaaS (Indigo, Cyan Spark & Slate)
    ============================================================ */
@@ -607,3 +607,368 @@ tr:hover {
 .notif-item:hover {
   transform: translateX(3px);
 }
+
+/* 15. Modern Hackathon-Winning Showcase & Hero Styles */
+.landing-hero {
+  position: relative;
+  overflow: hidden;
+  padding: 4.5rem 2.2rem 5rem;
+  background: radial-gradient(circle at 80% 20%, rgba(79, 70, 229, 0.12) 0%, transparent 45%),
+              radial-gradient(circle at 20% 80%, rgba(6, 182, 212, 0.1) 0%, transparent 45%),
+              linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  border-bottom: 1px solid var(--border);
+}
+.hero-container {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 3.5rem;
+  align-items: center;
+}
+.hero-content h1 {
+  font-size: 3.2rem;
+  line-height: 1.15;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--dark);
+  margin: 1.2rem 0 1rem;
+}
+.hero-content h1 span.gradient-text {
+  background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.hero-content p.hero-desc {
+  font-size: 1.12rem;
+  color: var(--slate);
+  line-height: 1.7;
+  margin-bottom: 2rem;
+  max-width: 580px;
+}
+.hero-badges-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 0.8rem;
+}
+.pulse-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  animation: pulse-green 2s infinite;
+}
+@keyframes pulse-green {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+.hero-cta-group {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+.btn-hero {
+  padding: 13px 26px;
+  font-size: 1.02rem;
+  font-weight: 700;
+  border-radius: 10px;
+  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.35);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
+}
+.btn-hero:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.45);
+}
+.btn-hero-outline {
+  padding: 13px 24px;
+  font-size: 1.02rem;
+  font-weight: 700;
+  border-radius: 10px;
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  color: var(--dark);
+  text-decoration: none;
+  transition: all 0.25s;
+}
+.btn-hero-outline:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: var(--primary-light);
+  transform: translateY(-2px);
+}
+.hero-credentials-box {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  align-items: center;
+  font-size: 0.85rem;
+  color: var(--slate);
+  background: rgba(241, 245, 249, 0.8);
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: 1px dashed #cbd5e1;
+  width: fit-content;
+}
+.cred-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  color: var(--dark);
+}
+
+/* Glass Interactive Simulator Card in Hero */
+.hero-sim-card {
+  background: #ffffff;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  border-radius: 18px;
+  box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.15), 0 0 0 1px rgba(79, 70, 229, 0.08);
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.hero-sim-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 25px 50px -12px rgba(79, 70, 229, 0.2);
+}
+.sim-header {
+  background: #0f172a;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.window-dots {
+  display: flex;
+  gap: 6px;
+}
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.dot.red { background: #ef4444; }
+.dot.yellow { background: #f59e0b; }
+.dot.green { background: #10b981; }
+.sim-title {
+  color: #94a3b8;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.sim-body {
+  padding: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.sim-prompt-box {
+  background: #f8fafc;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px;
+  font-size: 0.88rem;
+  color: #334155;
+  line-height: 1.5;
+}
+.sim-ai-result-box {
+  background: linear-gradient(135deg, #f0fdf4 0%, #ecfeff 100%);
+  border: 1.5px dashed #059669;
+  border-radius: 12px;
+  padding: 14px;
+}
+.sim-stage-strip {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+/* Stats Metric Strip */
+.stats-strip {
+  background: #ffffff;
+  border-bottom: 1px solid var(--border);
+  padding: 2.2rem 2rem;
+}
+.stats-strip-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  text-align: center;
+}
+.stat-metric-num {
+  font-size: 2.3rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  background: linear-gradient(135deg, #1e1b4b 0%, #4f46e5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.stat-metric-label {
+  font-size: 0.88rem;
+  color: var(--slate);
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+/* Pipeline Process Section */
+.section-pipeline {
+  padding: 4.5rem 2rem;
+  background: #f8fafc;
+}
+.section-header {
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto 3.5rem;
+}
+.section-header h2 {
+  font-size: 2.3rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--dark);
+  margin-top: 8px;
+}
+.section-header p {
+  color: var(--slate);
+  font-size: 1.05rem;
+  margin-top: 8px;
+}
+.pipeline-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  position: relative;
+}
+.pipeline-step-card {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.8rem 1.4rem;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: all 0.25s;
+}
+.pipeline-step-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  border-color: #cbd5e1;
+}
+.step-num-badge {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: var(--primary-light);
+  color: var(--primary);
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+}
+
+/* Feature Grid Cards */
+.features-section {
+  padding: 4.5rem 2rem;
+  background: #ffffff;
+}
+.features-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.8rem;
+}
+.feature-box {
+  background: #f8fafc;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 2rem 1.6rem;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.feature-box:hover {
+  background: #ffffff;
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px -6px rgba(15, 23, 42, 0.08);
+  border-color: #cbd5e1;
+}
+.feature-icon-bubble {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  margin-bottom: 6px;
+}
+
+/* Role Selector Callout Cards */
+.roles-section {
+  padding: 4rem 2rem 5rem;
+  background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+}
+.roles-grid {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+.role-card {
+  background: #ffffff;
+  border: 1.5px solid var(--border);
+  border-radius: 18px;
+  padding: 2.2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.25s;
+}
+.role-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+.role-card.citizen { border-top: 5px solid #4f46e5; }
+.role-card.admin { border-top: 5px solid #06b6d4; }
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .hero-container { grid-template-columns: 1fr; gap: 2.5rem; }
+  .pipeline-grid { grid-template-columns: 1fr 1fr; }
+  .features-grid { grid-template-columns: 1fr 1fr; }
+  .stats-strip-container { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 640px) {
+  .hero-content h1 { font-size: 2.4rem; }
+  .roles-grid { grid-template-columns: 1fr; }
+  .features-grid { grid-template-columns: 1fr; }
+  .pipeline-grid { grid-template-columns: 1fr; }
+  .stats-strip-container { grid-template-columns: 1fr; }
+}
+
