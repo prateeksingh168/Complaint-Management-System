@@ -16,7 +16,10 @@ from text_preprocessing import clean_text
 from priority_engine_v3 import predict_priority
 from assignment_engine import assign_ticket
 
-import joblib
+try:
+    import joblib
+except ImportError:
+    joblib = None
 
 
 # --------------------------------------------------
@@ -36,13 +39,13 @@ CATEGORY_VECTORIZER_PATH = (
 # Load Category Model
 # --------------------------------------------------
 
-category_model = joblib.load(
-    CATEGORY_MODEL_PATH
-)
-
-category_vectorizer = joblib.load(
-    CATEGORY_VECTORIZER_PATH
-)
+try:
+    import joblib
+    category_model = joblib.load(CATEGORY_MODEL_PATH)
+    category_vectorizer = joblib.load(CATEGORY_VECTORIZER_PATH)
+except Exception:
+    category_model = None
+    category_vectorizer = None
 
 
 # --------------------------------------------------
@@ -51,6 +54,19 @@ category_vectorizer = joblib.load(
 
 def predict_category(complaint_text):
     """Predict complaint category."""
+    if category_model is None or category_vectorizer is None:
+        t = str(complaint_text).lower()
+        if any(w in t for w in ["bill", "invoice", "refund", "charge", "payment", "money", "cost"]):
+            return "Billing"
+        elif any(w in t for w in ["deliver", "order", "shipping", "package", "courier", "track"]):
+            return "Delivery"
+        elif any(w in t for w in ["account", "password", "login", "auth", "otp", "access", "lock"]):
+            return "Account"
+        elif any(w in t for w in ["service", "agent", "staff", "behavior", "support", "rude"]):
+            return "Service"
+        elif any(w in t for w in ["bug", "error", "crash", "website", "app", "server", "slow", "down"]):
+            return "Technical"
+        return "Other"
 
     cleaned_text = clean_text(
         complaint_text

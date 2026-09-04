@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>User Portal | ComplaintCare AI</title>
+  <link rel="icon" type="image/png" href="images/logo.png" />
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body onload="initUserPortal()">
+
+  <nav class="navbar">
+    <a href="index.html" class="logo-container">
+      <img src="images/logo.png" alt="Logo" class="app-logo" />
+      <span>ComplaintCare <small style="font-size:0.75rem; color:var(--slate); font-weight:normal;">[User Portal]</small></span>
+    </a>
+    <div class="nav-links">
+      <span class="badge" id="backendStatusBadge" style="background:#10b981; color:#fff; font-weight:700; font-size:0.75rem;">🟢 Live API & SQLite DB Connected</span>
+      <span id="userGreeting" style="font-weight:600;">Welcome!</span>
+      <button onclick="logout()" class="btn btn-outline btn-sm">Log Out</button>
+    </div>
+  </nav>
+
+  <div class="app-layout">
+    <div class="sidebar">
+      <button class="sidebar-btn active" onclick="showTab('tab-dashboard', this)">📊 My Dashboard</button>
+      <button class="sidebar-btn" onclick="showTab('tab-chatbot', this)">🥝 Kiwi (AI Chatbot)</button>
+      <button class="sidebar-btn" onclick="showTab('tab-complaint', this)">📝 Lodge Complaint 🎙️</button>
+      <button class="sidebar-btn" onclick="showTab('tab-tracking', this)">📍 Ticket Tracking</button>
+      <button class="sidebar-btn" onclick="showTab('tab-notifications', this); markAllNotificationsRead();">
+        🔔 Notifications <span id="notifBadge" class="badge badge-urgent" style="display:none; margin-left:auto;">0</span>
+      </button>
+      <button class="sidebar-btn" onclick="showTab('tab-faq', this)">📚 Self-Help FAQs</button>
+      <button class="sidebar-btn" onclick="showTab('tab-profile', this)">👤 Profile</button>
+    </div>
+
+    <div class="main-content">
+      
+      <!-- 1. DASHBOARD -->
+      <div id="tab-dashboard" class="tab-pane">
+        <h2>My Complaints & Tickets</h2>
+        <p style="color:var(--slate); margin-bottom:1.5rem;">Real-time tracking of grievances lodged under your account.</p>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <span class="stat-title">My Registered Complaints</span>
+            <span class="stat-value" id="userTotal">0</span>
+          </div>
+          <div class="stat-card" style="border-left-color: var(--warning);">
+            <span class="stat-title">Pending / Registered</span>
+            <span class="stat-value" id="userReg">0</span>
+          </div>
+          <div class="stat-card" style="border-left-color: var(--primary);">
+            <span class="stat-title">In Progress / Review</span>
+            <span class="stat-value" id="userProg">0</span>
+          </div>
+          <div class="stat-card" style="border-left-color: var(--success);">
+            <span class="stat-title">Resolved</span>
+            <span class="stat-value" id="userRes">0</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+            <h3>My Complaints History</h3>
+            <div style="display:flex; gap:8px;">
+              <button class="btn btn-outline btn-sm" onclick="showTab('tab-complaint', document.querySelectorAll('.sidebar-btn')[2])">🎙️ Speak Complaint</button>
+              <button class="btn btn-primary btn-sm" onclick="showTab('tab-chatbot', document.querySelectorAll('.sidebar-btn')[1])">Chat with Kiwi 🥝</button>
+            </div>
+          </div>
+          
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Ticket ID</th>
+                  <th>Grievance Summary</th>
+                  <th>AI Category</th>
+                  <th>AI Priority</th>
+                  <th>Status / Stage</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="userRecentTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. CHATBOT -->
+      <div id="tab-chatbot" class="tab-pane" style="display:none;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:0.8rem;">
+  <div>
+    <h2>🥝 Kiwi 2.0 — Voice AI Grievance Assistant</h2>
+    <p style="color:var(--slate); font-size:0.88rem;">Speaks in AI voice, understands natural grievances & renders live action cards.</p>
+  </div>
+  <div style="display:flex; gap:8px;">
+    <button type="button" id="voiceToggleBtn" class="btn btn-primary btn-sm" onclick="toggleVoiceOutput()">🔊 Voice: ON</button>
+    <button type="button" id="langToggleBtn" class="btn btn-outline btn-sm" onclick="toggleLanguageMode()">🌐 Lang: English</button>
+    <button type="button" class="btn btn-outline btn-sm" onclick="requestHumanHandoff()">🧑‍💼 Talk to Human</button>
+  </div>
+</div>
+
+        <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px;">
+          <button class="btn btn-outline btn-sm" onclick="askKiwi('How to track ticket?')">📍 How to track?</button>
+          <button class="btn btn-outline btn-sm" onclick="askKiwi('What is your refund policy?')">💳 Refund Policy</button>
+          <button class="btn btn-outline btn-sm" onclick="askKiwi('Money was deducted from my account but order failed')">🚨 Payment Deducted Issue</button>
+          <button class="btn btn-outline btn-sm" onclick="askKiwi('Website is giving 500 error when logging in')">💻 Login Crash Issue</button>
+        </div>
+
+        <div class="chat-container">
+          <div class="chat-messages" id="chatMessages">
+            <div class="msg msg-bot">
+              👋 Hi! I'm <strong>Kiwi 🥝</strong>.<br>
+              Describe any problem you are facing, and I will auto-create your complaint ticket with category and priority!
+            </div>
+          </div>
+          <div class="chat-input-row">
+  <button type="button" id="kiwiMicBtn" class="mic-btn" style="width:40px; height:40px; font-size:1.1rem;" onclick="toggleKiwiVoiceInput()" title="Speak to Kiwi">🎙️</button>
+  <input type="text" id="chatInput" class="form-control" placeholder="Ask Kiwi or describe your issue (or click mic)..." onkeydown="if(event.key==='Enter') sendChat()" style="margin:0;" />
+  <button class="btn btn-primary" onclick="sendChat()">Send 🚀</button>
+</div>
+        </div>
+      </div>
+
+      <!-- 3. LODGE COMPLAINT -->
+      <div id="tab-complaint" class="tab-pane" style="display:none;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+          <div>
+            <h2>📝 Smart AI Complaint Registration</h2>
+            <p style="color:var(--slate); font-size:0.9rem;">Type or speak your complaint. AI auto-detects urgency, category & department.</p>
+          </div>
+          <button type="button" id="voiceBtn" class="mic-btn" onclick="toggleVoiceInput()" title="Speak complaint">🎙️</button>
+        </div>
+
+        <div class="card" style="max-width: 680px;">
+          <form onsubmit="handleFormComplaint(event)">
+            
+            <div class="form-group">
+              <label>Complaint Title</label>
+              <input type="text" id="compTitle" class="form-control" placeholder="Brief subject of grievance..." required oninput="triggerAIDetection()" />
+            </div>
+
+            <div class="form-group">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                <label style="margin:0;">Detailed Description (Voice or Text)</label>
+                <span id="voiceStatusText" style="font-size:0.8rem; color:#4f46e5; font-weight:600;"></span>
+              </div>
+              <textarea id="compDesc" class="form-control" rows="5" placeholder="Explain what went wrong in detail (or click the microphone icon above to speak)..." required oninput="triggerAIDetection()"></textarea>
+            </div>
+
+            <!-- Distress Meter -->
+            <div class="distress-meter-box">
+              <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.85rem; font-weight:700;">
+                <span>🧠 AI Live Sentiment & Distress Meter:</span>
+                <span id="distressScoreLabel" style="color:#10b981;">🟢 Calm / Normal (15%)</span>
+              </div>
+              <div class="meter-track">
+                <div id="distressMeterBar" class="meter-fill" style="width: 15%; background: #10b981;"></div>
+              </div>
+            </div>
+
+            <!-- AI Real-Time Card -->
+            <div class="card" style="background:#f0fdf4; border: 1.5px dashed #16a34a; padding:12px; margin: 1rem 0;">
+              <div style="font-weight:700; color:#15803d; margin-bottom:6px; display:flex; align-items:center; gap:6px;">
+                <span>🤖 AI Intelligent Auto-Routing:</span>
+              </div>
+              <div style="display:flex; gap:16px; flex-wrap:wrap; font-size:0.9rem;">
+                <div><strong>Category:</strong> <span id="aiCatBadge" class="badge badge-registered">General</span></div>
+                <div><strong>Priority:</strong> <span id="aiPrioBadge" class="badge badge-medium">Medium</span></div>
+                <div><strong>Department:</strong> <span id="aiTeamText" style="font-weight:600; color:var(--dark);">General Support Team</span></div>
+              </div>
+            </div>
+
+            <!-- Screenshot Upload -->
+            <div class="form-group">
+              <label>Attach Evidence / Screenshot (Optional)</label>
+              <div class="upload-dropzone" onclick="document.getElementById('evidenceFile').click()">
+                <span style="font-size:1.4rem;">📎</span>
+                <p style="margin:4px 0 0; font-size:0.85rem; color:var(--slate);">Click to upload screenshot or transaction receipt</p>
+                <input type="file" id="evidenceFile" accept="image/*" style="display:none;" onchange="previewEvidence(event)" />
+                <img id="evidencePreviewImg" class="file-preview-thumb" style="display:none;" />
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width:100%; padding:12px; font-size:1rem;">Submit Grievance 🚀</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- 4. TRACKING & LIVE SLIP -->
+      <div id="tab-tracking" class="tab-pane" style="display:none;">
+        <h2>📍 Live Ticket Stage Tracking</h2>
+        <p style="color:var(--slate); margin-bottom:1rem;">Follow your complaint through the 4-stage resolution pipeline.</p>
+
+        <div class="card">
+          <div style="display:flex; gap:10px; margin-bottom:1.5rem;">
+            <input type="text" id="trackInput" class="form-control" style="max-width:300px; margin:0;" placeholder="Enter Ticket ID (e.g. CMP-10025)" />
+            <button class="btn btn-primary" onclick="trackSelectedTicket()">Track Status</button>
+          </div>
+
+          <div id="trackResultBox" style="display:none;">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+              <div>
+                <h3 id="trackTicketTitle" style="color:var(--primary); margin:0;">Ticket</h3>
+                <p id="trackTicketMeta" style="color:var(--slate); font-size:0.85rem; margin-top:2px;"></p>
+              </div>
+              <div style="display:flex; gap:8px;">
+                <button class="btn btn-outline btn-sm" onclick="printOfficialSlip()">📄 Download Slip / Receipt</button>
+                <button class="btn btn-danger btn-sm" onclick="requestUserEscalation()">🚨 Request Urgent Escalation</button>
+              </div>
+            </div>
+
+            <div class="stepper-container">
+              <div class="stepper">
+                <div class="step" id="step-registered">
+                  <div class="step-icon">1</div>
+                  <div class="step-label">Registered</div>
+                </div>
+                <div class="step" id="step-progress">
+                  <div class="step-icon">2</div>
+                  <div class="step-label">In Progress</div>
+                </div>
+                <div class="step" id="step-review">
+                  <div class="step-icon">3</div>
+                  <div class="step-label">Under Review</div>
+                </div>
+                <div class="step" id="step-resolved">
+                  <div class="step-icon">4</div>
+                  <div class="step-label">Resolved</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card" style="background:#f8fafc; border-left:4px solid var(--primary); margin-top:1.5rem;">
+              <strong>Complaint Details:</strong>
+              <p id="trackDescText" style="margin-top:6px; font-size:0.95rem;"></p>
+              <p style="margin-top:8px;"><strong>Assigned Department:</strong> <span id="trackTeamText"></span></p>
+              <div id="trackEvidenceBox" style="margin-top:8px; display:none;">
+                <strong>Attached Evidence:</strong><br>
+                <img id="trackEvidenceImg" style="max-height:120px; border-radius:6px; margin-top:4px;" />
+              </div>
+            </div>
+
+            <!-- CSAT Star Rating -->
+            <div id="resolvedFeedbackBox" class="card" style="display:none; background:#fefce8; border:1.5px solid #facc15; padding:1.2rem; text-align:center;">
+              <h4 style="color:#854d0e; margin:0 0 6px;">🎉 Ticket Has Been Resolved!</h4>
+              <p style="font-size:0.85rem; color:#713f12; margin-bottom:8px;">How satisfied are you with the resolution?</p>
+              <div class="star-rating" style="justify-content:center;" id="starContainer">
+                <span class="star" onclick="rateTicket(1)">★</span>
+                <span class="star" onclick="rateTicket(2)">★</span>
+                <span class="star" onclick="rateTicket(3)">★</span>
+                <span class="star" onclick="rateTicket(4)">★</span>
+                <span class="star" onclick="rateTicket(5)">★</span>
+              </div>
+              <p id="ratingStatusText" style="font-size:0.85rem; color:#15803d; font-weight:700; margin-top:6px;"></p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. NOTIFICATIONS -->
+      <div id="tab-notifications" class="tab-pane" style="display:none;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+          <div>
+            <h2>🔔 My Notifications</h2>
+            <p style="color:var(--slate); font-size:0.9rem;">Real-time stage updates sent when Admin updates your ticket.</p>
+          </div>
+          <button class="btn btn-outline btn-sm" onclick="markAllNotificationsRead()">Mark All as Read ✓</button>
+        </div>
+        <div id="notificationsContainer"></div>
+      </div>
+
+      <!-- 6. FAQ LIBRARY -->
+      <div id="tab-faq" class="tab-pane" style="display:none;">
+        <h2>📚 Citizen Self-Help Knowledge Base</h2>
+        <p style="color:var(--slate); margin-bottom:1.5rem;">Find quick solutions without waiting for an agent.</p>
+
+        <div class="card" style="margin-bottom:10px;">
+          <strong>💳 When will my refund be processed?</strong>
+          <p style="color:var(--slate); font-size:0.9rem; margin-top:4px;">Refunds are processed to the source account within 5-7 business working days once approved by Billing & Finance.</p>
+        </div>
+        <div class="card" style="margin-bottom:10px;">
+          <strong>⚡ What happens if my ticket is marked Urgent?</strong>
+          <p style="color:var(--slate); font-size:0.9rem; margin-top:4px;">Urgent tickets have a 12-24 hour SLA window. If unresolved, they escalate automatically to Senior Management.</p>
+        </div>
+        <div class="card" style="margin-bottom:10px;">
+          <strong>🔒 How do I update my profile details?</strong>
+          <p style="color:var(--slate); font-size:0.9rem; margin-top:4px;">You can visit the 'Profile' tab on the left to edit your personal details and contact preferences.</p>
+        </div>
+      </div>
+
+      <!-- 7. PROFILE -->
+      <div id="tab-profile" class="tab-pane" style="display:none;">
+        <h2>👤 Profile Details</h2>
+        <div class="card" style="max-width:500px;">
+          <div class="form-group">
+            <label>Name</label>
+            <input type="text" id="profName" class="form-control" />
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="profEmail" class="form-control" disabled />
+          </div>
+          <div class="form-group">
+            <label>Account Role</label>
+            <input type="text" id="profRole" class="form-control" disabled />
+          </div>
+          <button class="btn btn-success" onclick="updateProfile()">Save Changes</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- POPUP ACKNOWLEDGEMENT SLIP MODAL -->
+  <div class="modal-overlay" id="slipModal">
+    <div class="modal-content" style="max-width:650px;">
+      <div class="receipt-card" id="printableSlip">
+        <div class="receipt-header">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <img src="images/logo.png" alt="Logo" style="height:46px;" />
+            <div>
+              <h3 style="margin:0; color:#0f172a;">ComplaintCare AI</h3>
+              <small style="color:var(--slate);">Central Grievance Redressal Authority</small>
+            </div>
+          </div>
+          <div class="qr-seal">
+            OFFICIAL<br>VERIFIED<br>SEAL
+          </div>
+        </div>
+
+        <h4 style="text-align:center; text-transform:uppercase; letter-spacing:1px; margin-bottom:1.2rem; color:#0f172a;">
+          Grievance Acknowledgement Slip
+        </h4>
+        
+        <table style="width:100%; margin-bottom:1.2rem;">
+          <tr>
+            <td style="width:38%; font-weight:700; color:#334155;">Ticket Number:</td>
+            <td id="slipId" style="font-weight:800; font-size:1.05rem; color:#4f46e5;"></td>
+          </tr>
+          <tr>
+            <td style="font-weight:700; color:#334155;">Filing Date & Time:</td>
+            <td id="slipTime" style="color:#0f172a; font-weight:600;"></td>
+          </tr>
+          <tr>
+            <td style="font-weight:700; color:#334155;">Citizen Name:</td>
+            <td id="slipName" style="color:#0f172a; font-weight:600;"></td>
+          </tr>
+          <tr>
+            <td style="font-weight:700; color:#334155;">Classified Category:</td>
+            <td id="slipCategory" style="color:#0f172a; font-weight:600;"></td>
+          </tr>
+          <tr>
+            <td style="font-weight:700; color:#334155;">Assigned Priority:</td>
+            <td id="slipPriority" style="color:#0f172a; font-weight:600;"></td>
+          </tr>
+          <tr>
+            <td style="font-weight:700; color:#334155;">Assigned Department:</td>
+            <td id="slipTeam" style="color:#0f172a; font-weight:600;"></td>
+          </tr>
+          <tr>
+            <td style="font-weight:700; color:#334155;">Current Resolution Stage:</td>
+            <td><span id="slipStatus" class="badge badge-registered">Registered</span></td>
+          </tr>
+        </table>
+
+        <div style="background:#f8fafc; border-left:4px solid #4f46e5; padding:12px; border-radius:6px; font-size:0.9rem; margin-bottom:1rem;">
+          <strong>Grievance Description:</strong>
+          <p id="slipDesc" style="margin:4px 0 0; color:#334155; line-height:1.5;"></p>
+        </div>
+
+        <p style="font-size:0.75rem; color:var(--slate); text-align:center;">This is an electronically generated grievance acknowledgement slip with verification seal.</p>
+      </div>
+
+      <div style="margin-top:1.2rem; display:flex; justify-content:flex-end; gap:10px;">
+        <button type="button" class="btn btn-outline btn-sm" onclick="closeSlipModal()">Close</button>
+        <button type="button" class="btn btn-primary btn-sm" onclick="window.print()">🖨️ Print / Save PDF</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script src="js/chatbot.js"></script>
+  <script>
+    let attachedImageData = "";
+    let activeTrackedTicketId = "";
+    let isSpeechActive = false;
+    let recognition = null;
+
+    function initUserPortal() {
+      const user = getCurrentUser();
+      if (!user) {
+        window.location.href = "login.html?role=user";
+        return;
+      }
+      if (user.role === "admin") {
+        window.location.href = "admin-dashboard.html";
+        return;
+      }
+      if (document.getElementById("userGreeting")) document.getElementById("userGreeting").innerText = `Hello, ${user.name} 👋 (${user.email})`;
+      if (document.getElementById("profName")) document.getElementById("profName").value = user.name;
+      if (document.getElementById("profEmail")) document.getElementById("profEmail").value = user.email;
+      if (document.getElementById("profRole")) document.getElementById("profRole").value = (user.role || "user").toUpperCase();
+      loadUserDashboard();
+      loadUserNotifications();
+      initSpeechRecognition();
+    }
+
+    function showTab(tabId, btn) {
+      document.querySelectorAll(".tab-pane").forEach(el => el.style.display = "none");
+      document.querySelectorAll(".sidebar-btn").forEach(el => el.classList.remove("active"));
+      const target = document.getElementById(tabId);
+      if (target) target.style.display = "block";
+      if (btn) btn.classList.add("active");
+    }
+
+    function initSpeechRecognition() {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (SpeechRecognition) {
+        recognition = new SpeechRecognition();
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        recognition.lang = "en-US";
+
+        recognition.onstart = function() {
+          isSpeechActive = true;
+          document.getElementById("voiceBtn").classList.add("listening");
+          document.getElementById("voiceStatusText").innerText = "🎙️ Listening... Speak now!";
+        };
+
+        recognition.onresult = function(event) {
+          const transcript = event.results[0][0].transcript;
+          const descInput = document.getElementById("compDesc");
+          descInput.value = (descInput.value + " " + transcript).trim();
+          triggerAIDetection();
+        };
+
+        recognition.onerror = function() { stopVoice(); };
+        recognition.onend = function() { stopVoice(); };
+      }
+    }
+
+    function toggleVoiceInput() {
+      if (!recognition) {
+        alert("Speech Recognition not supported in this browser. Please type your complaint.");
+        return;
+      }
+      if (!isSpeechActive) {
+        recognition.start();
+      } else {
+        recognition.stop();
+        stopVoice();
+      }
+    }
+
+    function stopVoice() {
+      isSpeechActive = false;
+      const btn = document.getElementById("voiceBtn");
+      if (btn) btn.classList.remove("listening");
+      const text = document.getElementById("voiceStatusText");
+      if (text) text.innerText = "";
+    }
+
+    function triggerAIDetection() {
+      const title = document.getElementById("compTitle").value;
+      const desc = document.getElementById("compDesc").value;
+      const fullText = `${title} ${desc}`.toLowerCase();
+      const ai = predictComplaintAI(fullText);
+
+      document.getElementById("aiCatBadge").innerText = ai.category;
+      document.getElementById("aiPrioBadge").innerText = ai.priority;
+      document.getElementById("aiPrioBadge").className = `badge badge-${ai.priority.toLowerCase()}`;
+      document.getElementById("aiTeamText").innerText = ai.team;
+
+      const distressWords = ["worst", "scam", "cheat", "deduct", "lost", "frustrated", "immediately", "down", "fail", "terrible", "stolen", "illegal", "unauthorized", "urgent", "broken"];
+      let score = 15;
+      distressWords.forEach(w => { if (fullText.includes(w)) score += 18; });
+      score = Math.min(score, 95);
+
+      const bar = document.getElementById("distressMeterBar");
+      const label = document.getElementById("distressScoreLabel");
+
+      bar.style.width = `${score}%`;
+      if (score >= 70) {
+        bar.style.background = "#ef4444";
+        label.innerText = `🔴 Severe Distress (${score}%) - Auto-Urgent`;
+        label.style.color = "#ef4444";
+        document.getElementById("aiPrioBadge").innerText = "Urgent";
+        document.getElementById("aiPrioBadge").className = "badge badge-urgent";
+      } else if (score >= 40) {
+        bar.style.background = "#f59e0b";
+        label.innerText = `🟡 Concerned (${score}%)`;
+        label.style.color = "#f59e0b";
+      } else {
+        bar.style.background = "#10b981";
+        label.innerText = `🟢 Calm / Normal (${score}%)`;
+        label.style.color = "#10b981";
+      }
+    }
+
+    function previewEvidence(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          attachedImageData = evt.target.result;
+          const img = document.getElementById("evidencePreviewImg");
+          img.src = attachedImageData;
+          img.style.display = "inline-block";
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function loadUserDashboard() {
+      const user = getCurrentUser();
+      const allTickets = getTickets();
+      const myTickets = allTickets.filter(t => (t.user_email || "").toLowerCase() === user.email.toLowerCase());
+
+      if (document.getElementById("userTotal")) document.getElementById("userTotal").innerText = myTickets.length;
+      if (document.getElementById("userReg")) document.getElementById("userReg").innerText = myTickets.filter(t => (t.status || "") === "Registered").length;
+      if (document.getElementById("userProg")) document.getElementById("userProg").innerText = myTickets.filter(t => t.status === "In Progress" || t.status === "Under Review").length;
+      if (document.getElementById("userRes")) document.getElementById("userRes").innerText = myTickets.filter(t => (t.status || "") === "Resolved").length;
+
+      const tbody = document.getElementById("userRecentTable");
+      if (!tbody) return;
+
+      if (myTickets.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:var(--slate); padding:20px;">No complaints filed yet. Speak or write your first complaint!</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = myTickets.map(t => {
+        const prio = (t.priority || "Medium").toLowerCase();
+        const stat = t.status || "Registered";
+        const desc = (t.complaint_text || "No description").slice(0, 38);
+        return `
+          <tr>
+            <td><strong>${t.ticket_id}</strong></td>
+            <td>${desc}...</td>
+            <td><span class="badge badge-registered">${t.category || 'General'}</span></td>
+            <td><span class="badge badge-${prio}">${t.priority || 'Medium'}</span></td>
+            <td><span class="badge badge-${stat === 'Resolved' ? 'resolved' : 'progress'}">${stat}</span></td>
+            <td>
+              <div style="display:flex; gap:6px;">
+                <button class="btn btn-outline btn-sm" onclick="trackTicketById('${t.ticket_id}')">Track 📍</button>
+                <button class="btn btn-outline btn-sm" onclick="printOfficialSlip('${t.ticket_id}')" title="View Acknowledgement Slip">📄</button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    // Submit complaint & Auto-Open Official Slip Modal
+    async function handleFormComplaint(e) {
+      e.preventDefault();
+      const title = document.getElementById("compTitle").value.trim();
+      const desc = document.getElementById("compDesc").value.trim();
+      const fullText = `${title}: ${desc}`;
+      const ai = predictComplaintAI(fullText);
+
+      let newId = "CMP-" + Math.floor(10000 + Math.random() * 90000);
+      const user = getCurrentUser();
+      const realTime = getLocalTimestamp();
+
+      let finalPriority = (document.getElementById("aiPrioBadge") && document.getElementById("aiPrioBadge").innerText) || ai.priority;
+      let finalCategory = (document.getElementById("aiCatBadge") && document.getElementById("aiCatBadge").innerText) || ai.category;
+      let finalTeam = (document.getElementById("aiTeamText") && document.getElementById("aiTeamText").innerText) || ai.team;
+
+      // Live FastAPI Backend Call
+      try {
+        const apiRes = await apiCreateComplaint(fullText, finalCategory, finalPriority);
+        if (apiRes && apiRes.complaint_id) {
+          newId = apiRes.complaint_id;
+          if (apiRes.category) finalCategory = apiRes.category;
+          if (apiRes.priority) finalPriority = apiRes.priority;
+          if (apiRes.recommended_team) finalTeam = apiRes.recommended_team;
+        }
+      } catch (err) {
+        console.warn("Local fallback ticket creation:", err);
+      }
+
+      const ticket = {
+        ticket_id: newId,
+        user_email: user.email || "user@demo.com",
+        user_name: user.name || "Rahul Sharma",
+        complaint_text: fullText,
+        category: finalCategory,
+        priority: finalPriority,
+        assigned_team: finalTeam,
+        status: "Registered",
+        created_at: realTime,
+        evidence: attachedImageData || null
+      };
+
+      const list = getTickets();
+      list.unshift(ticket);
+      saveTickets(list);
+
+      addNotification(user.email, "Complaint Registered", `Your complaint ${newId} registered at ${realTime}.`);
+
+      // Reset form
+      document.getElementById("compTitle").value = "";
+      document.getElementById("compDesc").value = "";
+      attachedImageData = "";
+      document.getElementById("evidencePreviewImg").style.display = "none";
+      triggerAIDetection();
+      loadUserDashboard();
+      loadUserNotifications();
+      activeTrackedTicketId = newId;
+
+      // Automatically Open the Official Slip Modal with full information!
+      showOfficialSlip(ticket);
+    }
+
+    function showOfficialSlip(ticket) {
+      if (!ticket) return;
+      document.getElementById("slipId").innerText = ticket.ticket_id || "CMP-PENDING";
+      document.getElementById("slipTime").innerText = ticket.created_at || getLocalTimestamp();
+      document.getElementById("slipName").innerText = ticket.user_name || "Citizen User";
+      document.getElementById("slipCategory").innerText = ticket.category || "General Support";
+      document.getElementById("slipPriority").innerText = ticket.priority || "Medium";
+      document.getElementById("slipTeam").innerText = ticket.assigned_team || "Support Team";
+      document.getElementById("slipStatus").innerText = ticket.status || "Registered";
+      document.getElementById("slipDesc").innerText = ticket.complaint_text || "No description provided.";
+
+      const modal = document.getElementById("slipModal");
+      if (modal) modal.style.display = "flex";
+    }
+
+    function printOfficialSlip(specificId) {
+      const targetId = specificId || activeTrackedTicketId || (document.getElementById("trackInput") ? document.getElementById("trackInput").value.trim() : "");
+      const tickets = getTickets();
+      const ticket = tickets.find(t => (t.ticket_id || "").toLowerCase() === (targetId || "").toLowerCase());
+      
+      if (!ticket) {
+        alert("Please select or track a valid complaint first.");
+        return;
+      }
+      showOfficialSlip(ticket);
+    }
+
+    function closeSlipModal() {
+      const modal = document.getElementById("slipModal");
+      if (modal) modal.style.display = "none";
+    }
+
+    function trackTicketById(id) {
+      const input = document.getElementById("trackInput");
+      if (input) input.value = id;
+      showTab('tab-tracking', document.querySelectorAll(".sidebar-btn")[3]);
+      trackSelectedTicket();
+    }
+
+    function trackSelectedTicket() {
+      const input = document.getElementById("trackInput");
+      if (!input) return;
+      const id = input.value.trim();
+      const ticket = getTickets().find(t => (t.ticket_id || "").toLowerCase() === id.toLowerCase());
+      const box = document.getElementById("trackResultBox");
+
+      if (!ticket) {
+        alert("Ticket not found. Check the ID.");
+        return;
+      }
+
+      activeTrackedTicketId = ticket.ticket_id;
+      box.style.display = "block";
+      document.getElementById("trackTicketTitle").innerText = `Ticket ${ticket.ticket_id}`;
+      document.getElementById("trackTicketMeta").innerText = `Filed by: ${ticket.user_name} | Category: ${ticket.category} | Priority: ${ticket.priority} | Stage: ${ticket.status}`;
+      document.getElementById("trackDescText").innerText = ticket.complaint_text || "";
+      document.getElementById("trackTeamText").innerText = ticket.assigned_team || "Support Team";
+
+      const evBox = document.getElementById("trackEvidenceBox");
+      const evImg = document.getElementById("trackEvidenceImg");
+      if (ticket.evidence) {
+        evImg.src = ticket.evidence;
+        evBox.style.display = "block";
+      } else {
+        evBox.style.display = "none";
+      }
+
+      const stages = ["Registered", "In Progress", "Under Review", "Resolved"];
+      const currentIdx = stages.indexOf(ticket.status || "Registered");
+
+      const stepIds = ["step-registered", "step-progress", "step-review", "step-resolved"];
+      stepIds.forEach((sId, idx) => {
+        const el = document.getElementById(sId);
+        if (!el) return;
+        el.className = "step";
+        if (idx < currentIdx) el.classList.add("completed");
+        else if (idx === currentIdx) el.classList.add("active");
+      });
+
+      const feedbackBox = document.getElementById("resolvedFeedbackBox");
+      if (ticket.status === "Resolved") {
+        feedbackBox.style.display = "block";
+        highlightStars(ticket.rating || 0);
+        if (ticket.rating) {
+          document.getElementById("ratingStatusText").innerText = `You rated this resolution ${ticket.rating} / 5 Stars ⭐`;
+        } else {
+          document.getElementById("ratingStatusText").innerText = "";
+        }
+      } else {
+        feedbackBox.style.display = "none";
+      }
+    }
+
+    function rateTicket(stars) {
+      if (!activeTrackedTicketId) return;
+      const tickets = getTickets();
+      const ticket = tickets.find(t => t.ticket_id === activeTrackedTicketId);
+      if (ticket) {
+        ticket.rating = stars;
+        saveTickets(tickets);
+        highlightStars(stars);
+        document.getElementById("ratingStatusText").innerText = `Thank you! Rated ${stars} / 5 Stars ⭐ (Feedback recorded for Admin)`;
+      }
+    }
+
+    function highlightStars(count) {
+      const stars = document.querySelectorAll("#starContainer .star");
+      stars.forEach((s, idx) => {
+        if (idx < count) s.classList.add("active");
+        else s.classList.remove("active");
+      });
+    }
+
+    function requestUserEscalation() {
+      if (!activeTrackedTicketId) return;
+      const tickets = getTickets();
+      const ticket = tickets.find(t => t.ticket_id === activeTrackedTicketId);
+      if (ticket) {
+        ticket.priority = "Urgent";
+        ticket.status = "Under Review";
+        saveTickets(tickets);
+        alert(`🚨 Escalation Alert Dispatched!\nTicket ${activeTrackedTicketId} has been marked URGENT and escalated to Admin.`);
+        trackSelectedTicket();
+      }
+    }
+
+    function loadUserNotifications() {
+      const user = getCurrentUser();
+      const notifs = getNotifications(user.email);
+      const container = document.getElementById("notificationsContainer");
+      const badge = document.getElementById("notifBadge");
+      const unreadCount = notifs.filter(n => !n.read).length;
+
+      if (badge) {
+        if (unreadCount > 0) {
+          badge.innerText = unreadCount;
+          badge.style.display = "inline-block";
+        } else {
+          badge.innerText = "0";
+          badge.style.display = "none";
+        }
+      }
+
+      if (!container) return;
+      if (notifs.length === 0) {
+        container.innerHTML = "<p style='color:var(--slate);'>No notifications yet.</p>";
+        return;
+      }
+
+      container.innerHTML = notifs.map(n => `
+        <div class="notif-item ${n.read ? '' : 'unread'}" style="${n.read ? 'opacity:0.85;' : 'border-left:4px solid var(--primary); background:var(--primary-light);'}">
+          <div>
+            <strong>${n.title}</strong>
+            <p style="font-size:0.85rem; color:var(--slate); margin-top:2px;">${n.message}</p>
+          </div>
+          <span style="font-size:0.8rem; font-weight:600; color:var(--slate); white-space:nowrap; margin-left:10px;">${n.time}</span>
+        </div>
+      `).join("");
+    }
+
+    function markAllNotificationsRead() {
+      const user = getCurrentUser();
+      const raw = localStorage.getItem("cms_notifications");
+      if (raw) {
+        try {
+          const allNotifs = JSON.parse(raw);
+          allNotifs.forEach(n => {
+            if ((n.user_email || "").toLowerCase() === user.email.toLowerCase()) n.read = true;
+          });
+          localStorage.setItem("cms_notifications", JSON.stringify(allNotifs));
+        } catch (e) {}
+      }
+      const badge = document.getElementById("notifBadge");
+      if (badge) { badge.innerText = "0"; badge.style.display = "none"; }
+      loadUserNotifications();
+    }
+
+    function updateProfile() {
+      const user = getCurrentUser();
+      const nameInput = document.getElementById("profName");
+      if (nameInput) user.name = nameInput.value;
+      localStorage.setItem("cms_current_user", JSON.stringify(user));
+      if (document.getElementById("userGreeting")) document.getElementById("userGreeting").innerText = `Hello, ${user.name} 👋 (${user.email})`;
+      alert("Profile updated successfully!");
+    }
+  </script>
+</body>
+</html>
+

@@ -6,7 +6,7 @@ from pydantic import BaseModel, ConfigDict, EmailStr, Field
 class UserRegister(BaseModel):
     name: str = Field(..., min_length=2, max_length=100, json_schema_extra={"example": "Jane Doe"})
     email: EmailStr = Field(..., json_schema_extra={"example": "jane.doe@example.com"})
-    password: str = Field(..., min_length=8, json_schema_extra={"example": "SecurePassword123!"})
+    password: str = Field(..., min_length=6, json_schema_extra={"example": "SecurePassword123!"})
     role: str = Field(default="user", json_schema_extra={"example": "user"})
 
 
@@ -15,7 +15,7 @@ UserCreate = UserRegister
 
 class UserLogin(BaseModel):
     email: EmailStr = Field(..., json_schema_extra={"example": "jane.doe@example.com"})
-    password: str = Field(..., min_length=8, json_schema_extra={"example": "SecurePassword123!"})
+    password: str = Field(..., min_length=6, json_schema_extra={"example": "SecurePassword123!"})
 
 
 class RefreshRequest(BaseModel):

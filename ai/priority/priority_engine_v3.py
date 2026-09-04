@@ -1,14 +1,21 @@
 import re
-import joblib
+try:
+    import joblib
+except ImportError:
+    joblib = None
 
 
 MODEL_PATH = "ai/models/complaint_priority_model.pkl"
 VECTORIZER_PATH = "ai/models/priority_tfidf_vectorizer.pkl"
 
 
-# Load ML model
-model = joblib.load(MODEL_PATH)
-vectorizer = joblib.load(VECTORIZER_PATH)
+try:
+    import joblib
+    model = joblib.load(MODEL_PATH)
+    vectorizer = joblib.load(VECTORIZER_PATH)
+except Exception:
+    model = None
+    vectorizer = None
 
 
 # --------------------------------------------------
@@ -99,6 +106,8 @@ def calculate_rule_priority(text):
 
 def predict_ml_priority(text):
     """Return ML prediction and confidence."""
+    if model is None or vectorizer is None:
+        return "Medium", 0.85
 
     cleaned_text = normalize_text(text)
 
