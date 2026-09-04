@@ -276,7 +276,7 @@
 
         <div class="input-field-wrapper">
           <label>Email Address</label>
-          <input type="email" id="loginEmail" class="input-field" placeholder="name@example.com" value="user@demo.com" required />
+          <input type="email" id="loginEmail" class="input-field" placeholder="name@example.com" required />
         </div>
 
         <div class="input-field-wrapper">
@@ -284,14 +284,14 @@
             <label style="margin:0;">Password</label>
             <a href="#" onclick="alert('Demo password is: 123456'); return false;" style="font-size:0.8rem; color:#4f46e5; text-decoration:none; font-weight:600;">Forgot?</a>
           </div>
-          <input type="password" id="loginPassword" class="input-field" placeholder="••••••••" value="123456" required />
+          <input type="password" id="loginPassword" class="input-field" placeholder="••••••••" required />
         </div>
 
         <button type="submit" class="submit-btn" id="submitBtnText">Sign In as Citizen ➔</button>
       </form>
 
       <p style="text-align:center; font-size:0.9rem; color:#64748b; margin-top:1.5rem;">
-        Don't have an account? <a href="register.html" style="color:#4f46e5; font-weight:700; text-decoration:none;">Create an Account</a>
+        Don't have an account? <a href="register.html" style="color:#4f46e5; font-weight:700; text-decoration:none;">Create an Account (Sign Up)</a>
       </p>
     </div>
   </div>
@@ -304,9 +304,9 @@
       const params = new URLSearchParams(window.location.search);
       const role = params.get("role");
       if (role === "admin") {
-        fillDemo("admin");
+        selectRole("admin");
       } else {
-        fillDemo("user");
+        selectRole("user");
       }
     });
 

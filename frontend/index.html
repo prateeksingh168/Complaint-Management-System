@@ -7,7 +7,6 @@
   <link rel="icon" type="image/png" href="images/logo.png" />
   <link rel="stylesheet" href="css/style.css">
   <style>
-    /* Inline enhancements for landing page fluidity */
     html { scroll-behavior: smooth; }
     .hero-badges-row .badge {
       font-size: 0.82rem;
@@ -32,8 +31,10 @@
       </div>
       
       <div style="display:flex; gap:10px; align-items:center;">
+        <button type="button" class="btn btn-primary btn-sm" onclick="openAuthModal('citizen')">Citizen Portal 🚀</button>
+        <button type="button" class="btn btn-outline btn-sm" style="border-color:#4f46e5; color:#4f46e5; font-weight:700;" onclick="openAuthModal('admin')">Admin Hub 🛡️</button>
         <a href="login.html" class="btn btn-outline btn-sm">Sign In</a>
-        <a href="register.html" class="btn btn-primary btn-sm">Sign Up</a>
+        <a href="register.html" class="btn btn-primary btn-sm" style="background:#0f172a;">Sign Up</a>
       </div>
     </div>
   </nav>
@@ -62,12 +63,12 @@
         </p>
 
         <div class="hero-cta-group">
-          <a href="login.html?role=user" class="btn btn-primary btn-hero">
-            <span>🚀 File Grievance (Citizen Login)</span>
-          </a>
-          <a href="login.html?role=admin" class="btn btn-hero-outline">
-            <span>🛡️ Admin Portal (Login)</span>
-          </a>
+          <button type="button" class="btn btn-primary btn-hero" onclick="openAuthModal('citizen')">
+            <span>🚀 File Grievance (Citizen Portal)</span>
+          </button>
+          <button type="button" class="btn btn-hero-outline" onclick="openAuthModal('admin')">
+            <span>🛡️ Admin Command Center</span>
+          </button>
         </div>
 
         <!-- Quick Demo Credentials Chips -->
@@ -296,9 +297,9 @@
             <li>✓ 4-Stage Resolution Stepper</li>
           </ul>
         </div>
-        <a href="login.html?role=user" class="btn btn-primary" style="width:100%; justify-content:center; padding:12px; font-weight:700; text-decoration:none;">
-          Sign In to Citizen Portal ➔
-        </a>
+        <button type="button" class="btn btn-primary" style="width:100%; justify-content:center; padding:12px; font-weight:700;" onclick="openAuthModal('citizen')">
+          Access Citizen Portal 🚀
+        </button>
       </div>
 
       <!-- Admin Card -->
@@ -319,9 +320,9 @@
             <li>✓ Instant CSV Export for Reporting</li>
           </ul>
         </div>
-        <a href="login.html?role=admin" class="btn btn-primary" style="width:100%; justify-content:center; padding:12px; font-weight:700; text-decoration:none; background:linear-gradient(135deg, #0284c7 0%, #06b6d4 100%);">
-          Sign In to Admin Hub ➔
-        </a>
+        <button type="button" class="btn btn-primary" style="width:100%; justify-content:center; padding:12px; font-weight:700; background:linear-gradient(135deg, #0284c7 0%, #06b6d4 100%);" onclick="openAuthModal('admin')">
+          Access Admin Hub 🛡️
+        </button>
       </div>
     </div>
   </section>
@@ -338,16 +339,82 @@
       </div>
       
       <div style="display:flex; gap:16px; font-size:0.9rem;">
-        <a href="user-dashboard.html" style="color:#94a3b8; text-decoration:none;">Citizen Portal</a>
-        <a href="admin-dashboard.html" style="color:#94a3b8; text-decoration:none;">Admin Center</a>
+        <a href="#" onclick="openAuthModal('citizen'); return false;" style="color:#94a3b8; text-decoration:none;">Citizen Portal</a>
+        <a href="#" onclick="openAuthModal('admin'); return false;" style="color:#94a3b8; text-decoration:none;">Admin Center</a>
         <a href="login.html" style="color:#94a3b8; text-decoration:none;">Sign In</a>
-        <a href="register.html" style="color:#94a3b8; text-decoration:none;">Register</a>
+        <a href="register.html" style="color:#94a3b8; text-decoration:none;">Sign Up</a>
       </div>
     </div>
     <div style="max-width:1200px; margin:1.8rem auto 0; padding-top:1.5rem; border-top:1px solid #1e293b; text-align:center; font-size:0.8rem; color:#64748b;">
       © 2026 ComplaintCare AI. Built for Smart Grievance Redressal Hackathon. All rights reserved.
     </div>
   </footer>
+
+  <!-- 8. MODAL: SIGN IN OR SIGN UP ACCESS POPUP -->
+  <div class="modal-overlay" id="authChoiceModal" style="display:none;" onclick="if(event.target===this) closeAuthModal()">
+    <div class="modal-content" style="max-width:460px; text-align:center; padding:2.2rem; border-radius:20px; box-shadow:0 25px 50px -12px rgba(15, 23, 42, 0.45);">
+      <div style="display:flex; justify-content:flex-end; margin-top:-10px; margin-right:-6px;">
+        <button onclick="closeAuthModal()" style="background:none; border:none; font-size:1.5rem; color:var(--slate); cursor:pointer;">✕</button>
+      </div>
+      
+      <div id="authModalIcon" style="font-size:3.2rem; margin-bottom:0.4rem;">👤</div>
+      <h3 id="authModalTitle" style="font-size:1.5rem; color:var(--dark); margin-bottom:6px;">Citizen Portal</h3>
+      <p id="authModalDesc" style="color:var(--slate); font-size:0.92rem; line-height:1.5; margin-bottom:1.8rem;">
+        Please sign in to your account or create a new registration to access this portal:
+      </p>
+
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <a id="modalSignInLink" href="login.html?role=user" class="btn btn-primary" style="justify-content:center; padding:13px; font-size:1rem; font-weight:700; text-decoration:none; border-radius:10px;">
+          🔑 Sign In to Existing Account
+        </a>
+        <a id="modalSignUpLink" href="register.html?role=user" class="btn btn-outline" style="justify-content:center; padding:13px; font-size:1rem; font-weight:700; text-decoration:none; border-radius:10px; border:1.5px solid var(--border); color:var(--dark);">
+          📝 Create New Account (Sign Up)
+        </a>
+      </div>
+
+      <p style="font-size:0.78rem; color:#94a3b8; margin-top:1.6rem; border-top:1px solid #f1f5f9; padding-top:12px;">
+        🔒 Protected by ComplaintCare Role-Based Authentication
+      </p>
+    </div>
+  </div>
+
+  <script>
+    function openAuthModal(role) {
+      const modal = document.getElementById("authChoiceModal");
+      const icon = document.getElementById("authModalIcon");
+      const title = document.getElementById("authModalTitle");
+      const desc = document.getElementById("authModalDesc");
+      const signIn = document.getElementById("modalSignInLink");
+      const signUp = document.getElementById("modalSignUpLink");
+
+      if (role === "admin") {
+        icon.innerText = "🛡️";
+        title.innerText = "Admin Control Center";
+        desc.innerText = "Restricted to authorized administrators. Sign in to your admin account or register staff credentials:";
+        signIn.href = "login.html?role=admin";
+        signIn.innerHTML = "🛡️ Administrator Sign In";
+        signIn.style.background = "linear-gradient(135deg, #0284c7 0%, #06b6d4 100%)";
+        signUp.href = "register.html?role=admin";
+        signUp.innerHTML = "📝 Register New Admin / Staff";
+      } else {
+        icon.innerText = "👤";
+        title.innerText = "Citizen Grievance Portal";
+        desc.innerText = "Choose an option to lodge, monitor, or manage your complaints:";
+        signIn.href = "login.html?role=user";
+        signIn.innerHTML = "🔑 Sign In to Account";
+        signIn.style.background = "var(--primary)";
+        signUp.href = "register.html?role=user";
+        signUp.innerHTML = "📝 Create New Citizen Account";
+      }
+
+      modal.style.display = "flex";
+    }
+
+    function closeAuthModal() {
+      const modal = document.getElementById("authChoiceModal");
+      if (modal) modal.style.display = "none";
+    }
+  </script>
 
 </body>
 </html>
