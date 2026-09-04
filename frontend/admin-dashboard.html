@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Control Center | ComplaintCare AI</title>
+  <link rel="icon" type="image/png" href="images/logo.png" />
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Chart.js Engine for Pro Interactive Graphs -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    .admin-subnav {
+      display: flex;
+      gap: 8px;
+      background: #ffffff;
+      padding: 6px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      margin-bottom: 1.5rem;
+      overflow-x: auto;
+    }
+    .admin-tab-btn {
+      padding: 10px 18px;
+      border-radius: 8px;
+      border: none;
+      background: transparent;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--slate);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+    .admin-tab-btn:hover { background: var(--primary-light); color: var(--primary); }
+    .admin-tab-btn.active {
+      background: var(--primary);
+      color: #ffffff;
+      box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3);
+    }
+    .alert-banner {
+      background: linear-gradient(135deg, #fee2e2 0%, #fef2f2 100%);
+      border: 1.5px solid #ef4444;
+      border-radius: 12px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+      color: #991b1b;
+    }
+    .agent-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      box-shadow: var(--shadow-sm);
+    }
+    .workload-bar-track {
+      width: 100%;
+      height: 8px;
+      background: #e2e8f0;
+      border-radius: 6px;
+      overflow: hidden;
+      margin-top: 4px;
+    }
+    .workload-bar-fill {
+      height: 100%;
+      border-radius: 6px;
+      transition: width 0.3s;
+    }
+    .ai-insight-box {
+      background: linear-gradient(135deg, #f0fdf4 0%, #e0f2fe 100%);
+      border: 1.5px dashed #0284c7;
+      border-radius: 14px;
+      padding: 1.2rem;
+      margin-bottom: 1.5rem;
+    }
+    .chart-box-container {
+      position: relative;
+      height: 280px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    .modal-content {
+      background: #ffffff;
+      width: 90%;
+      max-width: 600px;
+      border-radius: 16px;
+      padding: 2rem;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+    }
+    .timeline-item {
+      position: relative;
+      padding-left: 24px;
+      margin-bottom: 14px;
+      border-left: 2px solid #cbd5e1;
+    }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -6px; top: 4px;
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--primary);
+    }
+  </style>
+</head>
+<body onload="initAdminDashboard()">
+
+  <nav class="navbar">
+    <a href="index.html" class="logo-container">
+      <img src="images/logo.png" alt="Logo" class="app-logo" />
+      <span>ComplaintCare <small style="font-size:0.75rem; color:var(--slate); font-weight:normal;">[Administrator Control Center]</small></span>
+    </a>
+    <div class="nav-links">
+      <span class="badge badge-urgent" id="topEscalatedCount" style="display:none;">🚨 0 Escalated</span>
+      <a href="user-dashboard.html" class="btn btn-outline btn-sm">Switch to User View</a>
+      <button onclick="logout()" class="btn btn-outline btn-sm">Log Out</button>
+    </div>
+  </nav>
+
+  <div class="container" style="margin-top:1.5rem;">
+
+    <!-- KPI Stats -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <span class="stat-title">Master Dataset Total</span>
+        <span class="stat-value" id="adTotal">0</span>
+      </div>
+      <div class="stat-card" style="border-left-color: var(--warning);">
+        <span class="stat-title">Registered / New</span>
+        <span class="stat-value" id="adReg">0</span>
+      </div>
+      <div class="stat-card" style="border-left-color: var(--primary);">
+        <span class="stat-title">In Progress / Review</span>
+        <span class="stat-value" id="adProg">0</span>
+      </div>
+      <div class="stat-card" style="border-left-color: var(--success);">
+        <span class="stat-title">Resolved & Closed</span>
+        <span class="stat-value" id="adRes">0</span>
+      </div>
+    </div>
+
+    <!-- Admin Tabs -->
+    <div class="admin-subnav">
+      <button class="admin-tab-btn active" onclick="switchAdminTab('tab-master-tickets', this)">
+        📋 Master Complaints & Dispatch
+      </button>
+      <button class="admin-tab-btn" onclick="switchAdminTab('tab-escalations', this)">
+        🚨 Escalations Center <span id="tabEscalationBadge" class="badge badge-urgent" style="margin-left:4px;">0</span>
+      </button>
+      <button class="admin-tab-btn" onclick="switchAdminTab('tab-agents', this)">
+        👥 Support Agents & Workload
+      </button>
+      <button class="admin-tab-btn" onclick="switchAdminTab('tab-analytics', this)">
+        📊 Visual Analytics & AI Insights
+      </button>
+    </div>
+
+    <!-- TAB 1: MASTER TICKETS -->
+    <div id="tab-master-tickets" class="admin-tab-pane">
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:1.2rem;">
+          <div>
+            <h3>🛠️ Master Complaints Dataset & Ticket Dispatch</h3>
+            <p style="font-size:0.85rem; color:var(--slate);">Search, filter, inspect history, or update complaint stages live.</p>
+          </div>
+          
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <input type="text" id="adminSearchInput" class="form-control" style="width:210px; margin:0;" placeholder="🔍 Search ID, Name, Keyword..." oninput="applyFilters()" />
+            <select id="filterCategory" class="form-control" style="width:145px; margin:0;" onchange="applyFilters()">
+              <option value="ALL">All Categories</option>
+              <option value="Billing">Billing</option>
+              <option value="Technical">Technical</option>
+              <option value="Delivery">Delivery</option>
+              <option value="Account">Account</option>
+              <option value="Service">Service</option>
+              <option value="General">General / Other</option>
+            </select>
+            <select id="filterPriority" class="form-control" style="width:130px; margin:0;" onchange="applyFilters()">
+              <option value="ALL">All Priorities</option>
+              <option value="Urgent">Urgent</option>
+              <option value="High">High</option>
+              <option value="Medium">Medium</option>
+              <option value="Low">Low</option>
+            </select>
+            <select id="filterStatus" class="form-control" style="width:140px; margin:0;" onchange="applyFilters()">
+              <option value="ALL">All Stages</option>
+              <option value="Registered">Registered</option>
+              <option value="In Progress">In Progress</option>
+              <option value="Under Review">Under Review</option>
+              <option value="Resolved">Resolved</option>
+            </select>
+            <button onclick="exportTicketsCSV()" class="btn btn-outline btn-sm">📥 Export CSV</button>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Ticket ID</th>
+                <th>Customer</th>
+                <th>Issue Summary</th>
+                <th>Category</th>
+                <th>Priority</th>
+                <th>Assigned Department</th>
+                <th>Stage</th>
+                <th style="min-width:210px;">Action</th>
+              </tr>
+            </thead>
+            <tbody id="adminTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: ESCALATIONS -->
+    <div id="tab-escalations" class="admin-tab-pane" style="display:none;">
+      <div class="alert-banner">
+        <div>
+          <strong>🚨 Escalation Control Center</strong>
+          <p style="font-size:0.85rem; margin:2px 0 0;">Critical complaints requiring immediate attention.</p>
+        </div>
+        <button class="btn btn-danger btn-sm" onclick="escalateAllPending()">⚡ Fast-Track All to Senior Team</button>
+      </div>
+
+      <div class="card">
+        <h3>Critical & Escalated Complaints List</h3>
+        <div class="table-responsive" style="margin-top:10px;">
+          <table>
+            <thead>
+              <tr>
+                <th>Ticket ID</th>
+                <th>Customer</th>
+                <th>Grievance</th>
+                <th>Priority</th>
+                <th>Current Team</th>
+                <th>Current Status</th>
+                <th>Quick Action</th>
+              </tr>
+            </thead>
+            <tbody id="escalationsTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: AGENTS -->
+    <div id="tab-agents" class="admin-tab-pane" style="display:none;">
+      <div class="card">
+        <div style="margin-bottom:1rem;">
+          <h3>👥 Support Agents Capacity & Workload</h3>
+          <p style="font-size:0.85rem; color:var(--slate);">Monitor active workloads and agent availability.</p>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:1.2rem;" id="agentsGrid"></div>
+      </div>
+    </div>
+
+    <!-- TAB 4: VISUAL ANALYTICS & INTERACTIVE CHARTS -->
+    <div id="tab-analytics" class="admin-tab-pane" style="display:none;">
+      
+      <!-- AI Pattern Detection -->
+      <div class="ai-insight-box">
+        <div style="font-weight:800; font-size:1.1rem; color:#0369a1; display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+          <span>🤖 AI Pattern Insights & Recurring Complaint Radar</span>
+        </div>
+        <div style="font-size:0.92rem; color:#334155; line-height:1.6;">
+          • <strong>Trending Pattern:</strong> 42% of Technical complaints mention <em>"500 error on checkout"</em>. Automated engineering alert dispatched.<br>
+          • <strong>Peak Volume Alert:</strong> Billing issues spiked by 28% after recent gateway update. Recommendation: 1 additional agent assigned.<br>
+          • <strong>Kiwi Automation Rate:</strong> 64% of generic inquiries resolved on first touch without human intervention.
+        </div>
+      </div>
+
+      <!-- KPI Metrics -->
+      <div class="stats-grid">
+        <div class="stat-card" style="border-left-color:#38bdf8;">
+          <span class="stat-title">Avg Resolution Time</span>
+          <span class="stat-value">2.1 Hours ⚡</span>
+          <small style="color:var(--success); font-weight:600;">▼ 35% with Kiwi AI</small>
+        </div>
+        <div class="stat-card" style="border-left-color:#10b981;">
+          <span class="stat-title">SLA Compliance Rate</span>
+          <span class="stat-value">97.8%</span>
+          <small style="color:var(--slate);">On-Time Redressal</small>
+        </div>
+        <div class="stat-card" style="border-left-color:#f59e0b;">
+          <span class="stat-title">Citizen CSAT Rating</span>
+          <span class="stat-value">4.9 / 5.0 ⭐</span>
+          <small style="color:var(--slate);">980 Verified Reviews</small>
+        </div>
+        <div class="stat-card" style="border-left-color:#8b5cf6;">
+          <span class="stat-title">AI Routing Accuracy</span>
+          <span class="stat-value">99.4%</span>
+          <small style="color:var(--success); font-weight:600;">TF-IDF Model Active</small>
+        </div>
+      </div>
+
+      <!-- ROW 1 OF GRAPHS: DOUGHNUT & BARS -->
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-bottom:1.5rem;">
+        <div class="card">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+            <h3 style="margin:0;">📊 Complaints by Category</h3>
+            <span class="badge badge-registered">Doughnut Distribution</span>
+          </div>
+          <div class="chart-box-container">
+            <canvas id="categoryChartCanvas"></canvas>
+          </div>
+        </div>
+
+        <div class="card">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+            <h3 style="margin:0;">⚡ Complaints by Priority & Urgency</h3>
+            <span class="badge badge-urgent">Severity Index</span>
+          </div>
+          <div class="chart-box-container">
+            <canvas id="priorityChartCanvas"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- ROW 2 OF GRAPHS: RESOLUTION TREND & PIPELINE RING -->
+      <div style="display:grid; grid-template-columns:2fr 1fr; gap:1.5rem;">
+        <div class="card">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+            <h3 style="margin:0;">📈 7-Day Resolution Velocity & Trendline</h3>
+            <span class="badge badge-resolved">Incoming vs Resolved</span>
+          </div>
+          <div class="chart-box-container">
+            <canvas id="trendChartCanvas"></canvas>
+          </div>
+        </div>
+
+        <div class="card">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+            <h3 style="margin:0;">📍 Live Resolution Pipeline</h3>
+            <span class="badge badge-progress">Stage Breakdown</span>
+          </div>
+          <div class="chart-box-container">
+            <canvas id="stageChartCanvas"></canvas>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- TICKET INSPECTOR MODAL -->
+  <div class="modal-overlay" id="ticketModal">
+    <div class="modal-content">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+        <h3 id="modalTicketId" style="color:var(--primary); margin:0;">CMP-10025</h3>
+        <button onclick="closeModal()" style="background:none; border:none; font-size:1.3rem; cursor:pointer;">✕</button>
+      </div>
+      
+      <div style="margin-bottom:1rem;">
+        <p><strong>Customer:</strong> <span id="modalCustomer"></span></p>
+        <p><strong>Category:</strong> <span id="modalCategory"></span> | <strong>Priority:</strong> <span id="modalPriority"></span></p>
+        <p><strong>Assigned Team:</strong> <span id="modalTeam"></span></p>
+        <p><strong>Date Filed:</strong> <span id="modalTime"></span></p>
+      </div>
+
+      <div class="card" style="background:#f8fafc; padding:12px; margin-bottom:1.2rem;">
+        <strong>Full Grievance Description:</strong>
+        <p id="modalDesc" style="margin-top:6px; color:#334155; font-size:0.95rem;"></p>
+      </div>
+
+      <h4 style="margin-bottom:10px;">📜 Audit Trail & Timeline</h4>
+      <div id="modalTimeline"></div>
+
+      <div style="margin-top:1.5rem; display:flex; justify-content:flex-end;">
+        <button class="btn btn-outline btn-sm" onclick="closeModal()">Close Inspector</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script>
+    const AGENTS_LIST = [
+      { name: "Amit Sharma", dept: "Technical Support Team", active: 2, max: 5, status: "Available" },
+      { name: "Priya Verma", dept: "Billing & Finance Support", active: 4, max: 5, status: "Busy" },
+      { name: "Vikram Malhotra", dept: "Logistics & Delivery Support", active: 1, max: 5, status: "Available" },
+      { name: "Ananya Sen", dept: "Customer Relations Team", active: 3, max: 5, status: "Available" },
+      { name: "Rohan Das", dept: "Account Security Team", active: 0, max: 5, status: "Available" }
+    ];
+
+    let chartInstances = {};
+
+    function initAdminDashboard() {
+      const tickets = getTickets();
+      document.getElementById("adTotal").innerText = tickets.length;
+      document.getElementById("adReg").innerText = tickets.filter(t => (t.status || "") === "Registered").length;
+      document.getElementById("adProg").innerText = tickets.filter(t => t.status === "In Progress" || t.status === "Under Review").length;
+      document.getElementById("adRes").innerText = tickets.filter(t => (t.status || "") === "Resolved").length;
+
+      const escalations = tickets.filter(t => (t.priority === "Urgent" || t.priority === "High") && t.status !== "Resolved");
+      document.getElementById("tabEscalationBadge").innerText = escalations.length;
+      const topBadge = document.getElementById("topEscalatedCount");
+      if (escalations.length > 0) {
+        topBadge.innerText = `🚨 ${escalations.length} Escalated`;
+        topBadge.style.display = "inline-block";
+      } else {
+        topBadge.style.display = "none";
+      }
+
+      renderAdminTable(tickets);
+      renderEscalations(escalations);
+      renderAgents();
+      renderAllCharts(tickets);
+    }
+
+    function switchAdminTab(tabId, btn) {
+      document.querySelectorAll(".admin-tab-pane").forEach(el => el.style.display = "none");
+      document.querySelectorAll(".admin-tab-btn").forEach(el => el.classList.remove("active"));
+      document.getElementById(tabId).style.display = "block";
+      if (btn) btn.classList.add("active");
+
+      // Re-render graphs smoothly when user switches to Analytics Tab
+      if (tabId === "tab-analytics") {
+        setTimeout(() => {
+          renderAllCharts(getTickets());
+        }, 50);
+      }
+    }
+
+    function applyFilters() {
+      const search = document.getElementById("adminSearchInput").value.toLowerCase().trim();
+      const cat = document.getElementById("filterCategory").value;
+      const prio = document.getElementById("filterPriority").value;
+      const stat = document.getElementById("filterStatus").value;
+      let filtered = getTickets();
+
+      if (search) {
+        filtered = filtered.filter(t => 
+          (t.ticket_id || "").toLowerCase().includes(search) ||
+          (t.user_name || "").toLowerCase().includes(search) ||
+          (t.complaint_text || "").toLowerCase().includes(search)
+        );
+      }
+      if (cat !== "ALL") {
+        filtered = filtered.filter(t => {
+          const tc = (t.category || "").toLowerCase();
+          if (cat.toLowerCase() === "general") return tc === "general" || tc === "other";
+          return tc === cat.toLowerCase();
+        });
+      }
+      if (prio !== "ALL") filtered = filtered.filter(t => (t.priority || "").toLowerCase() === prio.toLowerCase());
+      if (stat !== "ALL") filtered = filtered.filter(t => (t.status || "").toLowerCase() === stat.toLowerCase());
+      renderAdminTable(filtered);
+    }
+
+    function renderAdminTable(tickets) {
+      const tbody = document.getElementById("adminTableBody");
+      if (!tbody) return;
+
+      if (!tickets.length) {
+        tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding:20px; color:var(--slate);">No complaints match the filter criteria.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = tickets.map(t => {
+        const prio = (t.priority || "Medium").toLowerCase();
+        const stat = t.status || "Registered";
+        const desc = (t.complaint_text || "").slice(0, 30);
+        return `
+          <tr id="row-${t.ticket_id}">
+            <td>
+              <a href="#" onclick="openModal('${t.ticket_id}'); return false;" style="color:var(--primary); font-weight:700; text-decoration:underline;">
+                ${t.ticket_id}
+              </a>
+            </td>
+            <td>${t.user_name || 'Customer'}<br><small style="color:var(--slate);">${t.user_email || ''}</small></td>
+            <td>${desc}...</td>
+            <td><span class="badge badge-registered">${t.category || 'Other'}</span></td>
+            <td><span class="badge badge-${prio}">${t.priority || 'Medium'}</span></td>
+            <td>
+              <select class="form-control" style="padding:4px; font-size:0.85rem; margin:0;" id="team-${t.ticket_id}">
+                <option value="${t.assigned_team || 'General Support'}">${t.assigned_team || 'General Support'}</option>
+                <option value="Billing & Finance Support">Billing & Finance Support</option>
+                <option value="Technical Support Team">Technical Support Team</option>
+                <option value="Logistics & Delivery Support">Logistics & Delivery Support</option>
+                <option value="Account Security Team">Account Security Team</option>
+                <option value="Customer Relations Team">Customer Relations Team</option>
+              </select>
+            </td>
+            <td><span class="badge badge-${stat === 'Resolved' ? 'resolved' : 'progress'}">${stat}</span></td>
+            <td>
+              <div style="display:flex; gap:6px; align-items:center;">
+                <select class="form-control" style="padding:4px; font-size:0.85rem; margin:0;" id="stage-${t.ticket_id}">
+                  <option value="Registered" ${stat === 'Registered' ? 'selected' : ''}>Registered</option>
+                  <option value="In Progress" ${stat === 'In Progress' ? 'selected' : ''}>In Progress</option>
+                  <option value="Under Review" ${stat === 'Under Review' ? 'selected' : ''}>Under Review</option>
+                  <option value="Resolved" ${stat === 'Resolved' ? 'selected' : ''}>Resolved</option>
+                </select>
+                <button class="btn btn-primary btn-sm" onclick="saveAdminChanges('${t.ticket_id}')">Save</button>
+                <button class="btn btn-outline btn-sm" onclick="openModal('${t.ticket_id}')" title="Inspect Details">🔍</button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    function saveAdminChanges(id) {
+      const stageSelect = document.getElementById(`stage-${id}`);
+      const teamSelect = document.getElementById(`team-${id}`);
+      if (!stageSelect || !teamSelect) return;
+
+      const newStage = stageSelect.value;
+      const newTeam = teamSelect.value;
+
+      const tickets = getTickets();
+      const ticket = tickets.find(t => t.ticket_id === id);
+
+      if (ticket) {
+        ticket.status = newStage;
+        ticket.assigned_team = newTeam;
+        saveTickets(tickets);
+
+        addNotification(
+          ticket.user_email,
+          `Ticket ${id} Status: ${newStage}`,
+          `Admin updated your ticket ${id} to '${newStage}'. Department: ${newTeam}.`
+        );
+
+        const row = document.getElementById(`row-${id}`);
+        if (row) {
+          row.style.background = "#dcfce7";
+          setTimeout(() => { row.style.background = ""; }, 1000);
+        }
+
+        alert(`✅ Status for ${id} updated to '${newStage}'! Notification dispatched to user.`);
+        initAdminDashboard();
+      }
+    }
+
+    function renderEscalations(escalations) {
+      const tbody = document.getElementById("escalationsTableBody");
+      if (!tbody) return;
+
+      if (!escalations.length) {
+        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:20px; color:#16a34a; font-weight:700;">✅ No escalated or SLA-breaching tickets at this time!</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = escalations.map(t => `
+        <tr>
+          <td><strong>${t.ticket_id}</strong></td>
+          <td>${t.user_name}</td>
+          <td>${(t.complaint_text || '').slice(0, 35)}...</td>
+          <td><span class="badge badge-urgent">${t.priority}</span></td>
+          <td>${t.assigned_team}</td>
+          <td><span class="badge badge-progress">${t.status}</span></td>
+          <td>
+            <button class="btn btn-danger btn-sm" onclick="fastTrackTicket('${t.ticket_id}')">⚡ Fast-Track Action</button>
+          </td>
+        </tr>
+      `).join("");
+    }
+
+    function fastTrackTicket(id) {
+      const tickets = getTickets();
+      const ticket = tickets.find(t => t.ticket_id === id);
+      if (ticket) {
+        ticket.status = "Under Review";
+        ticket.assigned_team = "Senior Executive Escalation Desk";
+        saveTickets(tickets);
+
+        addNotification(
+          ticket.user_email,
+          `🚨 Ticket ${id} Fast-Tracked`,
+          `Your ticket has been prioritized and routed to Senior Executive Escalation Desk.`
+        );
+
+        alert(`⚡ Ticket ${id} Fast-Tracked to Senior Desk! User notified.`);
+        initAdminDashboard();
+      }
+    }
+
+    function escalateAllPending() {
+      const tickets = getTickets();
+      let count = 0;
+      tickets.forEach(t => {
+        if ((t.priority === "Urgent" || t.priority === "High") && t.status !== "Resolved") {
+          t.status = "Under Review";
+          t.assigned_team = "Senior Executive Escalation Desk";
+          count++;
+        }
+      });
+      saveTickets(tickets);
+      alert(`⚡ All ${count} critical complaints have been fast-tracked!`);
+      initAdminDashboard();
+    }
+
+    function renderAgents() {
+      const container = document.getElementById("agentsGrid");
+      if (!container) return;
+
+      container.innerHTML = AGENTS_LIST.map(a => {
+        const pct = Math.round((a.active / a.max) * 100);
+        const barColor = pct >= 80 ? "#ef4444" : pct >= 50 ? "#f59e0b" : "#10b981";
+        return `
+          <div class="agent-card">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <strong>${a.name}</strong>
+              <span class="badge ${a.status === 'Available' ? 'badge-resolved' : 'badge-urgent'}">${a.status}</span>
+            </div>
+            <span style="font-size:0.8rem; color:var(--slate);">${a.dept}</span>
+            <div style="margin-top:8px;">
+              <div style="display:flex; justify-content:space-between; font-size:0.8rem; font-weight:600;">
+                <span>Active Workload</span>
+                <span>${a.active} / ${a.max} Tickets (${pct}%)</span>
+              </div>
+              <div class="workload-bar-track">
+                <div class="workload-bar-fill" style="width:${pct}%; background:${barColor};"></div>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function exportTicketsCSV() {
+      const tickets = getTickets();
+      if (!tickets.length) return alert("No tickets to export");
+
+      const headers = ["Ticket_ID", "Customer_Name", "Customer_Email", "Category", "Priority", "Assigned_Team", "Status", "Date_Filed", "Grievance_Description"];
+      const rows = tickets.map(t => [
+        `"${t.ticket_id}"`,
+        `"${t.user_name || ''}"`,
+        `"${t.user_email || ''}"`,
+        `"${t.category || ''}"`,
+        `"${t.priority || ''}"`,
+        `"${t.assigned_team || ''}"`,
+        `"${t.status || ''}"`,
+        `"${t.created_at || ''}"`,
+        `"${(t.complaint_text || '').replace(/"/g, '""')}"`
+      ]);
+
+      const csvString = [headers.join(","), ...rows.map(r => r.join(","))].join("\n");
+      const blob = new Blob([csvString], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `ComplaintCare_MasterDataset_${new Date().toISOString().slice(0, 10)}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+
+    function openModal(id) {
+      const ticket = getTickets().find(t => t.ticket_id === id);
+      if (!ticket) return;
+
+      document.getElementById("modalTicketId").innerText = `Ticket Details: ${ticket.ticket_id}`;
+      document.getElementById("modalCustomer").innerText = `${ticket.user_name} (${ticket.user_email})`;
+      document.getElementById("modalCategory").innerText = ticket.category;
+      document.getElementById("modalPriority").innerText = ticket.priority;
+      document.getElementById("modalTeam").innerText = ticket.assigned_team;
+      document.getElementById("modalTime").innerText = ticket.created_at || "Recent";
+      document.getElementById("modalDesc").innerText = ticket.complaint_text;
+
+      document.getElementById("modalTimeline").innerHTML = `
+        <div class="timeline-item">
+          <strong>Complaint Filed:</strong> ${ticket.created_at || 'Recently'}<br>
+          <small style="color:var(--slate);">AI NLP Classified: ${ticket.category} (${ticket.priority} priority).</small>
+        </div>
+        <div class="timeline-item">
+          <strong>Routing:</strong> Assigned to ${ticket.assigned_team}.
+        </div>
+        <div class="timeline-item">
+          <strong>Current Stage:</strong> <span class="badge badge-${ticket.status === 'Resolved' ? 'resolved' : 'progress'}">${ticket.status}</span>
+        </div>
+      `;
+
+      document.getElementById("ticketModal").style.display = "flex";
+    }
+
+    function closeModal() {
+      document.getElementById("ticketModal").style.display = "none";
+    }
+
+    // ============================================================
+    // PRO HACKATHON CHART.JS INTERACTIVE VISUALIZATIONS
+    // ============================================================
+    function renderAllCharts(tickets) {
+      if (typeof Chart === "undefined") {
+        console.warn("Chart.js loading from CDN...");
+        return;
+      }
+
+      // 1. Category Breakdown (Doughnut Chart)
+      const cats = ["Billing", "Technical", "Delivery", "Service", "Account", "General"];
+      const catCounts = cats.map(c => tickets.filter(t => {
+        const tc = (t.category || "").toLowerCase();
+        if (c === "General") return tc === "general" || tc === "other";
+        return tc === c.toLowerCase();
+      }).length);
+
+      const catCtx = document.getElementById("categoryChartCanvas");
+      if (catCtx) {
+        if (chartInstances.category) chartInstances.category.destroy();
+        chartInstances.category = new Chart(catCtx, {
+          type: "doughnut",
+          data: {
+            labels: cats,
+            datasets: [{
+              data: catCounts,
+              backgroundColor: ["#4f46e5", "#06b6d4", "#f59e0b", "#10b981", "#8b5cf6", "#64748b"],
+              borderWidth: 2,
+              borderColor: "#ffffff"
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { position: "right", labels: { boxWidth: 14, font: { weight: "600" } } }
+            },
+            cutout: "68%"
+          }
+        });
+      }
+
+      // 2. Priority & Severity Index (Bar Chart)
+      const priorities = ["Urgent", "High", "Medium", "Low"];
+      const prioCounts = priorities.map(p => tickets.filter(t => (t.priority || "").toLowerCase() === p.toLowerCase()).length);
+
+      const prioCtx = document.getElementById("priorityChartCanvas");
+      if (prioCtx) {
+        if (chartInstances.priority) chartInstances.priority.destroy();
+        chartInstances.priority = new Chart(prioCtx, {
+          type: "bar",
+          data: {
+            labels: priorities,
+            datasets: [{
+              label: "Complaint Count",
+              data: prioCounts,
+              backgroundColor: ["#ef4444", "#f97316", "#3b82f6", "#10b981"],
+              borderRadius: 8
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+              y: { beginAtZero: true, grid: { color: "#f1f5f9" } },
+              x: { grid: { display: false } }
+            }
+          }
+        });
+      }
+
+      // 3. 7-Day Resolution Velocity & Trend (Smooth Area Line Chart)
+      const trendCtx = document.getElementById("trendChartCanvas");
+      if (trendCtx) {
+        if (chartInstances.trend) chartInstances.trend.destroy();
+        chartInstances.trend = new Chart(trendCtx, {
+          type: "line",
+          data: {
+            labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+            datasets: [
+              {
+                label: "Incoming Complaints",
+                data: [14, 18, 26, 22, 34, 19, 12],
+                borderColor: "#06b6d4",
+                backgroundColor: "rgba(6, 182, 212, 0.12)",
+                fill: true,
+                tension: 0.38,
+                pointRadius: 4
+              },
+              {
+                label: "Resolved by Team",
+                data: [12, 16, 25, 24, 32, 21, 15],
+                borderColor: "#10b981",
+                backgroundColor: "rgba(16, 185, 129, 0.1)",
+                fill: true,
+                tension: 0.38,
+                pointRadius: 4
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { position: "top" } },
+            scales: {
+              y: { beginAtZero: true, grid: { color: "#f1f5f9" } },
+              x: { grid: { display: false } }
+            }
+          }
+        });
+      }
+
+      // 4. Live Resolution Pipeline Stages (Half/Doughnut Chart)
+      const stages = ["Registered", "In Progress", "Under Review", "Resolved"];
+      const stageCounts = stages.map(s => tickets.filter(t => (t.status || "").toLowerCase() === s.toLowerCase()).length);
+
+      const stageCtx = document.getElementById("stageChartCanvas");
+      if (stageCtx) {
+        if (chartInstances.stage) chartInstances.stage.destroy();
+        chartInstances.stage = new Chart(stageCtx, {
+          type: "polarArea",
+          data: {
+            labels: stages,
+            datasets: [{
+              data: stageCounts,
+              backgroundColor: [
+                "rgba(99, 102, 241, 0.75)",
+                "rgba(14, 165, 233, 0.75)",
+                "rgba(245, 158, 11, 0.75)",
+                "rgba(16, 185, 129, 0.75)"
+              ]
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { position: "bottom", labels: { boxWidth: 12 } }
+            },
+            scales: { r: { grid: { color: "#f1f5f9" } } }
+          }
+        });
+      }
+    }
+  </script>
+</body>
+</html>
