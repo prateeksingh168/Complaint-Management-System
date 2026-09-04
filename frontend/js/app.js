@@ -547,10 +547,10 @@ function getCurrentUser() {
     const raw = localStorage.getItem("cms_current_user");
     if (raw) {
       const u = JSON.parse(raw);
-      if (u && typeof u === "object") return u;
+      if (u && typeof u === "object" && u.email) return u;
     }
   } catch (e) {}
-  return { name: "Rahul Sharma", email: "user@demo.com", role: "user" };
+  return null;
 }
 
 function getTickets() {

@@ -408,6 +408,12 @@
     let chartInstances = {};
 
     function initAdminDashboard() {
+      const user = getCurrentUser();
+      if (!user || user.role !== "admin") {
+        alert("🔒 Authentication Required. Please sign in as an Administrator to access the Control Center.");
+        window.location.href = "login.html?role=admin";
+        return;
+      }
       const tickets = getTickets();
       document.getElementById("adTotal").innerText = tickets.length;
       document.getElementById("adReg").innerText = tickets.filter(t => (t.status || "") === "Registered").length;
