@@ -47,13 +47,22 @@
       }
     });
 
-    function handleRegister(e) {
+    async function handleRegister(e) {
       e.preventDefault();
-      const user = {
-        name: document.getElementById("regName").value,
-        email: document.getElementById("regEmail").value,
-        role: document.getElementById("regRole").value
-      };
+      const name = document.getElementById("regName").value.trim();
+      const email = document.getElementById("regEmail").value.trim();
+      const password = document.getElementById("regPass").value.trim();
+      const role = document.getElementById("regRole").value;
+
+      const user = { name, email, role };
+
+      // Attempt live FastAPI registration
+      try {
+        await apiRegister(name, email, password, role);
+      } catch (err) {
+        console.warn("Local fallback registration:", err);
+      }
+
       localStorage.setItem("cms_current_user", JSON.stringify(user));
       alert("Registration Successful!");
       if (user.role === "admin") {

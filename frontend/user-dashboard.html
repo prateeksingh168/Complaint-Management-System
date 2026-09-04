@@ -14,6 +14,7 @@
       <span>ComplaintCare <small style="font-size:0.75rem; color:var(--slate); font-weight:normal;">[User Portal]</small></span>
     </a>
     <div class="nav-links">
+      <span class="badge" id="backendStatusBadge" style="background:#10b981; color:#fff; font-weight:700; font-size:0.75rem;">🟢 Live API & SQLite DB Connected</span>
       <span id="userGreeting" style="font-weight:600;">Welcome!</span>
       <button onclick="logout()" class="btn btn-outline btn-sm">Log Out</button>
     </div>
@@ -553,20 +554,33 @@
     }
 
     // Submit complaint & Auto-Open Official Slip Modal
-    function handleFormComplaint(e) {
+    async function handleFormComplaint(e) {
       e.preventDefault();
       const title = document.getElementById("compTitle").value.trim();
       const desc = document.getElementById("compDesc").value.trim();
       const fullText = `${title}: ${desc}`;
       const ai = predictComplaintAI(fullText);
 
-      const newId = "CMP-" + Math.floor(10000 + Math.random() * 90000);
+      let newId = "CMP-" + Math.floor(10000 + Math.random() * 90000);
       const user = getCurrentUser();
       const realTime = getLocalTimestamp();
 
-      const finalPriority = (document.getElementById("aiPrioBadge") && document.getElementById("aiPrioBadge").innerText) || ai.priority;
-      const finalCategory = (document.getElementById("aiCatBadge") && document.getElementById("aiCatBadge").innerText) || ai.category;
-      const finalTeam = (document.getElementById("aiTeamText") && document.getElementById("aiTeamText").innerText) || ai.team;
+      let finalPriority = (document.getElementById("aiPrioBadge") && document.getElementById("aiPrioBadge").innerText) || ai.priority;
+      let finalCategory = (document.getElementById("aiCatBadge") && document.getElementById("aiCatBadge").innerText) || ai.category;
+      let finalTeam = (document.getElementById("aiTeamText") && document.getElementById("aiTeamText").innerText) || ai.team;
+
+      // Live FastAPI Backend Call
+      try {
+        const apiRes = await apiCreateComplaint(fullText, finalCategory, finalPriority);
+        if (apiRes && apiRes.complaint_id) {
+          newId = apiRes.complaint_id;
+          if (apiRes.category) finalCategory = apiRes.category;
+          if (apiRes.priority) finalPriority = apiRes.priority;
+          if (apiRes.recommended_team) finalTeam = apiRes.recommended_team;
+        }
+      } catch (err) {
+        console.warn("Local fallback ticket creation:", err);
+      }
 
       const ticket = {
         ticket_id: newId,

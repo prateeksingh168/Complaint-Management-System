@@ -341,16 +341,24 @@
       }
     }
 
-    function handleLoginSubmit(e) {
+    async function handleLoginSubmit(e) {
       e.preventDefault();
       const email = document.getElementById("loginEmail").value.trim();
+      const password = document.getElementById("loginPassword").value.trim();
       const role = currentRole;
 
       const user = {
-        name: role === "admin" ? "Admin Master" : "Rahul Sharma",
+        name: role === "admin" ? "System Admin" : "Citizen User",
         email: email,
         role: role
       };
+
+      // Attempt live FastAPI Backend authentication
+      try {
+        await apiLogin(email, password);
+      } catch (err) {
+        console.warn("Local fallback login:", err);
+      }
 
       localStorage.setItem("cms_current_user", JSON.stringify(user));
 

@@ -662,3 +662,126 @@ function predictComplaintAI(text) {
 
   return { category, priority, team };
 }
+
+// ============================================================
+// LIVE BACKEND & SQLITE DATABASE & AI INTEGRATION LAYER
+// ============================================================
+const API_BASE_URL = "http://127.0.0.1:8000/api/v1";
+let isBackendOnline = false;
+
+async function checkBackendConnection() {
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 1200);
+    const res = await fetch("http://127.0.0.1:8000/health", { method: "GET", signal: controller.signal });
+    clearTimeout(timeoutId);
+    isBackendOnline = res.ok;
+  } catch (e) {
+    isBackendOnline = false;
+  }
+  updateBackendStatusBadges();
+  return isBackendOnline;
+}
+
+function updateBackendStatusBadges() {
+  const badges = document.querySelectorAll(".backend-status-indicator, #backendStatusBadge");
+  badges.forEach(b => {
+    if (isBackendOnline) {
+      b.innerHTML = "🟢 Live API & SQLite DB Connected";
+      b.style.background = "#10b981";
+      b.style.color = "#ffffff";
+    } else {
+      b.innerHTML = "🟡 Client Mode (Fast Local Simulation)";
+      b.style.background = "#f59e0b";
+      b.style.color = "#ffffff";
+    }
+  });
+}
+
+// Check connection on page load
+window.addEventListener("DOMContentLoaded", () => {
+  checkBackendConnection();
+  setInterval(checkBackendConnection, 10000);
+});
+
+async function apiLogin(email, password) {
+  try {
+    const res = await fetch(`${API_BASE_URL}/auth/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password })
+    });
+    if (res.ok) {
+      const data = await res.json();
+      localStorage.setItem("cms_auth_tokens", JSON.stringify(data));
+      return data;
+    }
+  } catch (e) {
+    console.warn("FastAPI login offline, falling back:", e);
+  }
+  return null;
+}
+
+async function apiRegister(name, email, password, role) {
+  try {
+    const res = await fetch(`${API_BASE_URL}/auth/register`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, email, password, role })
+    });
+    if (res.ok) {
+      const data = await res.json();
+      if (data.tokens) {
+        localStorage.setItem("cms_auth_tokens", JSON.stringify(data.tokens));
+      }
+      return data;
+    }
+  } catch (e) {
+    console.warn("FastAPI register offline, falling back:", e);
+  }
+  return null;
+}
+
+async function apiCreateComplaint(text, category, priority, complexity) {
+  try {
+    const tokens = JSON.parse(localStorage.getItem("cms_auth_tokens") || "{}");
+    const headers = { "Content-Type": "application/json" };
+    if (tokens.access_token) {
+      headers["Authorization"] = `Bearer ${tokens.access_token}`;
+    }
+    const body = { text };
+    if (category) body.category = category;
+    if (priority) body.priority = priority;
+    if (complexity) body.complexity = complexity;
+
+    const res = await fetch(`${API_BASE_URL}/complaints`, {
+      method: "POST",
+      headers,
+      body: JSON.stringify(body)
+    });
+    if (res.ok) {
+      return await res.json();
+    }
+  } catch (e) {
+    console.warn("FastAPI complaint submission error, falling back:", e);
+  }
+  return null;
+}
+
+async function apiGetAdminAnalytics() {
+  try {
+    const tokens = JSON.parse(localStorage.getItem("cms_auth_tokens") || "{}");
+    const headers = {};
+    if (tokens.access_token) {
+      headers["Authorization"] = `Bearer ${tokens.access_token}`;
+    }
+    const res = await fetch(`${API_BASE_URL}/admin/analytics`, { headers });
+    if (res.ok) {
+      return await res.json();
+    }
+  } catch (e) {
+    console.warn("FastAPI analytics error:", e);
+  }
+  return null;
+}
+
